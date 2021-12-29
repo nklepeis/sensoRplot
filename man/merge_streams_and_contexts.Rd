@@ -34,6 +34,11 @@ one with a new line character "\n" used to delineate context states
 NOTE: Times not having any active states in the 'streams' data are
 assigned an empty context:  "" for active-state format and all 0's for binary format.
 These are converted to NA's, which are dropped from the output.
+
+IMPORTANT:  Make sure the streams time resolution is equal or smaller
+than, and an even divisor of the context time resolution so that
+multiple contexts cannot occur between stream intervals
+(i.e., causing context information to be lost).
 }
 \author{
 Neil Klepeis
