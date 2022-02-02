@@ -16,6 +16,8 @@
 #' @param line logical, whether to draw lines when plotting data
 #' @param facet logical, whether to create wrapped facets (panels) conditioned on the
 #' 'by' parameter
+#' @param pad logical, whether to pad time series to nearest start or end of "by"
+#' time period
 #' @param numcols the number of columns to use when faceting
 #' @param alpha the alpha value to draw data series (fills)
 #' @param date_labels the tick labels to use for time on the x-axis
@@ -70,14 +72,17 @@
 plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
                                 calendar=TRUE, facet.response=FALSE,
                                 area=TRUE, line=FALSE, step=FALSE,
-                                facet=TRUE, numcols=7, alpha=0.8,
+                                facet=TRUE, pad=TRUE, numcols=7, alpha=0.8,
                                 upper.limit=NA,
+                                labels = NULL,
                                 date_labels="%I%p",
+                                breaks = NULL,
                                 date_breaks="12 hour",
                                 show.legend=TRUE,
                                 scales="free_x",
                                 x.lab = "Time", y.lab = "Value",
                                 title=paste("Sensor Streams Grouped by", by),
+                                expand.x = c(0,0), expand.y=c(0,0),
                                 mytheme=theme_streams_light, ...
 ) {
 
@@ -93,20 +98,36 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
 
   #print(data)
 
-  if (calendar)
-    minT <- floor_date(min(data$Time), unit="week")
-  else
-    minT <- floor_date(min(data$Time), unit="day")
+  # If breaks is null and date breaks is not, we
+  #   reassign breaks to intervals in date_breaks
+  #   starting at beginning of time interval.
+  if (is.null(breaks) & !is.null(date_breaks)) {
+    breaks <- seq.POSIXt(floor_date(min(data$Time), unit=by),
+                         ceiling_date(max(data$Time), unit=by),
+                         by=date_breaks)
+    date_breaks <- waiver()
+  }
 
-  maxT <- ceiling_date(max(data$Time),  unit="23 hour")
+  print(breaks)
+
 
   # fill in NA=0 for missing times points starting/ending to nearest start/end of week/day
-  data <- data %>%
-    group_by(Response) %>%
-    pad_by_time(
-      .start_date = minT, .end_date = maxT,
-      .pad_value = 0  # set NA values to 0 (baseline values)
-    )
+  if (pad) {
+
+    if (calendar)
+      minT <- floor_date(min(data$Time), unit="week")
+    else
+      minT <- floor_date(min(data$Time), unit="day")
+
+    maxT <- ceiling_date(max(data$Time),  unit="23 hour")
+
+    data <- data %>%
+      group_by(Response) %>%
+      pad_by_time(
+        .start_date = minT, .end_date = maxT,
+        .pad_value = 0  # set NA values to 0 (baseline values)
+      )
+  }
 
   #  Create factor for each time groups, equal to the starting time
   #    of the grouping
@@ -121,28 +142,29 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
 
   #print(data)
 
-  if (calendar)
-  ddummy <- data %>%
-    mutate(Response="dummy")
+  if (pad)
+    ddummy <- data %>%
+      mutate(Response="dummy")
 
   p <- ggplot(data=data,
               aes(x=Time, y=Value)) +
-    scale_x_datetime(date_labels=date_labels,
+    scale_x_datetime(breaks=breaks, labels=labels,
+                     date_labels = date_labels,
                      date_breaks = date_breaks,
-                     expand=c(0,0)) +
-    scale_y_continuous(expand=c(0.001,0.01), limits=c(0, upper.limit)) +
+                     expand=expand.x) +
+    scale_y_continuous(expand=expand.y, limits=c(0, upper.limit)) +
     labs(
       x = x.lab,
       y = y.lab,
       title = title
     )
 
-  if (calendar) p <- p + geom_blank(data=ddummy)
+  if (pad) p <- p + geom_blank(data=ddummy)
 
   if (area & !step) p <- p + geom_area(aes(fill=Response), show.legend=show.legend,
                                position="identity", alpha=alpha)
 
-  if (line & !step & !area) p <- p + geom_line(aes(color=Response), show.legend=show.legend)
+  if (line & !step) p <- p + geom_line(aes(color=Response), show.legend=show.legend)
 
   if (step) {
     p <- p + geom_step(aes(color=Response), show.legend=show.legend,

@@ -42,7 +42,6 @@
 
 merge_streams_and_contexts <- function (streams, contexts, include.binary=FALSE) {
 
-
   streams <- as_stream(streams)
   contexts <- as_context(contexts)
 

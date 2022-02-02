@@ -4,14 +4,29 @@
 \alias{convert_binary_contexts}
 \title{Convert Binary Context}
 \usage{
-convert_binary_contexts(bc, fromLong = TRUE, toBinary = TRUE, sep = ":")
+convert_binary_contexts(
+  bc,
+  fromLong = TRUE,
+  toBinary = TRUE,
+  index.vars = NULL,
+  sep = ":",
+  values_fn = max
+)
 }
 \arguments{
 \item{bc}{a data frame containing binary contexts (the default storage format is LONG)}
 
+\item{fromLong}{logical to convert binary long to wide (if TRUE) format or from wide format to long (if FALSE)}
+
 \item{toBinary}{whether format of returned value is binary or active-state format}
 
-\item{from}{format of 'bc' argument, "long" or "wide" binary format}
+\item{index.vars}{Index variables to use for grouping (in addition to "Time")}
+
+\item{sep}{the character to use/expect as a separate between group and state values}
+
+\item{values_fn}{a function to use if there are duplicates when converting from long to wide binary format.
+"max" returns the maximum value ("1") so that merging multiple contexts in a long
+format will the expected occurrence of the context}
 }
 \description{
 This function converts a context in binary format

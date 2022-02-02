@@ -17,7 +17,7 @@
 # ----------------------------------------------------
 
 plot_streams_hourly_aggregate <- function(data, x.lab="Hour",
-                                          y.lab="Value",
+                                          y.lab="Value", fill.color="blue",
                                           title="Sensor Stream Hourly Means",
                                           breaks=c(0,6,12,18),
                                           labels=c("Midnight","6a","Noon","6pm")) {
@@ -38,7 +38,7 @@ plot_streams_hourly_aggregate <- function(data, x.lab="Hour",
     y = y.lab,
     title = title
   ) +
-    geom_col()
+    geom_col(fill=fill.color)
 
   p
 

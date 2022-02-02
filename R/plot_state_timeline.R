@@ -20,10 +20,13 @@
 #' draw individual state activity in separate lanes.  Collapsing will result
 #' in overlap of state rectangles unless states in the group are
 #' mutually exclusive
+#' @param lanes logical, added shaded rectangles to highlight lanes for each group/state
 #' @param yspace vertical space with value [0,1] to add between lanes
 # @param xspace horizontal space with value in seconds to add between states
 #' @param border thickness of border around rectangles
 #' @param legend whether to draw a legend for the 0/1 states
+#' @param lab.x x axis label
+#' @param lab.y y axis label
 #' @param date_breaks a string giving the datetime breaks for the plot
 #' (e.g., "10 mins", "3 hours")
 #' @param date_labels the format for the datetime axis labels
@@ -42,6 +45,13 @@
 #'
 # -----------------------------------------------
 
+## TODO:  Add faceting to this so we can plot contexts in panels
+#  TODO:    ALSO, create a version that combines stream and context
+#        data in the same facet panels!!!  with some nice transparency settings...
+#    like we did with lattice plots a long time ago...
+## TODO:  We may have to have a 'breaks' argument to insure when
+#     ticks are drawn...like with streams version.
+
 # Copied from AirMotive,  12/18/2021..  modified to return ggplot
 #   by default, and use ggplotly to output plotly if specified.
 
@@ -55,8 +65,8 @@
 
 plot_state_timeline <-
   function (data, ggplot=TRUE, auto.y=TRUE, collapse=FALSE,
-            yspace=0.05, border=0.3,
-            legend=FALSE,
+            lanes=TRUE, yspace=0.05, border=0.3,
+            legend=FALSE, lab.x="Time", lab.y="States",
             date_breaks=waiver(),
             date_labels="%I:%M:%S %p \n %a %m/%d",
             date_angle=0,
@@ -135,7 +145,15 @@ plot_state_timeline <-
       cat("Plotting timeline \n")
       print(head(data))
 
-      p <- ggplot(data, aes(xmin=xleft, xmax=xright, ymin=ybottom, ymax=ytop,
+      ## TODO: Lanes data
+      lanesData <- tibble(
+        xleft=min(data$xleft),
+        xright=max(data$xright),
+        ybottom=unique(data$ybottom),
+        ytop=unique(data$ytop)
+      )
+
+      p <- ggplot(data=data, aes(xmin=xleft, xmax=xright, ymin=ybottom, ymax=ytop,
                             fill = groupstate,
                             text = paste( "<b style='font-size:18px'>",
                                           paste(group,":",state,sep=""),
@@ -163,8 +181,8 @@ plot_state_timeline <-
                            else as.character(data$groupstate)
         ) +
         #scale_fill_manual(values = fill.colors) +
-        xlab("Time") +
-        ylab("State") +
+        xlab(lab.x) +
+        ylab(lab.y) +
         #ggtitle(paste("State Timeline for '", enviro, "' Environment",sep="")) +
         theme(
           axis.text.x = element_text(angle = date_angle, hjust = 1,
@@ -179,6 +197,11 @@ plot_state_timeline <-
           panel.ontop=TRUE
         )
 
+      #  Add shaded rectangles as lanes?  TODO:  Not working yet...
+      #if (lanes) p <- p + geom_rect(data=lanesData,
+      #                              aes(xmin=xleft, xmax=xright,
+      #                              ymin=ybottom, ymax=ytop),
+      #                              fill="lightgray")
 
       if (!legend) p <- p + theme(legend.position='none')
 

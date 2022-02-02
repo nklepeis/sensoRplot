@@ -7,8 +7,13 @@
 #' @author Neil Klepeis
 #'
 #' @param bc a data frame containing binary contexts (the default storage format is LONG)
-#' @param from format of 'bc' argument, "long" or "wide" binary format
+#' @param fromLong logical to convert binary long to wide (if TRUE) format or from wide format to long (if FALSE)
 #' @param toBinary whether format of returned value is binary or active-state format
+#' @param index.vars Index variables to use for grouping (in addition to "Time")
+#' @param sep the character to use/expect as a separate between group and state values
+#' @param values_fn a function to use if there are duplicates when converting from long to wide binary format.
+#' "max" returns the maximum value ("1") so that merging multiple contexts in a long
+#' format will the expected occurrence of the context
 #'
 #' @details When converting to active-state format, state values >=1 are
 #' recognized as part of "active" contexts
@@ -20,8 +25,8 @@
 #    removed reference to userEmail, userName, workSpace....
 
 convert_binary_contexts <-
-  function(bc, fromLong=TRUE, toBinary=TRUE,
-           sep=":") {
+  function(bc, fromLong=TRUE, toBinary=TRUE, index.vars=NULL,
+           sep=":", values_fn = max) {
 
     #require(tidyr)
     #require(dplyr)
@@ -34,10 +39,10 @@ convert_binary_contexts <-
 
         bc %>%
           #pivot_wider(id_cols=c("Time","userEmail","userName","workSpace"),
-          pivot_wider(id_cols="Time",
+          pivot_wider(id_cols=!c("Group","State"),
                       names_from=c("Group","State"),
                       values_from="Value",
-                      values_fn=min,   # if duplicates use minimum value
+                      values_fn=values_fn,   # if duplicates use MAX value (changed from Min)
                       names_sep=sep
           ) %>%
           arrange(Time)
@@ -66,7 +71,7 @@ convert_binary_contexts <-
 
         bc %>%
           #pivot_longer(cols=!matches(c("Time","userEmail","userName","workSpace")),
-          pivot_longer(cols=!matches("Time"),
+          pivot_longer(cols=!matches(c("Time", index.vars)),
                        names_to=c("Group","State"),
                        values_to="Value",
                        names_sep=sep
@@ -80,7 +85,7 @@ convert_binary_contexts <-
         # do first way..
         bc %>%
           #pivot_longer(cols=!matches(c("Time","userEmail","userName","workSpace")),
-          pivot_longer(cols=!matches("Time"),
+          pivot_longer(cols=!matches(c("Time", index.vars)),
                        names_to=c("Group","State"),
                        values_to="Value",
                        names_sep=sep

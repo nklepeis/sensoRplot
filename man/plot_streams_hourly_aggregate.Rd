@@ -8,6 +8,7 @@ plot_streams_hourly_aggregate(
   data,
   x.lab = "Hour",
   y.lab = "Value",
+  fill.color = "blue",
   title = "Sensor Stream Hourly Means",
   breaks = c(0, 6, 12, 18),
   labels = c("Midnight", "6a", "Noon", "6pm")

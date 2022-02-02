@@ -13,5 +13,5 @@ Description: This package contains functions to plot sensor data
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: tidyverse,plotly,purrr,naniar,forcats,stringi,timetk,sugrrants,lubridate
-RoxygenNote: 7.1.1
+Imports: tidyverse,plotly,purrr,naniar,forcats,stringi,timetk,sugrrants,lubridate,ggthemes
+RoxygenNote: 7.1.2

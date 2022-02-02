@@ -9,9 +9,12 @@ plot_state_timeline(
   ggplot = TRUE,
   auto.y = TRUE,
   collapse = FALSE,
+  lanes = TRUE,
   yspace = 0.05,
   border = 0.3,
   legend = FALSE,
+  lab.x = "Time",
+  lab.y = "States",
   date_breaks = waiver(),
   date_labels = "\%I:\%M:\%S \%p \\n \%a \%m/\%d",
   date_angle = 0,
@@ -41,11 +44,17 @@ draw individual state activity in separate lanes.  Collapsing will result
 in overlap of state rectangles unless states in the group are
 mutually exclusive}
 
+\item{lanes}{logical, added shaded rectangles to highlight lanes for each group/state}
+
 \item{yspace}{vertical space with value [0,1] to add between lanes}
 
 \item{border}{thickness of border around rectangles}
 
 \item{legend}{whether to draw a legend for the 0/1 states}
+
+\item{lab.x}{x axis label}
+
+\item{lab.y}{y axis label}
 
 \item{date_breaks}{a string giving the datetime breaks for the plot
 (e.g., "10 mins", "3 hours")}
