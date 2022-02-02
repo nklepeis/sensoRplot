@@ -15,16 +15,21 @@ plot_streams_ggplot(
   line = FALSE,
   step = FALSE,
   facet = TRUE,
+  pad = TRUE,
   numcols = 7,
   alpha = 0.8,
   upper.limit = NA,
+  labels = NULL,
   date_labels = "\%I\%p",
+  breaks = NULL,
   date_breaks = "12 hour",
   show.legend = TRUE,
   scales = "free_x",
   x.lab = "Time",
   y.lab = "Value",
   title = paste("Sensor Streams Grouped by", by),
+  expand.x = c(0, 0),
+  expand.y = c(0, 0),
   mytheme = theme_streams_light,
   ...
 )
@@ -49,6 +54,9 @@ by adding padding on either side to create dummy (blank) panels}
 
 \item{facet}{logical, whether to create wrapped facets (panels) conditioned on the
 'by' parameter}
+
+\item{pad}{logical, whether to pad time series to nearest start or end of "by"
+time period}
 
 \item{numcols}{the number of columns to use when faceting}
 

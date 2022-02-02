@@ -17,10 +17,11 @@
 #'
 #' @details The 'format' can be one of the following
 #'
-#'  * ActiveStates - a data frame with a Time column and a column with concatenated strings showing active states:  group1:state1a,state1b group2:state2a,state2b, ...
-#'  * BinaryWide - a wide data frame with a Time column and columns for each grouped state with 0 or 1 cell values (inactive or active)
-#'  * BinaryLong - a long data frame with Time, Group, State, and Value columns where value is 0 or 1 (inactive or active)
-#'
+#' \describe{
+#' \item{ActiveStates}{a data frame with a Time column and a column with concatenated strings showing active states:  group1:state1a,state1b group2:state2a,state2b, ...}
+#' \item{BinaryWide}{a wide data frame with a Time column and columns for each grouped state with 0 or 1 cell values (inactive or active)}
+#' \item{BinaryLong}{ a long data frame with Time, Group, State, and Value columns where value is 0 or 1 (inactive or active)}
+#' }
 # ------------------------------------------------
 
 #  The ActiveStates format is really just for representing the context for
