@@ -6,13 +6,14 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param ... arguments to geom_line function
+#' @param ... arguments to geom_abline function
 #'
 #' @details
 #'
 # -------------------------------------------------
 
-geom_log_probability_lnorm <- function (gm=1, gsd=exp(1), ...) {
+geom_log_probability_lnorm <- function (gm=1, gsd=exp(1), size=1,
+                                        color="red", ...) {
 
   # adds a plot of a lognormal distribution (i.e., a line)
   # to a log-probability plot, given a geometric
@@ -34,8 +35,6 @@ geom_log_probability_lnorm <- function (gm=1, gsd=exp(1), ...) {
 
   #slope = - intercept / log(gm)
 
-
-
   # From fitting functionm -- slope and intercept in log space
   #gm <- exp((qnorm(0.5)-intercept)/slope)
   #gsd <- exp((qnorm(0.8413)-intercept)/slope)/gm
@@ -45,6 +44,7 @@ geom_log_probability_lnorm <- function (gm=1, gsd=exp(1), ...) {
   #y1<-x1*slope + intercept
   #y2<-x2*slope + intercept
 
-  geom_abline(slope=slope, intercept=intercept, size=1, color="red")
+  geom_abline(slope=slope, intercept=intercept, size=size,
+              color=color, ...)
 
 }

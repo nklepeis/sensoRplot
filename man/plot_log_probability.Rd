@@ -4,16 +4,45 @@
 \alias{plot_log_probability}
 \title{Log probability plot}
 \usage{
-plot_log_probability(xtics, ytics)
+plot_log_probability(
+  xtics,
+  ytics,
+  xlab = "Normal Cumulative Probability [\%]",
+  ylab = "Sample Quantiles"
+)
 }
 \arguments{
 \item{xtics}{vector of x-axis (probability) tic values}
+
+\item{ytics}{vector of y-axis (sample quantile) tic values}
+
+\item{xlab}{x axis label, defaults to "Normal Cumulative Probability \link{\%}"}
+
+\item{ylab}{y axis label, default to "Sample Quantiles"}
 }
 \description{
 Create an empty log-probability plot using ggplot
 }
 \details{
+This function creates a log-probability plot without any
+data. To add series, using the geom_log_probability_data,
+geom_log_probability_lnorm, and geom_log_probability_bins geom functions to
+add raw data, a lognormal distribution (with gm and gsd specifications), or
+binned (histogram) data (counts and class interval limits).
+}
+\examples{
 
+s <- rlnorm(1000)
+lfit <- fit_log_normal(s)
+r <- hist(s, breaks=100)
+
+plot_log_probability(
+    xtics=c(0.001,0.05,0.25, 0.5,0.75, 0.95, 0.999),
+    ytics=c(0.05,100)) +
+geom_qq(aes(sample=s)) +
+geom_log_probability_lnorm(gm=lfit$geometric.mean,
+                           gsd=lfit$geometric.standard.deviation) +
+geom_log_probability_bins(h=r$counts, l=r$breaks)
 }
 \author{
 Neil Klepeis

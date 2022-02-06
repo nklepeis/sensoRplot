@@ -4,14 +4,18 @@
 \alias{convert_from_activestate}
 \title{Convert Contexts from Active State Format}
 \usage{
-convert_from_activestate(contexts, allStates, sep = "|")
+convert_from_activestate(contexts, allStates, sep = "|", auto.states = TRUE)
 }
 \arguments{
 \item{contexts}{tibble containing contexts in active-state format}
 
-\item{allStates}{list containing group elements with all states to match}
+\item{allStates}{list containing all grouped states in the context data
+Any states in the data not matched in \code{allStates} will be omitted from the output}
 
 \item{sep}{the separator between contexts, defaults to "|"}
+
+\item{auto.states}{logical, whether to automatically parse the \code{States}
+variable to obtain the \code{allStates} grouped state list.}
 }
 \value{
 a tibble containing contexts in binary long format
@@ -23,6 +27,16 @@ format to binary long format
 \details{
 The input active-state contexts should have a Time
 column, a States column, and any additional index columns.
+
+As illustrated below, the \code{States} column has a number
+of Group:State pairs separated by the \code{sep} character,
+defaulting to "|".\tabular{ll}{
+   Time \tab States \cr
+   ________________ \tab ________________________________ \cr
+   4/2/02 10:12 am \tab Cooking:Frying|Social:Talking \cr
+   4/2/02 10:14 am \tab Cooking:Frying \cr
+   4/2/02 10:24 am \tab  \cr
+}
 }
 \author{
 Neil Klepeis

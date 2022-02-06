@@ -33,10 +33,10 @@ IN FUTURE:  (TODO)
 Plot by each combination of states
 
 Aggregate:
-
-1.  Within workspace, across state groups (exposure from mobile site/recpeotr)
-
-2.  Within state grouping, across workspace (exposure from fixed sites)
+\enumerate{
+\item Within workspace, across state groups (exposure from mobile site/recpeotr)
+\item Within state grouping, across workspace (exposure from fixed sites)
+}
 }
 \author{
 Neil Klepeis

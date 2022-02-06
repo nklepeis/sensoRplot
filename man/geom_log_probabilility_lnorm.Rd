@@ -5,10 +5,10 @@
 \alias{geom_log_probability_lnorm}
 \title{Add log-normal distribution to log probability plot}
 \usage{
-geom_log_probability_lnorm(gm = 1, gsd = exp(1), ...)
+geom_log_probability_lnorm(gm = 1, gsd = exp(1), size = 1, color = "red", ...)
 }
 \arguments{
-\item{...}{arguments to geom_line function}
+\item{...}{arguments to geom_abline function}
 }
 \description{
 Add log-normal distribution to an exisiting log-probability plot

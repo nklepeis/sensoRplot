@@ -9,4 +9,6 @@ import(stringi)
 import(timetk)
 import(sugrrants)
 import(ggthemes)
+import(lattice)
+import(latticeExtra)
 

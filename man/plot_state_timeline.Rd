@@ -46,7 +46,7 @@ mutually exclusive}
 
 \item{lanes}{logical, added shaded rectangles to highlight lanes for each group/state}
 
-\item{yspace}{vertical space with value [0,1] to add between lanes}
+\item{yspace}{vertical space with value \link{0,1} to add between lanes}
 
 \item{border}{thickness of border around rectangles}
 

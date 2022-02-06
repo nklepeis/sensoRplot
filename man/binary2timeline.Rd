@@ -42,8 +42,6 @@ an enviroment flow in terms of rows of binary states ("Binary Wide" format) and
 a time variable to a timeline-formatted dataframe with xstart,
 xend, ystart, and yend for easy plotting.  Heights for each
 state are set to unit = 1
-
-------------------------------------------------------------
 }
 \author{
 Neil Klepeis

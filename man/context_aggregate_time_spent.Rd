@@ -16,9 +16,10 @@ regular intervals
 }
 \details{
 Strategy
-
-1.  Insert context time points at regular intervals
-2.  Iterate over each interval computing total time in each group/state
+\enumerate{
+\item Insert context time points at regular intervals
+\item Iterate over each interval computing total time in each group/state
+}
 }
 \author{
 Neil Klepeis

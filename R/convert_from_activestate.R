@@ -6,21 +6,50 @@
 #' @author Neil Klepeis
 #'
 #' @param contexts tibble containing contexts in active-state format
-#' @param allStates list containing group elements with all states to match
+#' @param allStates list containing all grouped states in the context data
+#' Any states in the data not matched in \code{allStates} will be omitted from the output
 #' @param sep the separator between contexts, defaults to "|"
+#' @param auto.states logical, whether to automatically parse the \code{States}
+#' variable to obtain the \code{allStates} grouped state list.
 #'
 #' @return a tibble containing contexts in binary long format
 #'
 #' @details The input active-state contexts should have a Time
 #' column, a States column, and any additional index columns.
 #'
+#' As illustrated below, the \code{States} column has a number
+#' of Group:State pairs separated by the \code{sep} character,
+#' defaulting to "|".
+#'
+#' Time            |  States
+#' ----------------|--------------------------------
+#' ________________|________________________________
+#' 4/2/02 10:12 am |  Cooking:Frying\|Social:Talking
+#' 4/2/02 10:14 am |  Cooking:Frying
+#' 4/2/02 10:24 am |
+#'
+#'
 #----------------------
 
 #  Partly stolen from reformat.context.R  function...
 
+## TODO:  Clean group and state names of "|" and ":" characters
+###  Or allow them to be escaped..
+
 
 convert_from_activestate <- function(contexts, allStates,
-                                     sep="|") {
+                                     sep="|", auto.states=TRUE) {
+
+  if (missing(allStates))
+    if (auto.states) {
+      x <- stri_split_fixed(unlist(stri_split_fixed(contexts$States, "|")),
+                            ":", simplify=TRUE)
+      y <- as.list(x[,2])
+      names(y) <- x[,1]
+      allStates <- tapply(unlist(y, use.names = FALSE),
+                          rep(names(y), lengths(y)), FUN = unique)
+     }
+  else stop("Specify 'allStates' as a list of groups with component states or specify 'auto.states' to parse States column for grouped states.")
 
   # De-list a list with named elements for groups containing
   #    member states into a char vector of group:state elements.

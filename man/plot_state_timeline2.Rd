@@ -47,7 +47,7 @@ draw individual state activity in separate lanes.  Collapsing will result
 in overlap of state rectangles unless states in the group are
 mutually exclusive}
 
-\item{yspace}{vertical space with value [0,1] to add between lanes}
+\item{yspace}{vertical space with value \link{0,1} to add between lanes}
 
 \item{border}{thickness of border around rectangles}
 

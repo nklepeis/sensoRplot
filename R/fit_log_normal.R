@@ -12,6 +12,8 @@
 #'
 # -------------------------------------------------
 
+# This was originally the data2lnorm function in heR.Misc.
+
 
 fit_log_normal <-  function (y, forceNA = TRUE, plot=TRUE) {
 

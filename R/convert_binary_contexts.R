@@ -71,7 +71,7 @@ convert_binary_contexts <-
 
         bc %>%
           #pivot_longer(cols=!matches(c("Time","userEmail","userName","workSpace")),
-          pivot_longer(cols=!matches(c("Time", index.vars)),
+          pivot_longer(cols=!(c("Time", index.vars)),
                        names_to=c("Group","State"),
                        values_to="Value",
                        names_sep=sep
@@ -85,7 +85,7 @@ convert_binary_contexts <-
         # do first way..
         bc %>%
           #pivot_longer(cols=!matches(c("Time","userEmail","userName","workSpace")),
-          pivot_longer(cols=!matches(c("Time", index.vars)),
+          pivot_longer(cols=!(c("Time", index.vars)),
                        names_to=c("Group","State"),
                        values_to="Value",
                        names_sep=sep
