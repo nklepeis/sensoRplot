@@ -4,8 +4,11 @@ Title: Functions for plotting discrete and continuous sensor data
 Version: 0.1.0
 Author: Neil Klepeis
 Maintainer: Neil Klepeis <software@klepeis.net>
-Description: This package contains functions to plot sensor data.
-    It has functions to plot discrete contextual timelines and
+Description: This package contains functions to plot sensor data, i.e., any data
+    derived from "sensing" or "observing" physical and social environmental
+    phenomena, including data from chemical sensors, sensors of physical conditions, 
+    human activity sensors, biosensors, or dat observed and recorded by a human being
+    for specific times.  It has functions to plot discrete contextual timelines and
     continuous data streams, as well as combination plots
     with data for both streams and contexts on the same plot.
     It also has helper functions to convert to standard formats
@@ -15,6 +18,6 @@ Description: This package contains functions to plot sensor data.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: ggplot2,plotly,lattice,latticeExtra,purrr,naniar,forcats,stringi,timetk,sugrrants,lubridate,ggthemes
+Imports: ggplot2,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,stringi,timetk,sugrrants,lubridate,ggthemes
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

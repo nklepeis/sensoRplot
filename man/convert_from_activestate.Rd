@@ -4,18 +4,32 @@
 \alias{convert_from_activestate}
 \title{Convert Contexts from Active State Format}
 \usage{
-convert_from_activestate(contexts, allStates, sep = "|", auto.states = TRUE)
+convert_from_activestate(
+  contexts,
+  allStates,
+  sep = "|",
+  auto.states = TRUE,
+  collapse = TRUE,
+  add.empty.context = TRUE
+)
 }
 \arguments{
 \item{contexts}{tibble containing contexts in active-state format}
 
 \item{allStates}{list containing all grouped states in the context data
-Any states in the data not matched in \code{allStates} will be omitted from the output}
+Any states in the data not matched in \code{allStates} will be omitted from the output.
+Use \code{auto.states=TRUE} to automatically parse states from the \code{States} column.}
 
 \item{sep}{the separator between contexts, defaults to "|"}
 
 \item{auto.states}{logical, whether to automatically parse the \code{States}
 variable to obtain the \code{allStates} grouped state list.}
+
+\item{collapse, }{logical, whether to collapse the activities to
+non-repeated elements.   See \code{\link{collapse}}.}
+
+\item{add.empty.context}{logical, whether to add a context to the end of the
+contexts in which no states are active}
 }
 \value{
 a tibble containing contexts in binary long format
@@ -37,6 +51,16 @@ defaulting to "|".\tabular{ll}{
    4/2/02 10:14 am \tab Cooking:Frying \cr
    4/2/02 10:24 am \tab  \cr
 }
+
+
+When \code{collapse=TRUE}, the function reduces the context
+data, removing all rows with repeated (redundant) context states.
+}
+\examples{
+
+x <- tibble(Time = 1:4, States=c("A:One", "A:Two", "B:Three", ""))
+convert_from_activestate(x)
+
 }
 \author{
 Neil Klepeis

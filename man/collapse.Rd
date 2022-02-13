@@ -2,7 +2,7 @@
 % Please edit documentation in R/collapse.R
 \name{collapse}
 \alias{collapse}
-\title{Get index that collapses a vector to nonrepeated elements}
+\title{Get index that collapses a vector to non-repeated elements}
 \usage{
 collapse(x)
 }
@@ -10,10 +10,21 @@ collapse(x)
 \item{x}{a vector}
 }
 \description{
-Get index that collapses a vector to nonrepeated elements
+Get index that collapses a vector to non-repeated elements
 }
 \details{
-Returns an index that can be used to collapse the
+Returns an index that can be used to collapse a
+vector to non-repeated elements for use in computing
+sequences of non-redundant activity codes.
+}
+\examples{
+
+x <- c(1,1,1,2,2,2,3,3,3,4,4,4,4,4)
+y <- collapse(c(1,1,1,2,2,2,3,3,3,4,4,4,4,4))
+print(y)
+print(x[y])
+
+
 }
 \author{
 Neil Klepeis

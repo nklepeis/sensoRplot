@@ -1,5 +1,5 @@
 
-## Taken from the her.Activities pacakage 5Feb2022 in the panel.superpose.tact.R file
+## Taken from the heR.Activities package 5Feb2022 in the panel.superpose.tact.R file
 #    This is the one to use with the latest xytact.R function.
 #  uses panel.mtact from heR.Activities...
 

@@ -14,6 +14,7 @@
 #' @param area logical, whether to fill in area under the curve when plotting data
 #' @param step logical, whether to draw steps to represent data points
 #' @param line logical, whether to draw lines when plotting data
+#' @param point logical, whethe to draw points when plotting data
 #' @param facet logical, whether to create wrapped facets (panels) conditioned on the
 #' 'by' parameter
 #' @param pad logical, whether to pad time series to nearest start or end of "by"
@@ -22,6 +23,8 @@
 #' @param alpha the alpha value to draw data series (fills)
 #' @param date_labels the tick labels to use for time on the x-axis
 #' @param date_breaks the tick breaks to use for time on the x-axis
+#' @param xlimits a 2-element vector of limits or a function taking defaults limits and outputting new limits
+#' for the datetime x axis.
 #' @param show.legend logical, whether to show a legend for area/line data series (Response)
 #' @param scales the 'scales' argument to ggplot facets determining whether x and y axis sacles
 #' are allowed to be "free" or remain "fixed" over all panels
@@ -71,8 +74,9 @@
 
 plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
                                 calendar=TRUE, facet.response=FALSE,
-                                area=TRUE, line=FALSE, step=FALSE,
+                                area=TRUE, line=FALSE, step=FALSE, point=FALSE,
                                 facet=TRUE, pad=TRUE, numcols=7, alpha=0.8,
+                                xlimits=NULL,
                                 upper.limit=NA,
                                 labels = NULL,
                                 date_labels="%I%p",
@@ -108,7 +112,7 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
     date_breaks <- waiver()
   }
 
-  print(breaks)
+  #print(breaks)
 
 
   # fill in NA=0 for missing times points starting/ending to nearest start/end of week/day
@@ -151,7 +155,8 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
     scale_x_datetime(breaks=breaks, labels=labels,
                      date_labels = date_labels,
                      date_breaks = date_breaks,
-                     expand=expand.x) +
+                     expand=expand.x,
+                     limits=if (is.null(xlimits)) NULL else xlimits) +
     scale_y_continuous(expand=expand.y, limits=c(0, upper.limit)) +
     labs(
       x = x.lab,
@@ -165,6 +170,8 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
                                position="identity", alpha=alpha)
 
   if (line & !step) p <- p + geom_line(aes(color=Response), show.legend=show.legend)
+
+  if (point) p <- p + geom_point(aes(color=Response), show.legend=show.legend)
 
   if (step) {
     p <- p + geom_step(aes(color=Response), show.legend=show.legend,

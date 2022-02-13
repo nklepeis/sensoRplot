@@ -17,6 +17,7 @@ plot_state_timeline(
   lab.y = "States",
   date_breaks = waiver(),
   date_labels = "\%I:\%M:\%S \%p \\n \%a \%m/\%d",
+  xlimits = NULL,
   date_angle = 0,
   popup_date = "\%a \%m/\%d/\%y \%I:\%M:\%S \%p",
   bg = "white",

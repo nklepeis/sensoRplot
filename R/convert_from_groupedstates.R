@@ -28,6 +28,16 @@
 #' 4/2/02 10:12 am |  Cooking    | TV            | Talking
 #' 4/2/02 10:14 am |  Cooking    |               | Talking
 #'
+#' An alternative to this function would be to "unite" all the columns into
+#' a single "active state" column and then use the \code{\link{convert_from_activestate}}
+#' function
+#'
+#' @examples
+#'
+#' x <- tibble(Time = 1:10, Act=c("A","A","A","B","C","C","D","E","E","F"))
+#' convert_from_groupedstates(x)
+#'
+#'
 #----------------------
 
 #  Also see convert_from_activatestate.   This function is basically the
@@ -53,6 +63,9 @@ convert_from_groupedstates <- function(contexts, allStates,
 
   Group <- stri_split(allVars,regex=":",simplify=TRUE)[,1]
   State <- stri_split(allVars,regex=":",simplify=TRUE)[,2]
+
+  print(Group)
+  print(State)
 
   # Iterate over each context (row) and split into binary variables
 

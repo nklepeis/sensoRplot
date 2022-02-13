@@ -14,10 +14,12 @@ plot_streams_ggplot(
   area = TRUE,
   line = FALSE,
   step = FALSE,
+  point = FALSE,
   facet = TRUE,
   pad = TRUE,
   numcols = 7,
   alpha = 0.8,
+  xlimits = NULL,
   upper.limit = NA,
   labels = NULL,
   date_labels = "\%I\%p",
@@ -52,6 +54,8 @@ by adding padding on either side to create dummy (blank) panels}
 
 \item{step}{logical, whether to draw steps to represent data points}
 
+\item{point}{logical, whethe to draw points when plotting data}
+
 \item{facet}{logical, whether to create wrapped facets (panels) conditioned on the
 'by' parameter}
 
@@ -61,6 +65,9 @@ time period}
 \item{numcols}{the number of columns to use when faceting}
 
 \item{alpha}{the alpha value to draw data series (fills)}
+
+\item{xlimits}{a 2-element vector of limits or a function taking defaults limits and outputting new limits
+for the datetime x axis.}
 
 \item{date_labels}{the tick labels to use for time on the x-axis}
 

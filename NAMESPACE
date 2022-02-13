@@ -11,4 +11,6 @@ import(sugrrants)
 import(ggthemes)
 import(lattice)
 import(latticeExtra)
+import(furrr)
+import(cowplot)
 

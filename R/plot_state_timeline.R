@@ -12,10 +12,11 @@
 #' from ggplot to plotly object
 #' @param auto.y (logical) whether to automatically compute lane
 #' y coordinates or use ybottom/ytop arguments.
-# @param xrange optional, vector of date/times used to specify the
-# xrange of the plot. If NULL, the xrange defaults to the range inherent in
-# the min and max time values in the data: c(min(xleft), max(xright)). This
-# option is used to visualize the contexts withing a broader time period.
+# @param xlimits optional, a 2-element vector of date/times used to specify the
+# x limits of the plot. If NULL, the xlimits defaults to the range inherent in
+# the min and max time values in the data: c(min(xleft), max(xright)) OR a function taking the
+#  default limits and returning new limits.
+# option is used to visualize the contexts within a broader time period.
 #' @param collapse (logical) whether to draw grouped states in a single lane or
 #' draw individual state activity in separate lanes.  Collapsing will result
 #' in overlap of state rectangles unless states in the group are
@@ -69,6 +70,7 @@ plot_state_timeline <-
             legend=FALSE, lab.x="Time", lab.y="States",
             date_breaks=waiver(),
             date_labels="%I:%M:%S %p \n %a %m/%d",
+            xlimits=NULL,
             date_angle=0,
             popup_date="%a %m/%d/%y %I:%M:%S %p",
             #fill.colors=c(rgb(240/255,255/255,240/255,0.5),
@@ -172,8 +174,8 @@ plot_state_timeline <-
         #geom_vline(xintercept=data$xright, color="white",
         #           size=1) +
         scale_x_datetime(expand = c(0, 0), date_breaks=date_breaks,
-                         date_labels=date_labels) +
-                         #limits=if (is.null(xrange)) NULL else range(xrange)) +
+                         date_labels=date_labels,
+                         limits=if (is.null(xlimits)) NULL else xlimits) +
         scale_y_continuous(expand = c(0, 0),
                            breaks=(data$ybottom+data$ytop)/2,
                            labels=if (collapse)

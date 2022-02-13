@@ -36,6 +36,18 @@ which states are active for each time (row.)\tabular{lccc}{
    4/2/02 10:12 am \tab Cooking \tab TV \tab Talking \cr
    4/2/02 10:14 am \tab Cooking \tab  \tab Talking \cr
 }
+
+
+An alternative to this function would be to "unite" all the columns into
+a single "active state" column and then use the \code{\link{convert_from_activestate}}
+function
+}
+\examples{
+
+x <- tibble(Time = 1:10, Act=c("A","A","A","B","C","C","D","E","E","F"))
+convert_from_groupedstates(x)
+
+
 }
 \author{
 Neil Klepeis
