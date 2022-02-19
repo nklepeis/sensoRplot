@@ -1,3 +1,5 @@
+#' @name plot_combo_contexts_streams_plotly
+#'
 #' @title Combo Plot with Contexts and Streams v2
 #'
 #' @description This function create a plotly combination plot (subplot)
@@ -25,8 +27,9 @@
 #   to make a more standard function with standard inputs.  Not
 #    currently used in AirMotive... NK 11/22/2021
 
+##  Used to be called plot_combo_context_streams2
 
-plot_combo_context_streams2 <- function(contexts, streams,
+plot_combo_contexts_streams_plotly <- function(contexts, streams,
                                        fg="white", bg="#2a8094", font.size=12,
                                        heights=c(0.7,0.3),
                                        collapse=FALSE, include.rangeSelector=FALSE,
@@ -73,7 +76,7 @@ plot_combo_context_streams2 <- function(contexts, streams,
                                        include.rangeSelector=include.rangeSelector,
                                        include.rangeSlider=include.rangeSlider)
 
-  # Combo plot
+  # Plotly Combo plot
   subplot(fig1, fig2,
           nrows = 2,  shareX=TRUE, heights=heights
           ) %>%

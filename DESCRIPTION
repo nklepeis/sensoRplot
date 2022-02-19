@@ -1,23 +1,25 @@
 Package: sensoRplot
 Type: Package
-Title: Functions for plotting discrete and continuous sensor data
+Title: Functions for plotting discrete and continuous data on sensor levels and positions
 Version: 0.1.0
 Author: Neil Klepeis
 Maintainer: Neil Klepeis <software@klepeis.net>
-Description: This package contains functions to plot sensor data, i.e., any data
-    derived from "sensing" or "observing" physical and social environmental
-    phenomena, including data from chemical sensors, sensors of physical conditions, 
-    human activity sensors, biosensors, or dat observed and recorded by a human being
-    for specific times.  It has functions to plot discrete contextual timelines and
-    continuous data streams, as well as combination plots
-    with data for both streams and contexts on the same plot.
-    It also has helper functions to convert to standard formats
-    for plotting contextual data and data stream data. Uses ggplot2,
-    lattice, and plotly plotting libraries to generate both static
-    and dynamic interactive plots.
+Description: This R package contains functions to plot data on sensor levels and locations,
+    i.e., any data derived from "sensing" or "observing" physical and social environmental
+    phenomena in time and space, including data from chemical sensors, sensors of physical conditions, 
+    human activity sensors, biosensors, or data observed and recorded directly by a human being
+    using their eyes, ears, mouth, nose, skin, etc. acting as "sensors".
+    It has functions to plot static and interactive discrete contextual timelines and
+    continuous data streams, as well as combination plots containing data for both
+    streams and contexts.  It has function to plot static or interactive maps showing
+    the locations/trajectories and levels of sensors. It includes helper functions
+    to convert data betwen standard formats.  It uses the ggplot2,
+    lattice, plotly, and leaflet libraries to generate both static
+    and interactive plots and maps.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: ggplot2,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,stringi,timetk,sugrrants,lubridate,ggthemes
+Imports: ggplot2,tidyr,readr,dplyr,lubridate,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,
+    stringi,timetk,sugrrants,lubridate,ggthemes,osmdata,sf,leaflet,cowplot
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

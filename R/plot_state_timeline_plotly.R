@@ -1,10 +1,10 @@
-#' @aliases plot_state_timeline2
+#' @aliases plot_state_timeline_plotly
 #'
-#' @title Plot interactive timeline of state activity using plotly
+#' @title Plot an interactive timeline of state activity using plotly
 #'
 #' @author Neil Klepeis
 #'
-#' @param data a dataframe containing named columns for
+#' @param data a timeline format dataframe containing named columns for
 #' group, state, xleft, xright, ybottom, ytop. x coordinates
 #' are datetime values and y coordinates are numeric indices indicating
 #' vertical height of state lanes
@@ -38,7 +38,16 @@
 #' @param config logical, whether to configure the plot plot toolbar (may want
 #' to skip this when configuring subplots)
 #'
+#' @details  This function creates a state timeline plot using the plotly library
+#' the plotly \code{add_trace} function.   See \code{plot_state_timeline_ggplot} for
+#' a version that uses the ggplot2 library, but also has an optio for converting
+#' from a ggplot object to a plotly object using \code{ggplotly}.
+#'
+#'
 # -----------------------------------------------
+
+##  Renamed from "plot_state_timeline2" to "plot_state_timeline_plotly"
+#    18Feb2022
 
 # TODO:    Have options to sort the order of the groups/states...
 
@@ -64,7 +73,7 @@
 #    works with subplot, whereas version #1 based on ggplotly did not...
 
 
-plot_state_timeline2 <-
+plot_state_timeline_plotly <-
   function (data, auto.y=TRUE, labels=TRUE,
             xrange=NULL, collapse=FALSE,
             yspace=0.05, border=0.3,

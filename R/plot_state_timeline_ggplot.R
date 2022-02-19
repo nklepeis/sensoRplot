@@ -1,10 +1,14 @@
-#' @aliases plot_state_timeline
+#' @aliases plot_state_timeline_ggplot
 #'
-#' @title Plot interactive timeline of state activity using ggplot2 and plotly
+#' @title Plot a static timeline of state activity using ggplot
+#'
+#' @description This function creates a static timeline plot of context states
+#' using the ggplot2 library with the option of converting to an interactive
+#' timeline using the \code{ggplotly} function in the plotly library
 #'
 #' @author Neil Klepeis
 #'
-#' @param data a dataframe containing named columns for
+#' @param data a timeline format dataframe containing named columns for
 #' group, state, xleft, xright, ybottom, ytop. x coordinates
 #' are datetime values and y coordinates are numeric indices indicating
 #' vertical height of state lanes
@@ -44,6 +48,10 @@
 #' @param config logical, whether to configure the plot plot toolbar (may want
 #' to skip this when configuring subplots)
 #'
+#' @details  This function creates a static state timeline plot using the ggplot2 library.
+#' It has an option to convert from a ggplot object to an interactive plotly object using the
+#' \code{ggplotly} function.
+#'
 # -----------------------------------------------
 
 ## TODO:  Add faceting to this so we can plot contexts in panels
@@ -64,7 +72,7 @@
 #  for each state or each group (i.e., if collapse=TRUE)
 
 
-plot_state_timeline <-
+plot_state_timeline_ggplot <-
   function (data, ggplot=TRUE, auto.y=TRUE, collapse=FALSE,
             lanes=TRUE, yspace=0.05, border=0.3,
             legend=FALSE, lab.x="Time", lab.y="States",
