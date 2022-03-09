@@ -20,8 +20,8 @@ plot_historical_data_plotly2(
 )
 }
 \arguments{
-\item{data}{Long-format sensor data frame for multiple streams frame containing a 'Time' column, index columns,
-and Response and Value columns}
+\item{data}{Long-format sensor data frame for multiple streams frame
+containing a 'Time' column, index columns, and Response and Value columns}
 }
 \value{
 a plotly object
@@ -33,7 +33,7 @@ Plot LONG historical sensor data using the plotly package
 concatenates all columns not Time or Value to
 a single index variable that is used to plot data series.
 
-See 'plot_historical_subplot_plotly.R' which calls this function
+See 'plot_multiple_historical_dataL.R' which calls this function
 to produce stacked subplots for each non-Response index variable, i.e.,
 all index variables besides Response are used to facet the data into
 separated plots

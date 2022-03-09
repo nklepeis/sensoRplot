@@ -2,15 +2,16 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param data Long-format sensor data frame for multiple streams frame containing a 'Time' column, index columns,
-#' and Response and Value columns
+#' @param data Long-format sensor data frame for multiple streams frame
+#' containing a 'Time' column, index columns, and Response and Value columns
 #'
 #' @return a plotly object
 #'
 #' @details concatenates all columns not Time or Value to
 #' a single index variable that is used to plot data series.
 #'
-#' See 'plot_historical_subplot_plotly.R' which calls this function
+# See 'plot_historical_subplot_plotly.R' which calls this function
+#' See 'plot_multiple_historical_dataL.R' which calls this function
 #' to produce stacked subplots for each non-Response index variable, i.e.,
 #' all index variables besides Response are used to facet the data into
 #' separated plots

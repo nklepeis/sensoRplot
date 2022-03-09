@@ -12,7 +12,9 @@ Description: This R package contains functions to plot data on sensor levels and
     It has functions to plot static and interactive discrete contextual timelines and
     continuous data streams, as well as combination plots containing data for both
     streams and contexts.  It has function to plot static or interactive maps showing
-    the locations/trajectories and levels of sensors. It includes helper functions
+    the locations/trajectories and levels of sensors. It has functions to fit continuous 
+    sensor data to a lognormal distribution and create log-probability and density
+    plots of sensor levels.  It includes helper functions
     to convert data betwen standard formats.  It uses the ggplot2,
     lattice, plotly, and leaflet libraries to generate both static
     and interactive plots and maps.

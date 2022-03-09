@@ -75,7 +75,7 @@ plot_combo_context_streams_ggplot <- function(contexts, streams,
   cc0<- colorRampPalette(c("#C2FCF6","#033FFF"))
   cc1<- colorRampPalette(c("#69DADB","#193498"))
   cc2<- colorRampPalette(c("#D3E0EA","#0A043C"))
-  fig2 <- exec("plot_state_timeline", timeline, !!!contexts.args) +
+  fig2 <- exec("plot_state_timeline_ggplot", timeline, !!!contexts.args) +
     theme_streams_clean() +
     theme(
       axis.text.x=element_text(size=8, hjust=0.5),
