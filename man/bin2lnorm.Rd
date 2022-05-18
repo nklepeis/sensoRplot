@@ -2,11 +2,11 @@
 % Please edit documentation in R/bin2lnorm.R
 \name{bin2lnorm}
 \alias{bin2lnorm}
-\title{Fit log-normal probability model to binned data (histogram)}
+\title{Fit and optinally plot a log-normal probability model to binned data (histogram)}
 \usage{
 bin2lnorm(
-  l,
-  h,
+  breaks,
+  counts,
   wt,
   plot = FALSE,
   density = FALSE,
@@ -27,23 +27,55 @@ bin2lnorm(
 )
 }
 \arguments{
-\item{l}{class interval limits}
+\item{breaks}{class interval limits}
 
-\item{h}{"height" values of the histogram (counts)}
+\item{counts}{"height" values of the histogram (counts)}
 
-\item{density}{logical, whether to plot the density function}
+\item{wt}{weights for each bin}
+
+\item{plot}{logical, whether to plot the fit}
+
+\item{density}{logical, whether to plot the density function or the linear regression plot}
+
+\item{mcol}{model color (line)}
+
+\item{dcol}{data color (points)}
+
+\item{lty}{line type for model}
+
+\item{lwd}{line width for model}
+
+\item{shade.density}{density of shading for histogram (density)}
+
+\item{shade.angle}{angle of shading for histogram (density)}
+
+\item{rect.border.col}{border color for histogram (density)}
+
+\item{rect.lwd}{line width for histogram (density)}
+
+\item{rect.lty}{line type for histogram (density)}
+
+\item{cex}{size of symbols for data}
+
+\item{main}{title of the plot}
+
+\item{xlab}{x label for the plot}
+
+\item{ylab}{y label for the plot}
+
+\item{...}{additional arguments to the plot function}
 }
 \value{
 A list containing
-\code{h}, \code{l}, \code{log(l)},
+\code{counts}, \code{breaks}, \code{log(breaks)},
 the probability density (PDF), the cumulative probabilities (CDF),
 the normal quartiles, the geometric mean (GM), and the
 geometric standard deviation (GSD)
 }
 \description{
-This function uses weighted least squares to fit a log-normal
+This function uses weighted least squares to fit and return a log-normal
 probability model to binned data, i.e., counts of data points within
-specific class intervals (a histogram)
+specific class intervals (a histogram).  Plots the results by default.
 }
 \details{
 As a side effect the function will plot the
@@ -59,10 +91,16 @@ a cdf (log-probability plot) with the fitted line through the
 data points.
 
 This is similar to the 'method of quantiles' for
-estimating the parameters of a log-normal distributtion,
+estimating the parameters of a log-normal distribution,
 except that we use all of the data excluding the top point. See
 Ott, 1995, page 268, "Environmental Statistics and Data
 Analysis".
+}
+\examples{
+
+x <- hist(rlnorm(1000), breaks=c(0,2,5,10,25,100), plot=FALSE)
+bin2lnorm(x$breaks, x$counts)
+
 }
 \author{
 Neil Klepeis

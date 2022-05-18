@@ -34,7 +34,9 @@
 #'
 #' @examples
 #'
-#' x <- tibble(Time = 1:10, Act=c("A","A","A","B","C","C","D","E","E","F"))
+#' x <- tibble(Time = 1:10,
+#'             Act=c("A","A","A","B","C","C","D","E","E","F"),
+#'             Loc=c("","G","G","","H","H","H","I","I","I"))
 #' convert_from_groupedstates(x)
 #'
 #'
@@ -51,7 +53,8 @@ convert_from_groupedstates <- function(contexts, allStates,
 
   if (missing(allStates))
     if (auto.states)
-      allStates <- as.list(contexts %>% select(-Time))
+      allStates <- as.list(contexts %>% select(-Time)) %>%
+        lapply(function (x) unique(x[x != ""]))
     else stop("Specify 'allStates' as a list of groups with component states or specify 'auto.states' to parse columns for grouped states.")
 
   # De-list a list with named elements for groups containing
@@ -61,11 +64,14 @@ convert_from_groupedstates <- function(contexts, allStates,
                              paste(names(allStates)[i],
                                    allStates[[i]], sep=":")))
 
+  cat("Unique Grouped States:\n")
+  print(allVars)
+
   Group <- stri_split(allVars,regex=":",simplify=TRUE)[,1]
   State <- stri_split(allVars,regex=":",simplify=TRUE)[,2]
 
-  print(Group)
-  print(State)
+  #print(Group)
+  #print(State)
 
   # Iterate over each context (row) and split into binary variables
 

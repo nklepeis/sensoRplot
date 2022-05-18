@@ -1,20 +1,37 @@
 #' @name bin2lnorm
 #'
-#' @title Fit log-normal probability model to binned data (histogram)
+#' @title Fit and optinally plot a log-normal probability model to binned data (histogram)
 #'
-#' @description This function uses weighted least squares to fit a log-normal
+#' @description This function uses weighted least squares to fit and return a log-normal
 #' probability model to binned data, i.e., counts of data points within
-#' specific class intervals (a histogram)
+#' specific class intervals (a histogram).  Plots the results by default.
 #'
 #' @author Neil Klepeis
 #'
-#' @param l class interval limits
-#' @param h "height" values of the histogram (counts)
-#' @param density logical, whether to plot the density function
-#@param log logical, whether x axis will be log (log=TRUE) or linear
+#' @param breaks class interval limits
+#' @param counts "height" values of the histogram (counts)
+#' @param wt weights for each bin
+#' @param plot logical, whether to plot the fit
+#' @param density logical, whether to plot the density function or the linear regression plot
+#' @param mcol model color (line)
+#' @param dcol data color (points)
+#' @param lty line type for model
+#' @param lwd line width for model
+#' @param shade.density density of shading for histogram (density)
+#' @param shade.angle angle of shading for histogram (density)
+#' @param rect.border.col border color for histogram (density)
+#' @param rect.lwd line width for histogram (density)
+#' @param rect.lty line type for histogram (density)
+#' @param cex size of symbols for data
+#' @param main title of the plot
+#' @param xlab x label for the plot
+#' @param ylab y label for the plot
+#' @param ... additional arguments to the plot function
+#'
+#@param log logical, whether x axis will be log (log=TRUE) or linear\
 #'
 #' @returns A list containing
-#' \code{h}, \code{l}, \code{log(l)},
+#' \code{counts}, \code{breaks}, \code{log(breaks)},
 #' the probability density (PDF), the cumulative probabilities (CDF),
 #' the normal quartiles, the geometric mean (GM), and the
 #' geometric standard deviation (GSD)
@@ -32,16 +49,22 @@
 #' data points.
 #'
 #' This is similar to the 'method of quantiles' for
-#' estimating the parameters of a log-normal distributtion,
+#' estimating the parameters of a log-normal distribution,
 #' except that we use all of the data excluding the top point. See
 #' Ott, 1995, page 268, "Environmental Statistics and Data
 #' Analysis".
 #'
+#' @examples
+#'
+#' x <- hist(rlnorm(1000), breaks=c(0,2,5,10,25,100), plot=FALSE)
+#' bin2lnorm(x$breaks, x$counts)
+#'
 # -------------------------------------------------
 
 bin2lnorm<-
-  function (l, h, wt, plot=FALSE, density=FALSE, mcol="red", dcol="black",
-            lty="solid", lwd=3, shade.density=15, shade.angle=35,
+  function (breaks, counts, wt, plot=FALSE, density=FALSE,
+            mcol="red", dcol="black", lty="solid", lwd=3,
+            shade.density=15, shade.angle=35,
             rect.border.col=NULL, rect.lwd=1, rect.lty=1, cex=1.4, main,
             xlab, ylab, ...) {
 
@@ -75,38 +98,58 @@ bin2lnorm<-
 
     # -> Modified to coerce input into numeric format
 
-    h<-as.numeric(h)
-    l<-as.numeric(l)
+    counts<-as.numeric(counts)
+    breaks<-as.numeric(breaks)
 
-    if (!is.vector(h) || !is.vector(l))
+    if (!is.vector(breaks) || !is.vector(counts))
       stop("Count and bin specs must be numeric vectors (or coercable).")
-    if (length(h) != length(l)-1)
+    if (length(counts) != length(breaks)-1) {
+      cat("Counts:\n")
+      print(counts)
+      cat("Breaks:\n")
+      print(breaks)
       stop("Number of bins not equal to number of limits minus 1.")
-    if (any(diff(l) <= 0))
+    }
+    if (any(diff(breaks) <= 0))
       stop("Limits must be strictly increasing.")
-    if (any(l < 0))
+    if (any(breaks < 0))
       stop("Each limit must be zero or greater.")
 
     # Set weights=1 if missing
-    if (missing(wt)) wt <- rep(1,length(h))
-    if (!missing(wt) & length(wt) != length(h))
+    if (missing(wt)) wt <- rep(1,length(counts))
+    if (!missing(wt) & length(wt) != length(counts))
       stop("`wt', if specified, must contain weights corresponding to each bin with length the same as that of `h'")
 
-    n<-length(l)
+    n<-length(breaks)
 
-    pdf <- h/(diff(l)*sum(h))
-    norm <- sum(h)
-    cdf <- cumsum(h)/sum(h)
+    pdf <- counts/(diff(breaks)*sum(counts))
+    norm <- sum(counts)
+    cdf <- cumsum(counts)/sum(counts)
 
     # omit where cdf=1 (could be multiple instances due to 0 counts)
     # also omit where cdf=0 (zero counts in beginning)
-    lr <- l[-1]   #cdf is taken at right bin limits
+    lr <- breaks[-1]   #cdf is taken at right bin limits
+    #print(lr)
+    #print(cdf)
+    # New by Neil to include all points.  3/14/2022
+    #lr[lr==0] <- 1e-12
+    #cdf[cdf==1] <- 0.999999999999
+    #cdf[cdf==0] <- 1e-12
+
+    #lr <- lr[cdf<1]
+    #wt <- wt[cdf<1]
+    #cdf <- cdf[cdf<1]  # do cdf last
+
+    #  Old code to remove the points ad cdf=0 or 1
     lr <- lr[cdf<1 & cdf > 0]
     wt <- wt[cdf<1 & cdf > 0]
     cdf <- cdf[cdf<1 & cdf > 0]  # do cdf last
 
     q<-qnorm(cdf)
     ll <- log(lr)
+
+    #print(q)
+    #print(ll)
 
     ls.out<-lsfit(ll, q, wt=wt)
     intercept<-ls.out$coefficients[1]
@@ -135,7 +178,8 @@ bin2lnorm<-
       } else {
         if (missing(xlab)) xlab <- "Bin Limits"
         if (missing(ylab)) ylab <- "Probability Density"
-        x<-seq(l[1],l[length(l)], by=(l[length(l)]-l[1])/100)
+        x<-seq(breaks[1],breaks[length(breaks)],
+               by=(breaks[length(breaks)]-breaks[1])/100)
         y <- dlnorm(c(0,x), log(gm), log(gsd))
         par(cex=cex, las=1)
         plot.new()
@@ -149,7 +193,7 @@ bin2lnorm<-
       axis(1); axis(2); box()
     }
 
-    list(lsfit=ls.out, counts=h, limits=l, loglimits=ll, probabilities=pdf,
+    list(lsfit=ls.out, counts=counts, breaks=breaks, logbreaks=ll, probabilities=pdf,
               cumulative.probabilities=cdf, normal.quantiles=q, geometric.mean=gm,
               geometric.standard.deviation=gsd, normalization=norm)
 }

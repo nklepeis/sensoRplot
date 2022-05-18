@@ -14,6 +14,8 @@
 #' vertical height of state lanes
 #' @param ggplot logical, whether to return a ggplot object (default) or convert
 #' from ggplot to plotly object
+#' @param fillstate the variable to use in defining the state fill color,
+#' either "group" or "groupstate"
 #' @param auto.y (logical) whether to automatically compute lane
 #' y coordinates or use ybottom/ytop arguments.
 # @param xlimits optional, a 2-element vector of date/times used to specify the
@@ -29,6 +31,7 @@
 #' @param yspace vertical space with value [0,1] to add between lanes
 # @param xspace horizontal space with value in seconds to add between states
 #' @param border thickness of border around rectangles
+#' @param color.border color of border lines for rectangles
 #' @param legend whether to draw a legend for the 0/1 states
 #' @param lab.x x axis label
 #' @param lab.y y axis label
@@ -45,7 +48,7 @@
 #' over the plot or not
 #' @param height a number giving the height of the plotly plot in pixels
 #' @param source string identification for plot events
-#' @param config logical, whether to configure the plot plot toolbar (may want
+#' @param config logical, whether to configure the plot toolbar (may want
 #' to skip this when configuring subplots)
 #'
 #' @details  This function creates a static state timeline plot using the ggplot2 library.
@@ -73,9 +76,11 @@
 
 
 plot_state_timeline_ggplot <-
-  function (data, ggplot=TRUE, auto.y=TRUE, collapse=FALSE,
-            lanes=TRUE, yspace=0.05, border=0.3,
+  function (data, ggplot=TRUE, fillstate="groupstate",
+            auto.y=TRUE, collapse=FALSE,
+            lanes=TRUE, yspace=0.05, border=0.3, color.border="lightgray",
             legend=FALSE, lab.x="Time", lab.y="States",
+            title=waiver(),
             date_breaks=waiver(),
             date_labels="%I:%M:%S %p \n %a %m/%d",
             xlimits=NULL,
@@ -112,7 +117,7 @@ plot_state_timeline_ggplot <-
       #  Compute state duration in minutes
       data <- data %>%
         mutate(
-          groupstate = paste(group, state, sep="\n"),
+          groupstate = paste(group, state, sep=":"),
           'duration.mins' = round(difftime(xright, xleft,
                                            units="mins"),
                                   digits=2)) %>%
@@ -164,7 +169,7 @@ plot_state_timeline_ggplot <-
       )
 
       p <- ggplot(data=data, aes(xmin=xleft, xmax=xright, ymin=ybottom, ymax=ytop,
-                            fill = groupstate,
+                            fill = .data[[fillstate]],
                             text = paste( "<b style='font-size:18px'>",
                                           paste(group,":",state,sep=""),
                                           "</b>\n",
@@ -172,7 +177,8 @@ plot_state_timeline_ggplot <-
                                           "End: ", format(xright, popup_date), "\n",
                                           "Duration (mins): ", duration.mins, "\n",
                                           sep="")
-            )) + geom_rect(color="lightgray", size=border) +
+            )) + geom_rect(color=color.border,
+                           size=border) +
         #geom_hline(yintercept=data$ytop, color="gray",
         #           size=0.2) +
         #geom_hline(yintercept=data$ybottom, color="gray",
@@ -193,6 +199,7 @@ plot_state_timeline_ggplot <-
         #scale_fill_manual(values = fill.colors) +
         xlab(lab.x) +
         ylab(lab.y) +
+        labs(title = title) +
         #ggtitle(paste("State Timeline for '", enviro, "' Environment",sep="")) +
         theme(
           axis.text.x = element_text(angle = date_angle, hjust = 1,

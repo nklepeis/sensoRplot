@@ -1,4 +1,4 @@
-#' @aliases plot_streams
+#' @aliases plot_streams_ggplot
 #'
 #' @title Plot sensor data streams faceted by time using ggplot
 #'
@@ -9,17 +9,19 @@
 #' @param by time unit used to create an index variable to use in faceting
 #' data by time
 #' @param by.format time format for strip lables
+#' @param pad logical, whether to pad time series to nearest start or end of "by"
+#' time period
 #' @param calendar logical, whether to create a calendar-style facet
 #' by adding padding on either side to create dummy (blank) panels
+#' @param facet logical, whether to create facets (panels) conditioned on the
+#' 'by' parameter and optionally the response (see \code{facet.response})
+#' @param facet.response logical, include response as a facet (conditioning variable)
+#' @param facet.wrap logical, wrap panels (default) or lay panels out in a grid
+#' @param numcols the number of columns to use when wrap faceting
 #' @param area logical, whether to fill in area under the curve when plotting data
 #' @param step logical, whether to draw steps to represent data points
 #' @param line logical, whether to draw lines when plotting data
 #' @param point logical, whethe to draw points when plotting data
-#' @param facet logical, whether to create wrapped facets (panels) conditioned on the
-#' 'by' parameter
-#' @param pad logical, whether to pad time series to nearest start or end of "by"
-#' time period
-#' @param numcols the number of columns to use when faceting
 #' @param alpha the alpha value to draw data series (fills)
 #' @param date_labels the tick labels to use for time on the x-axis
 #' @param date_breaks the tick breaks to use for time on the x-axis
@@ -57,6 +59,9 @@
 #' to faceting by the specified time grouping.
 #----------------------------------------------------
 
+# TODO:  Make this more generic and write other functions to create tailored
+#   versions for different purposes and faceting...
+
 ## TODO !!  Create a custom theme for this plot that is applied automatically
 ##        but users can customize or specify another theme.  Done.
 
@@ -73,10 +78,10 @@
 #    have full x-axis range even if there are missing values in 'data'
 
 plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
-                                calendar=TRUE, facet.response=FALSE,
+                                pad=TRUE, calendar=TRUE, facet=TRUE, numcols=7,
+                                facet.response=FALSE, facet.wrap=TRUE,
                                 area=TRUE, line=FALSE, step=FALSE, point=FALSE,
-                                facet=TRUE, pad=TRUE, numcols=7, alpha=0.8,
-                                xlimits=NULL,
+                                alpha=0.8, xlimits=NULL,
                                 upper.limit=NA,
                                 labels = NULL,
                                 date_labels="%I%p",
@@ -182,11 +187,24 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
 
   if (facet)
     if (!facet.response) {
-      p <- p + facet_wrap(~Starting, nc=numcols, scales=scales,
+      if (facet.wrap)
+        p <- p + facet_wrap(~Starting, nc=numcols, scales=scales,
                                 labeller=label_value,
                                 drop = FALSE)
+      else
+        p <- p + facet_grid(~Starting, scales=scales,
+                            labeller=label_value,
+                            drop = FALSE, margins=FALSE)
+
     } else {
-      p <- p + facet_grid(Response ~ Starting, scales=scales,
+      if (facet.wrap)
+        p <- p + facet_wrap(Response ~ Starting, nc=numcols,
+                            scales=scales,
+                            labeller=label_value,
+                            drop = FALSE)
+      else
+        p <- p + facet_grid(Response ~ Starting,
+                          scales=scales,
                           labeller=label_value,
                           drop = FALSE,
                           margins=FALSE)

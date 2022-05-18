@@ -5,10 +5,21 @@
 \alias{geom_log_probability_bins}
 \title{Add binned data to log probability plot}
 \usage{
-geom_log_probability_bins(h, l, size = 2.3, color = "red", ...)
+geom_log_probability_bins(
+  mapping = NULL,
+  data = NULL,
+  stat = "identify",
+  position = "identity",
+  ...,
+  breaks,
+  counts,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
 }
 \arguments{
-\item{...}{arguments to geom_qq function}
+\item{counts}{}
 }
 \description{
 Add binned data to an exisiting log-probability plot

@@ -1,8 +1,8 @@
-#' @name match.time.segments
+#' @name match_time_segments
 #'
 #' @alias match.time.segments
 #'
-#' @title Calculate factor indicating time segements}
+#' @title Calculate factor indicating time segments
 #'
 #' @description Take a vector of times and limits for time segments and create a factor that indicates the time segments
 #'
@@ -21,7 +21,7 @@
 
 
 ## Original function from heR.Misc  9Feb2022.   alternative to merge_by_time, which
-##   seems kid of slow... Rewrite this to be more "tidyversey"
+##   seems kind of slow... Rewrite this to be more "tidyversey"
 #    Have it merge a whole data frame with another one based on Time variables
 
 ##  data1 %>% match_time_segments(segments)

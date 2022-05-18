@@ -1,18 +1,24 @@
-#' @aliases theme_streams_dark
+#' @aliases theme_contexts_dark
 #'
-#' @title A dark ggplot theme for plotting sensor streams
+#' @title A minimal dark ggplot theme for plotting contexts
 #'
 #' @author Neil Klepeis
 #'
-#' @details  Based on the default 'theme_dark' ggplot theme.
+#' @details  Based on the default 'theme_dark' in the ggthemes package
+#'
+#' @seealso
+#'
+#' scales_fill_contexts
+#' scales_color_contexts
 #'
 #----------------------------------------------
 
-theme_streams_dark <- function(
+#  Same as theme_streams_dark to start. NK  4/27/2022
+
+theme_contexts_dark <- function(
   panel.spacing=0,
   tick.length = 0.2,
   grid.color=NA,
-  grid.size=0.2,
   bg.plot = "black",
   axis.color.ticks = "white",
   axis.color = "white",
@@ -20,7 +26,7 @@ theme_streams_dark <- function(
   strip.line.size = 1.3,
   bg.strip = "gray20",
   panel.line.size = 1.3,
-  bg.panel="gray20",
+  bg.panel="gray10",
   border.panel.color="black",
   border.strip.color="black"
 ) {
@@ -39,17 +45,15 @@ theme_streams_dark <- function(
                                       fill=bg.strip),
       panel.background = element_rect(color = border.panel.color,
                                       fill = bg.panel, size=panel.line.size),
-      panel.grid.major = element_line(color = grid.color, linetype = "solid", size = grid.size),
-      panel.grid.minor = element_line(color = grid.color, linetype = "solid", size = grid.size),
-      plot.background = element_rect(fill = bg.plot, color=bg.plot),
+      panel.grid.major = element_line(color = grid.color, linetype = "solid", size = 1),
+      panel.grid.minor = element_line(color = grid.color, linetype = "solid", size = 1),
+      plot.background = element_rect(fill = bg.plot, color="black"),
       #legend.background = element_rect(fill = bg.plot),
       legend.background=element_blank(),
       title = element_text(color=axis.color),
       legend.text = element_text(color=axis.color),
       legend.title = element_text(color=axis.color),
       legend.key = element_rect(fill = "transparent", colour = "transparent")
-
-
 
 
     )

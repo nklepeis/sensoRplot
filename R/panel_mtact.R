@@ -1,4 +1,16 @@
-
+#' @name panel_mtact
+#'
+#' @aliases panel_mtact
+#'
+#' @title lattice panel function for plotting multiple time activity data groups (contexts)
+#'
+#' @description This function provides a function to plot multiple time activity context
+#' timelines on a lattice plot
+#'
+#' @author Neil Klepeis
+#'
+#'
+# ---------------------------------------------------------------
 
 ## Taken from the her.Activities package 5Feb2022 in the panel.mtact.R file
 #    This is the one to use with the latest xytact.R/panel.superpose.tact functions.

@@ -7,9 +7,12 @@
 plot_combo_context_streams_ggplot(
   contexts,
   streams,
+  groupscales,
   contexts.args = list(),
   streams.args = list(),
-  heights = c(0.5, 0.5)
+  title = NULL,
+  theme = "light",
+  heights = 0.5
 )
 }
 \arguments{
@@ -21,7 +24,7 @@ plot_combo_context_streams_ggplot(
 
 \item{streams.args}{list of named argments to pass to the \code{plot_streams_ggplot} function}
 
-\item{heights}{2-element vector with elements in \link{0,1} giving the relative heights of the plots}
+\item{heights}{vector with elements in \link{0,1} giving the relative heights of the plots}
 }
 \description{
 This function create a ggplot combination (multiple) plot

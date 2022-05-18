@@ -29,8 +29,8 @@
 #'
 #' IMPORTANT:  The underlying assumption is that the times in \code{data} correspond
 #' to instantaneous time with associated values and the time in \code{keys} correspond
-#' to flags that indicate the activity of other variables values at a momment in
-#' time, with activity changing at eqch subsequent time.   If \code{data} times are
+#' to flags that indicate the activity of other variables values at a moment in
+#' time, with activity changing at each subsequent time.   If \code{data} times are
 #' too far apart (i.e., wider than intervals between successive times in \code{keys}), then
 #' no data in \code{data} will be flagged with key (activity) data.
 #'
@@ -39,6 +39,7 @@
 #' @examples
 #'
 #' library(tidyverse)
+#' library(future)
 #' d <- tibble(Time=c(1,1,1,2,2,2,5,5,5,6,6),A=c(5,3,6,4,3,3,7,8,5,8,3))
 #' k <- tibble(Time=c(1.5,2.2,3,4.1,4.1,5,5,5.3),B=c(10,20,40,50,60,70,80,90))
 #' merge_by_time(d,k)
@@ -66,7 +67,8 @@ merge_by_time <- function(data, keys) {
   dummy.keys <- keys %>% slice(1) %>% select(-Time) %>%
     mutate(across(.cols=everything(), .fns = ~ NA))
 
-  future_pmap_dfr(
+  #future_pmap_dfr(
+  pmap_dfr(
     data,
     function(TimeD,...) {
       r <- rank(c(TimeD, keys$Time), ties.method="max")  # rank

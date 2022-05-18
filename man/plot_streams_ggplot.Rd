@@ -9,15 +9,16 @@ plot_streams_ggplot(
   data,
   by = "1 day",
   by.format = "\%a, \%m/\%d",
+  pad = TRUE,
   calendar = TRUE,
+  facet = TRUE,
+  numcols = 7,
   facet.response = FALSE,
+  facet.wrap = TRUE,
   area = TRUE,
   line = FALSE,
   step = FALSE,
   point = FALSE,
-  facet = TRUE,
-  pad = TRUE,
-  numcols = 7,
   alpha = 0.8,
   xlimits = NULL,
   upper.limit = NA,
@@ -45,8 +46,20 @@ data by time}
 
 \item{by.format}{time format for strip lables}
 
+\item{pad}{logical, whether to pad time series to nearest start or end of "by"
+time period}
+
 \item{calendar}{logical, whether to create a calendar-style facet
 by adding padding on either side to create dummy (blank) panels}
+
+\item{facet}{logical, whether to create facets (panels) conditioned on the
+'by' parameter and optionally the response (see \code{facet.response})}
+
+\item{numcols}{the number of columns to use when wrap faceting}
+
+\item{facet.response}{logical, include response as a facet (conditioning variable)}
+
+\item{facet.wrap}{logical, wrap panels (default) or lay panels out in a grid}
 
 \item{area}{logical, whether to fill in area under the curve when plotting data}
 
@@ -55,14 +68,6 @@ by adding padding on either side to create dummy (blank) panels}
 \item{step}{logical, whether to draw steps to represent data points}
 
 \item{point}{logical, whethe to draw points when plotting data}
-
-\item{facet}{logical, whether to create wrapped facets (panels) conditioned on the
-'by' parameter}
-
-\item{pad}{logical, whether to pad time series to nearest start or end of "by"
-time period}
-
-\item{numcols}{the number of columns to use when faceting}
 
 \item{alpha}{the alpha value to draw data series (fills)}
 

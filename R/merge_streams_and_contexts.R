@@ -11,12 +11,12 @@
 #' @param include.binary logical, whether to include columns for each context state
 #' containing binary values of each state (active = 1; inactive = 0).
 #'
-#' @return A data frame consisting of the steams data farme with added
+#' @return A data frame consisting of the steams data frame with added
 #' columns containing active-state format context data time-matched to each
-#' each data streams row.  Unmatched times are dropped.
+#' each data streams row.  Unmatched times in the streams are dropped.
 #'
 #' @details  This function merges discrete context data into data streams
-#' (time series) data by time-matching contexts to data streams.
+#' (continuous time series) data by time-matching contexts to data streams.
 #'
 #' Two index columns are added, one with context states separated by "|" and
 #' one with a new line character "\n" used to delineate context states
@@ -25,8 +25,8 @@
 #' assigned an empty context:  "" for active-state format and all 0's for binary format.
 #' These are converted to NA's, which are dropped from the output.
 #'
-#' IMPORTANT:  Make sure the streams time resolution is equal or smaller
-#' than, and an even divisor of the context time resolution so that
+#' IMPORTANT:  If the streams time resolution is equal or smaller
+#' than, and an even divisor of the context time resolution, then
 #' multiple contexts cannot occur between stream intervals
 #' (i.e., causing context information to be lost).
 #'

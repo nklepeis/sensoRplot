@@ -1,3 +1,17 @@
+#' @name panel_superpose_tact
+#'
+#' @alias panel_superpose_tact
+#'
+#' @title lattice panel function for superimposing time activity (context) data on a lattice xyplot
+#'
+#' @description This function provides a function to define a conditioning panel for
+#' a lattice plot in which continuous sensor data streams are combined with timeline data
+#' on activities and events
+#'
+#' @author Neil Klepeis
+#'
+#'
+# ---------------------------------------------------------------
 
 ## Taken from the heR.Activities package 5Feb2022 in the panel.superpose.tact.R file
 #    This is the one to use with the latest xytact.R function.

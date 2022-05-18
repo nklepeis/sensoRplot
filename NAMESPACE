@@ -18,4 +18,5 @@ import(cowplot)
 import(osmdata)
 import(sf)
 import(leaflet)
+import(RColorBrewer)
 

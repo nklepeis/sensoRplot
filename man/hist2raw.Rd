@@ -11,6 +11,9 @@ hist2density(counts, breaks, simulate = TRUE)
 \item{counts}{number of observation in each bin as defined by breaks}
 
 \item{breaks}{histogram breaks (class interval limits)}
+
+\item{simulate}{logical, whether to simulate new points inside each bin
+(zero counts)  no makes no sense}
 }
 \value{
 a tibble containing raw data simulated from a histogram

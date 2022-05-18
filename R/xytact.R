@@ -1,6 +1,53 @@
+#' @name xytact
+#'
+#' @alias xytact
+#'
+#' @title Plot sensor straams and contexts based on lattice \code{xyplot} function
+#'
+#' @description This function creates a lattice plot with continuous sensor streams and
+#' discrete context overlays (timelines)
+#'
+#' @author Neil Klepeis
+#'
+#' @param x formula indicating X and Y variables and conditioning variables for the sensor streams
+#' @param data a data frame containing the variables included in the formula
+#' @param groups
+#' @param tact.var a character vector with names of variables in \code{data} or \code{tact.data}
+#' that represent the time-activity of states with one group of mutually exclusive states
+#' per variable
+#' @param tact.data a data set (if other than \code{data}) containing time-activity data
+#' @param codes
+#' @param codes.colors
+#' @param key.space
+#' @param key.columns
+#' @param alpha.tact,
+#' @param col
+#' @param fill
+#' @param pattern
+#' @param pattern.type
+#' @param pattern.angle
+#' @param pattern.width
+#' @param pattern.col
+#' @param debug
+#' @param abline
+#' @param shnow.outside.key
+#' @param show.inside.key
+#' @param show.labels
+#' @param \dots
+
+#' @details
+#'
+#' This is a legacy function to plot sensor streams along with contexts in the form
+#' of rectangles overlaid onto lattice panels to represent timelines of states.
+#' This kind of plot may be possible using ggplot facets but there seems to
+#' be more flexible to create conditioning panel with overlays using the
+#' \code{lattice} R package.
+#'
+# ------------------------------------------------
 
 ## Taken from the her.Activities pacakage 5Feb2022 in the xytact2.R file
-#    cleaned up here
+#    cleaned up here.   Feb 2022  NK
+
 
 xytact <-
   function (x, data, groups=NULL, tact.var, tact.data=data, codes, codes.colors,

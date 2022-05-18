@@ -44,7 +44,9 @@ function
 }
 \examples{
 
-x <- tibble(Time = 1:10, Act=c("A","A","A","B","C","C","D","E","E","F"))
+x <- tibble(Time = 1:10,
+            Act=c("A","A","A","B","C","C","D","E","E","F"),
+            Loc=c("","G","G","","H","H","H","I","I","I"))
 convert_from_groupedstates(x)
 
 

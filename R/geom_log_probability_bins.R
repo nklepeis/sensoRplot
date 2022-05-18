@@ -6,7 +6,9 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param ... arguments to geom_qq function
+#' @param breaks
+#' @param counts
+# @param ... arguments to geom_qq function
 #'
 #' @details
 #'
@@ -14,33 +16,69 @@
 
 # TODO: Make this a real geom_* function.
 
-geom_log_probability_bins <- function (h, l, size=2.3, color="red",
-        ...) {
+# geom_log_probability_bins <- function (counts, breaks, size=2.3, color="red",
+#         ...) {
+#
+#   # R function (geom) to add binned data (i.e., a histogram)
+#   # to a log-probability plot (ggplot)
+#   # Like bin2lnorm, omits cdf=1 point
+#
+#   if (!is.vector(counts) | !is.vector(breaks))
+#     stop("`breaks' and `'counts' must be numeric vectors.")
+#   breaks <- as.numeric(breaks)
+#   counts <- as.numeric(counts)
+#   if (length(counts) != length(breaks)-1)
+#     stop("Number of bins not equal to number of limits minus 1.")
+#   if (any(diff(breaks) <= 0))
+#     stop("Limits must be strictly increasing.")
+#   if (any(breaks < 0))
+#     stop("Each limit must be zero or greater.")
+#
+#   cdf <- cumsum(counts)/sum(counts)
+#   q<-qnorm(cdf)
+#   q<-q[1:(length(q)-1)]
+#   lr <- breaks[2:(length(breaks)-1)]
+#
+#   #print(lr)
+#   #print(q)
+#
+#   geom_point(aes(x=q, y=lr), size=size, color=color,...)
+#
+#
+# }
 
-  # R function (geom) to add binned data (i.e., a histogram)
-  # to a log-probability plot (ggplot)
-  # Like bin2lnorm, omits cdf=1 point
 
-  if (!is.vector(h) | !is.vector(l))
-    stop("`l' and `'h' must be numeric vectors.")
-  l <- as.numeric(l)
-  h <- as.numeric(h)
-  if (length(h) != length(l)-1)
+#GeomLPBinsPoint <- ggproto("GeomLPBinsPoint", GeomPoint,
+#                        default_aes = aes(color = "black", size = 0.5, shape=16)
+#)
+
+geom_log_probability_bins <- function(mapping = NULL, data = NULL, stat="identify",
+                                      position="identity", ..., breaks, counts,
+                                      na.rm=FALSE,
+                                      show.legend = NA, inherit.aes=TRUE) {
+
+  if (!is.vector(counts) | !is.vector(breaks))
+    stop("`breaks' and `'counts' must be numeric vectors.")
+  breaks <- as.numeric(breaks)
+  counts <- as.numeric(counts)
+  if (length(counts) != length(breaks)-1)
     stop("Number of bins not equal to number of limits minus 1.")
-  if (any(diff(l) <= 0))
+  if (any(diff(breaks) <= 0))
     stop("Limits must be strictly increasing.")
-  if (any(l < 0))
+  if (any(breaks < 0))
     stop("Each limit must be zero or greater.")
 
-  cdf <- cumsum(h)/sum(h)
+  cdf <- cumsum(counts)/sum(counts)
   q<-qnorm(cdf)
   q<-q[1:(length(q)-1)]
-  lr <- l[2:(length(l)-1)]
+  lr <- breaks[2:(length(breaks)-1)]
 
-  #print(lr)
-  #print(q)
+  data <- data.frame(x = q, y = lr)
 
-  geom_point(aes(x=q, y=lr), size=size, color=color,...)
-
+  geom_point(mapping=mapping, data=data, stat=stat,
+              position=position, ...,
+              na.rm=na.rm, show.legend=show.legend,
+              inherit.aes=inherit.aes)
 
 }
+

@@ -7,14 +7,17 @@
 plot_state_timeline_ggplot(
   data,
   ggplot = TRUE,
+  fillstate = "groupstate",
   auto.y = TRUE,
   collapse = FALSE,
   lanes = TRUE,
   yspace = 0.05,
   border = 0.3,
+  color.border = "lightgray",
   legend = FALSE,
   lab.x = "Time",
   lab.y = "States",
+  title = waiver(),
   date_breaks = waiver(),
   date_labels = "\%I:\%M:\%S \%p \\n \%a \%m/\%d",
   xlimits = NULL,
@@ -37,6 +40,9 @@ vertical height of state lanes}
 \item{ggplot}{logical, whether to return a ggplot object (default) or convert
 from ggplot to plotly object}
 
+\item{fillstate}{the variable to use in defining the state fill color,
+either "group" or "groupstate"}
+
 \item{auto.y}{(logical) whether to automatically compute lane
 y coordinates or use ybottom/ytop arguments.}
 
@@ -50,6 +56,8 @@ mutually exclusive}
 \item{yspace}{vertical space with value \link{0,1} to add between lanes}
 
 \item{border}{thickness of border around rectangles}
+
+\item{color.border}{color of border lines for rectangles}
 
 \item{legend}{whether to draw a legend for the 0/1 states}
 
@@ -77,7 +85,7 @@ over the plot or not}
 
 \item{source}{string identification for plot events}
 
-\item{config}{logical, whether to configure the plot plot toolbar (may want
+\item{config}{logical, whether to configure the plot toolbar (may want
 to skip this when configuring subplots)}
 }
 \description{
