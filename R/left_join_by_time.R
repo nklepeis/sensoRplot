@@ -11,6 +11,7 @@
 #' @param x a data frame with a Time variable
 #' @param y a data frame with a Time variable with columns to "join" or
 #' merge with columns of 'y' matching by time interval
+#' @param by extra variables to merge by (in addition to "Time"). See \link{\code{left_join}}
 #'
 #' @return a data frame with all columns of 'x' and columns from 'y' that
 #' match time intervals in 'x'
@@ -31,7 +32,7 @@
 #' left_join_by_time(d,k)
 # ----------------
 
-#  TODO:  Allow merging by more key variables than just "Time".
+#  TODO:  Allow merging by more key variables than just "Time".  done.
 
 # WAS   match_time_segments2.... now renamed.   started join_by_time renamed
 #     to left_join_by_time
@@ -53,7 +54,7 @@
 
 
 left_join_by_time <-
-  function(x, y)
+  function(x, y, by=NULL)
   {
 
     #x$Time <- as.POSIXct(x$Time)
@@ -80,7 +81,7 @@ left_join_by_time <-
 
     #print(result)
 
-    left_join(x, result, by="Time")
+    left_join(x, result, by=c("Time", by))
 
   }
 

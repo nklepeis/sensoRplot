@@ -43,8 +43,7 @@ plot_streams_contexts_lattice(
   border.area = "black",
   alpha.area = 0.6,
   as.table = TRUE,
-  scales.x = list(relation = "free", alternating = TRUE, rot = 0, log = FALSE, axs =
-    "i"),
+  scales.x = list(relation = "free", alternating = TRUE, rot = 0, log = FALSE, axs = "i"),
   scales.y = list(relation = "same", alternating = TRUE, rot = 0, log = FALSE),
   scales = NULL,
   outerStrips = FALSE,

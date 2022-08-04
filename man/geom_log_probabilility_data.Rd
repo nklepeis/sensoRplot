@@ -13,9 +13,6 @@ geom_log_probability_data(...)
 \description{
 Add raw data to an exisiting log-probability plot
 }
-\details{
-
-}
 \author{
 Neil Klepeis
 }

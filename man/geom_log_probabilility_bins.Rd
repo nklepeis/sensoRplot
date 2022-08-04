@@ -24,9 +24,6 @@ geom_log_probability_bins(
 \description{
 Add binned data to an exisiting log-probability plot
 }
-\details{
-
-}
 \author{
 Neil Klepeis
 }

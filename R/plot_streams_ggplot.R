@@ -23,6 +23,8 @@
 #' @param line logical, whether to draw lines when plotting data
 #' @param point logical, whethe to draw points when plotting data
 #' @param alpha the alpha value to draw data series (fills)
+#' @param pointsize the diameter size parameter for size of points
+#' @param linesize the width size parameter for size of lines (geom_line and geom_step)
 #' @param date_labels the tick labels to use for time on the x-axis
 #' @param date_breaks the tick breaks to use for time on the x-axis
 #' @param xlimits a 2-element vector of limits or a function taking defaults limits and outputting new limits
@@ -81,7 +83,7 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
                                 pad=TRUE, calendar=TRUE, facet=TRUE, numcols=7,
                                 facet.response=FALSE, facet.wrap=TRUE,
                                 area=TRUE, line=FALSE, step=FALSE, point=FALSE,
-                                alpha=0.8, xlimits=NULL,
+                                alpha=0.8, pointsize=1, linesize=1, xlimits=NULL,
                                 upper.limit=NA,
                                 labels = NULL,
                                 date_labels="%I%p",
@@ -174,12 +176,14 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
   if (area & !step) p <- p + geom_area(aes(fill=Response), show.legend=show.legend,
                                position="identity", alpha=alpha)
 
-  if (line & !step) p <- p + geom_line(aes(color=Response), show.legend=show.legend)
+  if (line & !step) p <- p + geom_line(aes(color=Response), size=linesize,
+                                       show.legend=show.legend)
 
-  if (point) p <- p + geom_point(aes(color=Response), show.legend=show.legend)
+  if (point) p <- p + geom_point(aes(color=Response), size=pointsize,
+                                 show.legend=show.legend)
 
   if (step) {
-    p <- p + geom_step(aes(color=Response), show.legend=show.legend,
+    p <- p + geom_step(aes(color=Response), size=linesize, show.legend=show.legend,
                              stat="identity", direction="hv")
     if (area) p <- p + geom_rect(aes(fill=Response, xmin = Time, xmax = lead(Time),
                              ymin = 0, ymax = Value), alpha = 0.3)

@@ -4,13 +4,15 @@
 \alias{left_join_by_time}
 \title{Join a data frame to another according to row matches by time}
 \usage{
-left_join_by_time(x, y)
+left_join_by_time(x, y, by = NULL)
 }
 \arguments{
 \item{x}{a data frame with a Time variable}
 
 \item{y}{a data frame with a Time variable with columns to "join" or
 merge with columns of 'y' matching by time interval}
+
+\item{by}{extra variables to merge by (in addition to "Time"). See \link{\code{left_join}}}
 }
 \value{
 a data frame with all columns of 'x' and columns from 'y' that

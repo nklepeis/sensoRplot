@@ -35,9 +35,6 @@ time intervals from a defined origin
 Compute a factor based on a time variable indicating
 sequential intervals of defined duration
 }
-\details{
-
-}
 \author{
 Neil Klepeis
 }

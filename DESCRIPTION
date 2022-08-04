@@ -24,4 +24,4 @@ LazyData: true
 Imports: ggplot2,tidyr,readr,dplyr,lubridate,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,
     stringi,timetk,sugrrants,lubridate,ggthemes,osmdata,sf,leaflet,cowplot,RColorBrewer
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1

@@ -2,7 +2,6 @@
 % Please edit documentation in R/plot_streams_ggplot.R
 \name{plot_streams_ggplot}
 \alias{plot_streams_ggplot}
-\alias{plot_streams}
 \title{Plot sensor data streams faceted by time using ggplot}
 \usage{
 plot_streams_ggplot(
@@ -20,6 +19,8 @@ plot_streams_ggplot(
   step = FALSE,
   point = FALSE,
   alpha = 0.8,
+  pointsize = 1,
+  linesize = 1,
   xlimits = NULL,
   upper.limit = NA,
   labels = NULL,
@@ -70,6 +71,10 @@ by adding padding on either side to create dummy (blank) panels}
 \item{point}{logical, whethe to draw points when plotting data}
 
 \item{alpha}{the alpha value to draw data series (fills)}
+
+\item{pointsize}{the diameter size parameter for size of points}
+
+\item{linesize}{the width size parameter for size of lines (geom_line and geom_step)}
 
 \item{xlimits}{a 2-element vector of limits or a function taking defaults limits and outputting new limits
 for the datetime x axis.}

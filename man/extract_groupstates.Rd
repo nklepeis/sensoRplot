@@ -18,9 +18,6 @@ a named list containing states belonging to each group
 This function extracts a list with named elements
 for each group containing component states for each group
 }
-\details{
-
-}
 \author{
 Neil Klepeis
 }

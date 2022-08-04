@@ -12,9 +12,6 @@ fit_log_normal(y, forceNA = TRUE, plot = TRUE)
 \description{
 Fit a log normal probability distribution to data
 }
-\details{
-
-}
 \author{
 Neil Klepeis
 }
