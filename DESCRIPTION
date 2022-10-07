@@ -5,23 +5,22 @@ Version: 0.1.0
 Author: Neil Klepeis
 Maintainer: Neil Klepeis <software@klepeis.net>
 Description: This R package contains functions to plot data on sensor levels and locations,
-    i.e., any data derived from "sensing" or "observing" physical and social environmental
-    phenomena in time and space, including data from chemical sensors, sensors of physical conditions, 
-    human activity sensors, biosensors, or data observed and recorded directly by a human being
-    using their eyes, ears, mouth, nose, skin, etc. acting as "sensors".
+    i.e., any discrete or continuous data derived from "sensing" or "observing" physical, social,
+    biometric, or environmental phenomena in time and space, including data from chemical sensors,
+    sensors of physical conditions, human activity sensors, biosensors, or data observed and recorded
+    directly by a human being using their eyes, ears, mouth, nose, skin, etc. acting as "sensors".
     It has functions to plot static and interactive discrete contextual timelines and
     continuous data streams, as well as combination plots containing data for both
     streams and contexts.  It has function to plot static or interactive maps showing
     the locations/trajectories and levels of sensors. It has functions to fit continuous 
     sensor data to a lognormal distribution and create log-probability and density
-    plots of sensor levels.  It includes helper functions
-    to convert data betwen standard formats.  It uses the ggplot2,
-    lattice, plotly, and leaflet libraries to generate both static
+    plots of sensor levels.  It includes helper functions to convert data between standard formats
+    and process data files.  It uses the ggplot2,lattice, plotly, and leaflet libraries to generate both static
     and interactive plots and maps.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: ggplot2,tidyr,readr,dplyr,lubridate,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,
+Dependencies: ggplot2,tidyr,readr,dplyr,lubridate,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,
     stringi,timetk,sugrrants,lubridate,ggthemes,osmdata,sf,leaflet,cowplot,RColorBrewer
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1

@@ -12,15 +12,17 @@ split_text_file(
 )
 }
 \arguments{
-\item{split_pattern}{pattern of characters to use in splitting the file}
+\item{file}{the text file to be split into pieces}
 
-\item{comment_pattern}{pattern to replace with a comment character, e.g., "#"}
+\item{split_pattern}{string pattern of characters to use in splitting the file}
+
+\item{comment_pattern}{string pattern to replace with the comment character}
 
 \item{comment_char}{defaults to "#"}
 }
 \value{
 Returns a list of character strings resulting from splitting the original
-texte file
+text file
 }
 \description{
 Read in a text file and split it into pieces based on

@@ -7,13 +7,13 @@
 #' @description Read in a text file and split it into pieces based on
 #' a specified string of characters
 #'
-#' @param file
-#' @param split_pattern pattern of characters to use in splitting the file
-#' @param comment_pattern pattern to replace with a comment character, e.g., "#"
+#' @param file the text file to be split into pieces
+#' @param split_pattern string pattern of characters to use in splitting the file
+#' @param comment_pattern string pattern to replace with the comment character
 #' @param comment_char defaults to "#"
 #'
 #' @return Returns a list of character strings resulting from splitting the original
-#' texte file
+#' text file
 #'
 #' @author Neil Klepeis
 #'
@@ -29,7 +29,7 @@ split_text_file <- function(file, split_pattern, comment_pattern=NULL,
 
   data <- read_file(file)
 
-  # Add comment to lines with "MM/dd/yyyy"
+  # Add comment to lines with, e.g., pattern= "MM/dd/yyyy" for DustTrak
   if (!is.null(comment_pattern))
     data <- str_replace_all(string=data, pattern=comment_pattern,
                             replacement = comment_character)
