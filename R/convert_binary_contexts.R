@@ -39,7 +39,8 @@ convert_binary_contexts <-
 
         bc %>%
           #pivot_wider(id_cols=c("Time","userEmail","userName","workSpace"),
-          pivot_wider(id_cols=!c("Group","State"),
+          pivot_wider(#id_cols=!c("Group","State"),
+                      id_cols="Time",
                       names_from=c("Group","State"),
                       values_from="Value",
                       values_fn=values_fn,   # if duplicates use MAX value (changed from Min)

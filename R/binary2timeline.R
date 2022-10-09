@@ -60,7 +60,7 @@ binary2timeline <- function(data, time.var="Time", units="mins",
   } #else
     #print(state.names)
 
-  newdata <- data.frame()
+  newdata <- tibble()
   ybottoms <- ystart
   ytops <- ystart + yheight
 
