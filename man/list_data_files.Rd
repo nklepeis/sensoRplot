@@ -6,23 +6,30 @@
 \usage{
 list_data_files(
   prefixes = c("CNR", "IPS", "SidePak", "DustTrak"),
-  extension = "csv"
+  middle = "",
+  extension = "csv",
+  full.names = TRUE,
+  recursive = TRUE
 )
 }
 \arguments{
-\item{prefixes}{defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"}
+\item{prefixes}{prefix(es) for matching files, defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"}
 
-\item{extension}{defaults to "csv"}
+\item{extension}{extension for matching files, defaults to "csv"}
+
+\item{full.names}{logical, whether to return full names with paths, default to TRUE}
+
+\item{recursive}{logical, whether to look into subdirectories recursively to match files, defaults to TRUE}
 }
 \value{
-list of full data file names matching prefix and extension
+list of data file names matching prefix and extension
 }
 \description{
 Look in current directory for files with specified prefixes
 and extension
 }
 \details{
-Looks recursively in sub-directories and returns full names
+By default looks recursively in sub-directories and returns full names
 with the file path relative to current directory
 }
 \author{

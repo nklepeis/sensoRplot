@@ -7,28 +7,33 @@
 #' @description Look in current directory for files with specified prefixes
 #' and extension
 #'
-#' @param prefixes defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"
-#' @param extension defaults to "csv"
+#' @param prefixes prefix(es) for matching files, defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"
+#' @param extension extension for matching files, defaults to "csv"
+#' @param full.names logical, whether to return full names with paths, default to TRUE
+#' @param recursive logical, whether to look into subdirectories recursively to match files, defaults to TRUE
 #'
-#' @return list of full data file names matching prefix and extension
+#'
+#' @return list of data file names matching prefix and extension
 #'
 #' @author Neil Klepeis
 #'
-#' @details  Looks recursively in sub-directories and returns full names
+#' @details  By default looks recursively in sub-directories and returns full names
 #' with the file path relative to current directory
 #'
 # -----------------------------------------------
 
 list_data_files <- function (prefixes=c("CNR","IPS","SidePak","DustTrak"),
-                             extension="csv") {
+                             middle="",
+                             extension="csv", full.names=TRUE,
+                             recursive=TRUE) {
 
   pattern <- paste0("^",paste0(prefixes, collapse="|"),
-                    ".*?\\.", extension,"$")
+                    ".*?",middle,".*?\\.", extension,"$")
 
   cat("Search pattern: ", pattern, "\n")
 
-  list.files(pattern=pattern, full.names = TRUE,
-             recursive=TRUE)
+  list.files(pattern=pattern, full.names = full.names,
+             recursive=recursive)
 
 }
 
