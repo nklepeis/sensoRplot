@@ -4,6 +4,18 @@
 #'
 #' @param data Long-format sensor data frame for multiple streams frame
 #' containing a 'Time' column, index columns, and Response and Value columns
+#' @param area whether to fill in the plot, defaults to TRUE
+#' @param title title to include (NULL by default)
+#' @param showlegend whether to include legend,defaults to TRUE
+#' @param legend.inside whether to include legend inside the plot, defaults to TRUE
+#' @param shape what shape to use with the line, defaults to "hv"
+#' @param source what source to assign to the plot, defaults to "source"
+#' @param fg foreground color, defaults to white
+#' @param bg background color, defaults to blue
+#' @param line.width plot line.width defaults to 1
+#' @param register whether to register the plot for updates, defaults to TRUE
+#' @param include.rangeSelector whether to include the range selector, defaults to FALSE
+#' @param include.rangeSlider whether to include the range slider, defaults to FALSE
 #'
 #' @return a plotly object
 #'
@@ -36,7 +48,8 @@ plot_historical_data_plotly2 <- function(data,
                                         legend.inside=TRUE,
                                         shape="hv",
                                         source="source",
-                                        fg="white", bg='rgba(23,103,124,1)',
+                                        fg="white", bg="blue",
+                                        line.width=1,
                                         register=TRUE,
                                         include.rangeSelector=FALSE,
                                         include.rangeSlider=FALSE) {
@@ -117,7 +130,7 @@ plot_historical_data_plotly2 <- function(data,
                              connectgaps=TRUE,
                              fill= if (area) "tozeroy" else NULL,
                              line = list(shape = shape,   #hv, linear, spline, etc.
-                                         width=1))
+                                         width=line.width))
 
 
   #### PLOT LAYOUT

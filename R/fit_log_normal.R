@@ -6,22 +6,26 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param ...
+#' @param y numeric data vector
+#' @param forceNA whether to force values <= 0 to NA, defaults to \code{FALSE}
+#' @param plot whether to plot the result, defaults to \code{TRUE}
 #'
-#' @details
+#' @returns A list with elements containing the fitted \code{geometric.mean},
+#' the fitted \code{geometric.standard.deviation},
+#' the computed \code{probabilities}, and the \code{log.y.values}.
+#'
+#' @details This function takes a data vector y and
+#' fits a log-normal probability model to it, optionally plotting
+#' the fit and the data together as a CDF. i.e.,
+#' plots a CDF (log-probability) with the fitted line through the
+#' data points.   Based on \code{qqplot}/\code{qnorm} R functions.
 #'
 # -------------------------------------------------
 
 # This was originally the data2lnorm function in heR.Misc.
 
 
-fit_log_normal <-  function (y, forceNA = TRUE, plot=TRUE) {
-
-    # This function takes a data vector y and
-    # fits a lognormal model to it, optionally plotting
-    # the fit and the data together as a CDF.
-    # i.e., plots a cdf (log-probability) with the fitted line through the
-    # data points.   Based on qqplot/qnorm R functions.
+fit_log_normal <-  function (y, forceNA = TRUE, plot=FALSE) {
 
     if (forceNA) NA->y[y<=0]
     y <- y[!is.na(y)]
@@ -43,7 +47,9 @@ fit_log_normal <-  function (y, forceNA = TRUE, plot=TRUE) {
     gm <- exp((qnorm(0.5)-intercept)/slope)
     gsd <- exp((qnorm(0.841344)-intercept)/slope)/gm
 
-    main <- paste("Lognormal Fit to Data: ( GM=", format(gm,digits=3), ", GSD=", format(gsd,digits=3),")")
+    main <- paste("Lognormal Fit to Data: ( GM=",
+                  format(gm,digits=3), ", GSD=",
+                  format(gsd,digits=3),")")
 
     if (plot) {
       xlab <- "Log(Data Values)"
@@ -52,7 +58,7 @@ fit_log_normal <-  function (y, forceNA = TRUE, plot=TRUE) {
       abline(intercept, slope)
     }
 
-
-    list(geometric.mean=gm, geometric.standard.deviation=gsd)
+    list(geometric.mean=gm, geometric.standard.deviation=gsd,
+         probabilities=q, log.y.values=ly)
 
 }

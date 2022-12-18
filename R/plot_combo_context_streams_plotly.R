@@ -12,7 +12,11 @@
 #' @param streams Long-format data streams (Time, Response, Value)
 #' @param fg foreground color
 #' @param bg background color
+#' @param font.size size of fonts, defaults to 12
+#' @param line.width width of plotted lines, defaults to 1
 #' @param collapse logical, whether to collapse grouped states into a single lane
+#' @param include.rangeSelector whether to include range selector
+#' @param include.rangeSlider whether to include range slider
 #' @param displayModeBar logical, whether to show the mode bar for the plot
 #'
 #' @details
@@ -30,7 +34,8 @@
 ##  Used to be called plot_combo_context_streams2
 
 plot_combo_contexts_streams_plotly <- function(contexts, streams,
-                                       fg="white", bg="#2a8094", font.size=12,
+                                       fg="white", bg="#2a8094",
+                                       font.size=12, line.width=1,
                                        heights=c(0.7,0.3),
                                        collapse=FALSE, include.rangeSelector=FALSE,
                                        include.rangeSlider=FALSE) {
@@ -73,7 +78,7 @@ plot_combo_contexts_streams_plotly <- function(contexts, streams,
                                        showlegend=TRUE,
                                        legend.inside=TRUE,
                                        shape="hv",source="source",
-                                       fg=fg, bg=bg,
+                                       fg=fg, bg=bg, line.width=line.width,
                                        register=TRUE,
                                        include.rangeSelector=include.rangeSelector,
                                        include.rangeSlider=include.rangeSlider)

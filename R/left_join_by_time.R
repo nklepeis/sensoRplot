@@ -11,7 +11,7 @@
 #' @param x a data frame with a Time variable
 #' @param y a data frame with a Time variable with columns to "join" or
 #' merge with columns of 'y' matching by time interval
-#' @param by extra variables to merge by (in addition to "Time"). See \link{\code{left_join}}
+#' @param by extra variables to merge by (in addition to "Time"). See \code{\link{left_join}}
 #'
 #' @return a data frame with all columns of 'x' and columns from 'y' that
 #' match time intervals in 'x'
@@ -19,7 +19,7 @@
 #' @author Neil Klepeis
 #'
 #' @details
-#' First find the times of rows in in 'x' that are encompassed by rows
+#' First find the times of rows in 'x' that are encompassed by rows
 #' rows in 'y' (reassigning 'y' times to those of the 'x' time match), then
 #' get distinct rows and do a normal tidyverse 'left_join'
 #' to merge the 'y' rows into the matching 'x' rows

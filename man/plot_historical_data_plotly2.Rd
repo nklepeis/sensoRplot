@@ -13,7 +13,8 @@ plot_historical_data_plotly2(
   shape = "hv",
   source = "source",
   fg = "white",
-  bg = "rgba(23,103,124,1)",
+  bg = "blue",
+  line.width = 1,
   register = TRUE,
   include.rangeSelector = FALSE,
   include.rangeSlider = FALSE
@@ -22,6 +23,30 @@ plot_historical_data_plotly2(
 \arguments{
 \item{data}{Long-format sensor data frame for multiple streams frame
 containing a 'Time' column, index columns, and Response and Value columns}
+
+\item{area}{whether to fill in the plot, defaults to TRUE}
+
+\item{title}{title to include (NULL by default)}
+
+\item{showlegend}{whether to include legend,defaults to TRUE}
+
+\item{legend.inside}{whether to include legend inside the plot, defaults to TRUE}
+
+\item{shape}{what shape to use with the line, defaults to "hv"}
+
+\item{source}{what source to assign to the plot, defaults to "source"}
+
+\item{fg}{foreground color, defaults to white}
+
+\item{bg}{background color, defaults to blue}
+
+\item{line.width}{plot line.width defaults to 1}
+
+\item{register}{whether to register the plot for updates, defaults to TRUE}
+
+\item{include.rangeSelector}{whether to include the range selector, defaults to FALSE}
+
+\item{include.rangeSlider}{whether to include the range slider, defaults to FALSE}
 }
 \value{
 a plotly object

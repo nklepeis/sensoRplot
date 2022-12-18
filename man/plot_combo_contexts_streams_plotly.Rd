@@ -10,6 +10,7 @@ plot_combo_contexts_streams_plotly(
   fg = "white",
   bg = "#2a8094",
   font.size = 12,
+  line.width = 1,
   heights = c(0.7, 0.3),
   collapse = FALSE,
   include.rangeSelector = FALSE,
@@ -25,7 +26,15 @@ plot_combo_contexts_streams_plotly(
 
 \item{bg}{background color}
 
+\item{font.size}{size of fonts, defaults to 12}
+
+\item{line.width}{width of plotted lines, defaults to 1}
+
 \item{collapse}{logical, whether to collapse grouped states into a single lane}
+
+\item{include.rangeSelector}{whether to include range selector}
+
+\item{include.rangeSlider}{whether to include range slider}
 
 \item{displayModeBar}{logical, whether to show the mode bar for the plot}
 }

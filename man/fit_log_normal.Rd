@@ -4,13 +4,29 @@
 \alias{fit_log_normal}
 \title{Fit a log normal distribution to data}
 \usage{
-fit_log_normal(y, forceNA = TRUE, plot = TRUE)
+fit_log_normal(y, forceNA = TRUE, plot = FALSE)
 }
 \arguments{
-\item{...}{}
+\item{y}{numeric data vector}
+
+\item{forceNA}{whether to force values <= 0 to NA, defaults to \code{FALSE}}
+
+\item{plot}{whether to plot the result, defaults to \code{TRUE}}
+}
+\value{
+A list with elements containing the fitted \code{geometric.mean},
+the fitted \code{geometric.standard.deviation},
+the computed \code{probabilities}, and the \code{log.y.values}.
 }
 \description{
 Fit a log normal probability distribution to data
+}
+\details{
+This function takes a data vector y and
+fits a log-normal probability model to it, optionally plotting
+the fit and the data together as a CDF. i.e.,
+plots a CDF (log-probability) with the fitted line through the
+data points.   Based on \code{qqplot}/\code{qnorm} R functions.
 }
 \author{
 Neil Klepeis

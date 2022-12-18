@@ -12,7 +12,7 @@ left_join_by_time(x, y, by = NULL)
 \item{y}{a data frame with a Time variable with columns to "join" or
 merge with columns of 'y' matching by time interval}
 
-\item{by}{extra variables to merge by (in addition to "Time"). See \link{\code{left_join}}}
+\item{by}{extra variables to merge by (in addition to "Time"). See \code{\link{left_join}}}
 }
 \value{
 a data frame with all columns of 'x' and columns from 'y' that
@@ -24,7 +24,7 @@ merge the second into the first based on the first's times falling
 into the row-defined time intervals of the second
 }
 \details{
-First find the times of rows in in 'x' that are encompassed by rows
+First find the times of rows in 'x' that are encompassed by rows
 rows in 'y' (reassigning 'y' times to those of the 'x' time match), then
 get distinct rows and do a normal tidyverse 'left_join'
 to merge the 'y' rows into the matching 'x' rows
