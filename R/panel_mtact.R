@@ -72,9 +72,9 @@ panel_mtact<-
     #    See plot.tact for full history of notes...
     # --------------------------------------------------------------
 
-    require(heR.Misc)
-    require(grid)
-    require(gridExtra)
+    #require(heR.Misc)
+    #require(grid)
+    #require(gridExtra)
 
     #cat("got to panel.tact\n")
     #print(list(x=x,y=y))
@@ -287,7 +287,7 @@ panel_mtact<-
 
       ##cat("No. tacts in grp ", i, " = ", length(z[[i]]),"\n")
       #print(is.list(z[[i]]))
-      d <- as.mtact(z[[i]])
+      d <- as_mtact(z[[i]])
       n <- length(d)    # number of tacts to plot in the current group
       #  Collapse the events to make smaller graphics file...  New bug fix..... NK 24-Apr-2010
       d <- tact.collapse(d)

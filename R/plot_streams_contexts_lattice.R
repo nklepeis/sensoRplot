@@ -153,9 +153,9 @@ plot_streams_contexts_lattice <-
   {
 
 
-    require(heR.Misc)
-    require(heR.Activities)
-    require(lattice)
+    #require(heR.Misc)
+    #require(heR.Activities)
+    #require(lattice)
 
     #x <- as.formula(x, env=environment())   # set frame as function environment
     # if x is missing, we throw an error

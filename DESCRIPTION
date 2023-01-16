@@ -15,12 +15,12 @@ Description: This R package contains functions to plot data on sensor levels and
     the locations/trajectories and levels of sensors. It has functions to fit continuous 
     sensor data to a lognormal distribution and create log-probability and density
     plots of sensor levels.  It includes helper functions to convert data between standard formats
-    and process or manipulate data files.  It uses the ggplot2,lattice, plotly, and leaflet libraries to generate both static
+    and process or manipulate data files.  It uses the ggplot2, lattice, plotly, and leaflet libraries to generate both static
     and interactive plots and maps.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Dependencies: ggplot2,tidyr,readr,dplyr,lubridate,plotly,lattice,latticeExtra,purrr,furrr,naniar,forcats,
+Dependencies: ggplot2,tidyr,readr,dplyr,lubridate,plotly,grid,gridExtra,lattice,latticeExtra,purrr,furrr,naniar,forcats,
     stringi,timetk,sugrrants,lubridate,ggthemes,osmdata,sf,leaflet,cowplot,RColorBrewer
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1

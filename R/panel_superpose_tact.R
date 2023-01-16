@@ -216,7 +216,7 @@ panel_superpose_tact<-
           }
         }
         #   all [...] extra arguements sent to panel.mtact...
-        if (do.tact) panel.mtact(z, ...)
+        if (do.tact) panel_mtact(z, ...)
       }
 
 

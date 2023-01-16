@@ -114,9 +114,9 @@ xytact <-
     #   TODO:   We should write panel.tact so that it deals with multiple tact groups and plots them
     #        stacked with a spacer of some kine (see the orginal plot.tact function)...    7-June-09
 
-    require(heR.Misc)
-    require(lattice)
-    require(grid)
+    #require(heR.Misc)
+    #require(lattice)
+    #require(grid)
     #if (!is.null(layers)) require(latticeExtra)
     #require(reshape)
 
@@ -285,7 +285,7 @@ xytact <-
     p <- xyplot(x, data=data, groups=groups, group.factor=group.factor,
                 #groups=evalq(groups, envir=sys.frame(1)),
                 tact.data=tact.data, tact.var=tact.var,
-                col=col, panel=panel.superpose.tact,
+                col=col, panel=panel_superpose_tact,
                 codes=codes, codes.color=codes.colors,
                 fill=fill, pattern=pattern, pattern.type=pattern.type,
                 pattern.angle=pattern.angle, pattern.width=pattern.width,
