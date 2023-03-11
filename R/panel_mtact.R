@@ -290,7 +290,7 @@ panel_mtact<-
       d <- as_mtact(z[[i]])
       n <- length(d)    # number of tacts to plot in the current group
       #  Collapse the events to make smaller graphics file...  New bug fix..... NK 24-Apr-2010
-      d <- tact.collapse(d)
+      d <- tact_collapse(d)
       #print(d)
 
       if (!overlap.bars) height <- fullheight/ntotal

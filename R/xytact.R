@@ -45,7 +45,7 @@
 #'
 # ------------------------------------------------
 
-## Taken from the her.Activities pacakage 5Feb2022 in the xytact2.R file
+## Taken from the her.Activities package 5Feb2022 in the xytact2.R file
 #    cleaned up here.   Feb 2022  NK
 
 
