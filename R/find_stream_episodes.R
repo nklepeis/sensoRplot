@@ -9,8 +9,10 @@
 #' Time, Response, Value long format
 #' @param threshold the response value to use as a threshold when
 #' identifying peaks and the extent of each episode
-#' @param context if TRUE return in active-state context format
-#' other return a tibble with start/end times for each episode
+# @param context if TRUE return in active-state context format
+# other return a tibble with start/end times for each episode
+#' @param group name of group to use when assigning context
+#' @param state name of state to use when assigning context
 #'
 #' @return a vector of breaks identifying stream episodes
 #'
@@ -22,7 +24,7 @@
 # ---------------------------------------------------------
 
 
-find_stream_episodes <- function(streams, threshold, context=TRUE,
+find_stream_episodes <- function(streams, threshold,
                                  group="Episodes", state="Episode") {
 
   if (missing(threshold))
@@ -33,18 +35,33 @@ find_stream_episodes <- function(streams, threshold, context=TRUE,
 
   response <- unique(streams$Response)[1]
   streams <- streams %>%
+    arrange(Time) %>%
     filter(Response == response) %>%
     mutate(Episode = (Value - threshold) > 0)
-  idx <- collapse(streams$Episodes)
-  if (context)
+    #mutate(
+    #  Episode = recode(TRUE = "Episode", FALSE = "")
+    #)
+  idx <- collapse(streams$Episode)
+  cat("Breaks:\n")
+  print(streams$Time[idx])
+  #if (context)
     tibble(Time=streams$Time[idx],
-           Group="Episodes",
-           States=rep(c(state,""),
-               length.out=length(streams$Time[idx])))
-    else
-      as_tibble(t(matrix(streams$Time[idx], nrow=2))) %>%
-    rename(start=1, end=2)
+           States = if_else(streams$Episode[idx],
+                            paste(group,state,sep=":"),
+                            ""
+                            )
+           )
+           #States=rep(c(paste(group,state,sep=":"), ""),
+               #length.out=length(streams$Time[idx])))
+    # else
+    #   as_tibble(t(matrix(streams$Time[idx], nrow=2))) %>%
+    # rename(start=1, end=2)
 
 
 }
+
+# Error in factor(x, levels = unique(x), labels = 1:length(unique(x)), exclude = NULL) :
+#   invalid 'labels'; length 2 should be 1 or 0
+# In addition: Warning message:
+#   Unknown or uninitialised column: `Episodes`.
 
