@@ -4,7 +4,12 @@
 \alias{find_stream_episodes}
 \title{Find Stream Episodes}
 \usage{
-find_stream_episodes(streams, threshold, group = "Episodes", state = "Episode")
+find_stream_episodes(
+  streams,
+  threshold,
+  context = TRUE,
+  states = list(Episodes = "Episode")
+)
 }
 \arguments{
 \item{streams}{a tibble of sensor data streams in standard
@@ -13,9 +18,11 @@ Time, Response, Value long format}
 \item{threshold}{the response value to use as a threshold when
 identifying peaks and the extent of each episode}
 
-\item{group}{name of group to use when assigning context}
+\item{context}{if TRUE return in active-state context format
+other return a tibble with start/end times for each episode}
 
-\item{state}{name of state to use when assigning context}
+\item{states}{a list of with names consisting of groups and
+elements consisting of state names within each group}
 }
 \value{
 a vector of breaks identifying stream episodes

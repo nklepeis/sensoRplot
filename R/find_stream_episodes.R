@@ -7,12 +7,14 @@
 #'
 #' @param streams a tibble of sensor data streams in standard
 #' Time, Response, Value long format
-#' @param threshold the response value to use as a threshold when
+#' @param lower the response value to use as a lower bound when
 #' identifying peaks and the extent of each episode
-# @param context if TRUE return in active-state context format
-# other return a tibble with start/end times for each episode
-#' @param group name of group to use when assigning context
-#' @param state name of state to use when assigning context
+#' @param upper the response value to use as an upper bound when
+#' identifying peaks and the extent of each episode
+#' @param context if TRUE return in active-state context format
+#' other return a tibble with start/end times for each episode
+#' @param states a list of with names consisting of groups and
+#' elements consisting of state names within each group
 #'
 #' @return a vector of breaks identifying stream episodes
 #'
@@ -23,13 +25,29 @@
 #'
 # ---------------------------------------------------------
 
+#   rewrittedn to have lower/upper bounds 3/13/2023
 
-find_stream_episodes <- function(streams, threshold,
-                                 group="Episodes", state="Episode") {
+find_stream_episodes <- function(streams, lower, upper, context=TRUE,
+                                 states=list(Episodes="Episode")) {
 
-  if (missing(threshold))
-    stop("Please provide a value threshold to use in defining peaks
+  if (missing(lower))
+    stop("Please provide a lower bound to use in defining peaks
          and the extent of episodes.")
+
+  if (missing(upper)) {
+    upper <- max(streams$Value)
+    warning("'upper' not given - Using max response value as in defining peaks
+         and the extent of episodes.")
+  }
+
+  # from reformat.context....
+  if (is.null(states)) catStates<- ""
+  else if (length(states) > 0) {
+    groups <- names(states)
+    catStates <- paste(groups,
+                       unlist(lapply(states, paste, collapse=",")),
+                       sep=":", collapse=" | ")
+  } else catStates <- ""
 
   cat("Computing breaks of stream episodes...\n")
 
@@ -37,31 +55,40 @@ find_stream_episodes <- function(streams, threshold,
   streams <- streams %>%
     arrange(Time) %>%
     filter(Response == response) %>%
-    mutate(Episode = (Value - threshold) > 0)
-    #mutate(
-    #  Episode = recode(TRUE = "Episode", FALSE = "")
-    #)
+    mutate(Episode = (Value - lower >= 0) & (-Value + upper) >= 0)
+  #  Get starting points of episodes,
+  #    * Remove leading FALSE
+  #    * Add trailing FALSE
   idx <- collapse(streams$Episode)
-  cat("Breaks:\n")
-  print(streams$Time[idx])
-  #if (context)
-    tibble(Time=streams$Time[idx],
-           States = if_else(streams$Episode[idx],
-                            paste(group,state,sep=":"),
+  lastTime <- tail(streams$Time, 1)
+  streams <- streams[idx,]
+  if (!streams$Episode[1]) streams <- streams[-1,]  # remove FALSE leader
+  if (tail(streams$Episode, 1))  # TRUE is last starting point? add ending FALSE
+    streams <- streams %>%
+    bind_rows(tail(streams, 1) %>%
+                mutate(Time = lastTime,
+                       Episode = FALSE))
+  cat("Breaks (Starting points of episodes):\n")
+  print(streams)
+  if (context)
+    tibble(Time=streams$Time,
+           States = if_else(streams$Episode,
+                            catStates,
                             ""
-                            )
            )
-           #States=rep(c(paste(group,state,sep=":"), ""),
-               #length.out=length(streams$Time[idx])))
-    # else
-    #   as_tibble(t(matrix(streams$Time[idx], nrow=2))) %>%
-    # rename(start=1, end=2)
+    )
+  else
+    tibble(
+      start = streams$Time[seq(1, NROW(streams)-1, by=2)],
+      end = streams$Time[seq(2, NROW(streams), by=2)]
+    )
+
+  #States=rep(c(paste(group,state,sep=":"), ""),
+  #length.out=length(streams$Time[idx])))
+  # else
+  #   as_tibble(t(matrix(streams$Time[idx], nrow=2))) %>%
+  # rename(start=1, end=2)
 
 
 }
-
-# Error in factor(x, levels = unique(x), labels = 1:length(unique(x)), exclude = NULL) :
-#   invalid 'labels'; length 2 should be 1 or 0
-# In addition: Warning message:
-#   Unknown or uninitialised column: `Episodes`.
 
