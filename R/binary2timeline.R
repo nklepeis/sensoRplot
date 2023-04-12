@@ -25,7 +25,7 @@
 
 # NOTE: This was taken from the contextModels package and renamed
 #    from pathway2timeline to binary2timeline.   24Feb2021.  NK
-
+# test
 
 binary2timeline <- function(data, time.var="Time", units="mins",
                              ystart=0, yspacing=0.25, yheight=1,
