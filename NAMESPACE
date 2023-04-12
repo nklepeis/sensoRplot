@@ -21,4 +21,6 @@ import(osmdata)
 import(sf)
 import(leaflet)
 import(RColorBrewer)
+import(pracma)
+import(zoo)
 

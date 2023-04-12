@@ -13,6 +13,10 @@
 #' @param key time-varying data with key variables to merge into \code{data}
 # @param multiple
 #'
+#' @seealso  As with the 'merge_streams_and_contexts' function, the 'left_join_by_time'
+#'  function seems better suited and more efficient for joining data frames by time and
+#'  is based on an existing tidyverse function 'left_join'
+#'
 #' @return a tibble containing data from \code{keys} merged into \code{data}
 #'
 #' @details This function expects both \code{data} and \code{key} to have a POSIXt column

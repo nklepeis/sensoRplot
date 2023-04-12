@@ -10,6 +10,9 @@
 #' Time, Group, State, and Value columns.
 #' @param include.binary logical, whether to include columns for each context state
 #' containing binary values of each state (active = 1; inactive = 0).
+
+#' @seealso  The 'left_join_by_time' function seems to be more efficient (and reliable)
+#' and based on the existing tidyverse left_join function.
 #'
 #' @return A data frame consisting of the steams data frame with added
 #' columns containing active-state format context data time-matched to each

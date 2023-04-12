@@ -74,7 +74,7 @@ convert_from_activestate <- function(contexts, allStates,
     if (auto.states) {
       x <- stri_split_fixed(unlist(stri_split_fixed(contexts$States, sep)),
                             ":", simplify=TRUE)
-      x <- x[!apply(x == "", 1, all), ]   # remove rows with empty cells
+      x <- matrix(x[!apply(x == "", 1, all), ], ncol=2)   # remove rows with empty cells
       y <- as.list(x[,2])  # TODO Remove "" values
       names(y) <- x[,1]
       allStates <- tapply(unlist(y, use.names = FALSE),

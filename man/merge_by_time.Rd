@@ -50,6 +50,11 @@ d <- tibble(Time=c(1,1,1,2,2,2,5,5,5,6,6),A=c(5,3,6,4,3,3,7,8,5,8,3))
 k <- tibble(Time=c(1.5,2.2,3,4.1,4.1,5,5,5.3),B=c(10,20,40,50,60,70,80,90))
 merge_by_time(d,k)
 }
+\seealso{
+As with the 'merge_streams_and_contexts' function, the 'left_join_by_time'
+function seems better suited and more efficient for joining data frames by time and
+is based on an existing tidyverse function 'left_join'
+}
 \author{
 Neil Klepeis
 }

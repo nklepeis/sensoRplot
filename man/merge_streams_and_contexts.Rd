@@ -40,6 +40,10 @@ than, and an even divisor of the context time resolution, then
 multiple contexts cannot occur between stream intervals
 (i.e., causing context information to be lost).
 }
+\seealso{
+The 'left_join_by_time' function seems to be more efficient (and reliable)
+and based on the existing tidyverse left_join function.
+}
 \author{
 Neil Klepeis
 }
