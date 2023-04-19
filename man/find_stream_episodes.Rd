@@ -36,7 +36,7 @@ with Time, Response, and Value variables}
 \item{threshold}{min value identified peaks must be above their neighboring peaks, defaults to 0}
 
 \item{merge.threshold}{threshold value above which all peaks will be
-merged into a single peak, defaults to Inf}
+merged into a single peak, defaults to Inf.}
 
 \item{sortstr}{findpeaks argument, returned peaks sorted in decreasing order?, defaults to TRUE}
 
@@ -46,8 +46,6 @@ some pre-smoothing before the loess smoothing, defaults to "30 secs"}
 \item{plot}{logical, whether to make a plot of the found episodes}
 
 \item{returnPlot, }{logical, whether to return the plot or the data}
-
-\item{fill}{fill color to use for shading merged peaks}
 
 \item{zerofindpeaks}{argument, how to interpret succeeding steps of the same value, defaults to 0}
 }
@@ -67,6 +65,13 @@ in which data stream values rise from baseline to a peak and
 fall back to baseline. If multiple responses are present in the passed
 value only the first one is used to identify episodes.
 The baseline is taken as the median of smoothed values.
+
+Merging of peaks is supported by specifying a 'merge.threshold' that is
+not Inf or -Inf.  Groups of peaks that continuously stay above the threshold
+are merged into a single peak.   This feature is useful to group peaks that seem to
+"belong together" in that they are part of an episode where the
+levels stay high but may dip up and down -- perhaps due to multiple sources or
+an intermittent or unstable source.
 }
 \author{
 David Torres-Mendoza and Neil Klepeis

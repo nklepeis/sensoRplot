@@ -20,11 +20,10 @@
 #' @param threshold min value identified peaks must be above their neighboring peaks, defaults to 0
 # @param npeaks number of peaks to return, defaults to 0
 #' @param merge.threshold threshold value above which all peaks will be
-#' merged into a single peak, defaults to Inf
+#' merged into a single peak, defaults to Inf.
 #' @param sortstr findpeaks argument, returned peaks sorted in decreasing order?, defaults to TRUE
 #' @param plot logical, whether to make a plot of the found episodes
 #' @param returnPlot, logical, whether to return the plot or the data
-#' @param fill fill color to use for shading merged peaks
 #'
 #' @return a dataframe defining the identified stream episodes or, if merge.threshold
 #' is not Inf or -Inf, as list with raw peaks data frame component and a mergedPeaks data frame
@@ -35,6 +34,13 @@
 #' fall back to baseline. If multiple responses are present in the passed
 #' value only the first one is used to identify episodes.
 #' The baseline is taken as the median of smoothed values.
+#'
+#' Merging of peaks is supported by specifying a 'merge.threshold' that is
+#' not Inf or -Inf.  Groups of peaks that continuously stay above the threshold
+#' are merged into a single peak.   This feature is useful to group peaks that seem to
+#' "belong together" in that they are part of an episode where the
+#' levels stay high but may dip up and down -- perhaps due to multiple sources or
+#' an intermittent or unstable source.
 #'
 # ---------------------------------------------------------
 
@@ -97,10 +103,10 @@ find_stream_episodes <- function (streams,
     filter(Response == response)
 
   #summarize sensor data (minimally since smoothing takes care of a lot of the noise)
-  data30 <- summarise_by_time(.data = streams,
+  streams <- summarise_by_time(.data = streams,
                                         .date_var = Time,
                                         .by       = by,
-                                        value  = signif(mean(Value),2)
+                                        Value  = signif(mean(Value),2)
   )
 
   #smoothing the sensor data

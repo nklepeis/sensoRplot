@@ -17,6 +17,7 @@ Description: This R package contains functions to plot data on sensor levels and
     plots of sensor levels.  It includes helper functions to convert data between standard formats
     and process or manipulate data files.  It uses the ggplot2, lattice, plotly, and leaflet libraries to generate both static
     and interactive plots and maps.
+    ---> CHANGE NAME to sensoRlab
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

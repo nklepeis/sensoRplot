@@ -4,7 +4,14 @@
 \alias{plot_streams_peaks}
 \title{Plot identified peaks in a time series}
 \usage{
-plot_streams_peaks(streams, peaks, baseline, threshold)
+plot_streams_peaks(
+  streams,
+  peaks,
+  mergedpeaks = NULL,
+  baseline = NULL,
+  threshold = NULL,
+  merge.threshold = NULL
+)
 }
 \arguments{
 \item{streams}{a tibble of sensor data streams in standard long format

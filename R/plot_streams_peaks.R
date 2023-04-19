@@ -20,27 +20,49 @@
 
 
 
-plot_streams_peaks <- function(streams, peaks, baseline,
-                               threshold) {
+plot_streams_peaks <- function(streams, peaks, mergedpeaks=NULL, baseline=NULL,
+                               threshold=NULL, merge.threshold=NULL) {
 
   if (NROW(streams) & NROW(peaks)) {
 
-    ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
+    peakplot <- ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
       geom_line() +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
       scale_x_datetime(breaks = scales::pretty_breaks(n = 6)) +
-      geom_point(data = peaks, aes(MaxTimestamp, PeakHeight),
+      geom_point(data = streamsPeaks, aes(MaxTimestamp, PeakHeight),
                  color = "red", size=2) +
       geom_hline(yintercept=baseline, linetype="dashed",
                  color = "blue", size=1) +
       geom_hline(yintercept=threshold, linetype="dotted",
                  color = "red", size=1) +
-      geom_point(data = peaks, aes(StartTimestamp, StartHeight),
-                 color = "darkgreen", size=1.5,
-                 shape=24, fill = "darkgreen") +
-      geom_point(data = peaks, aes(EndTimestamp, EndHeight),
-                 color = "darkgreen", size=1.5,
-                 shape=25, fill = "darkgreen")
+      geom_point(data = streamsPeaks, aes(StartTimestamp, StartHeight),
+                 color = "darkgreen", size=1.5, shape=24, fill = "darkgreen") +
+      geom_point(data = streamsPeaks, aes(EndTimestamp, EndHeight),
+                 color = "darkgreen", size=1.5, shape=25, fill = "darkgreen")
+
+
+    #  Shade in the merged peaks
+    if (NROW(mergedpeaks)) {
+      peakplot <- peakplot +
+        geom_hline(yintercept=merge.threshold, linetype="solid",
+                   color = "red", size=1)
+      streams$mPeaks <- NA
+      for (i in 1:NROW(mergedPeaks)) {
+        thePeak <- mergedPeaks[i,]
+        streams$mPeaks[streams$Time >= thePeak$StartTimestamp &
+                         streams$Time <= thePeak$EndTimestamp] <-
+          i
+      }
+      streams$mPeaks <- as.factor(streams$mPeaks)
+      peakplot <- peakplot +
+        geom_area(
+          data = drop_na(streams, mPeaks),
+          aes(x = Time, y = ValueSmoothed, fill=mPeaks),
+          alpha=0.15
+        )
+    }
+
+    peakplot
 
   } else if (NROW(streams)) {
 
