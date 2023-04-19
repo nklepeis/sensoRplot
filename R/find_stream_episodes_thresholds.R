@@ -1,4 +1,4 @@
-#' @name fine_stream_episodes_thresholds
+#' @name find_stream_episodes_thresholds
 #'
 #' @title Find Stream Episodes Using Simple Thresholds
 #'
