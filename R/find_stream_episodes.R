@@ -12,16 +12,18 @@
 #' with Time, Response, and Value variables
 #' @param by the time interval to aggregrate the stream data for
 #' some pre-smoothing before the loess smoothing, defaults to "30 secs"
-#' @param nups findpeaks argument, min number of increasing steps before the peak, defaults to 1
-#' @param ndowns findpeaks argument, min number of decreasing steps before the peak, defaults to 1
+#' @param nups min number of increasing steps before the peak, defaults to 1
+#' @param ndowns min number of decreasing steps before the peak, defaults to 1
 #' @param zerofindpeaks argument, how to interpret succeeding steps of the same value, defaults to 0
 #' @param minpeakheight min height to be identified as a peak, if 0, then auto-assigned as median value
-#' @param minpeakdistance findpeaks argument, min distance in indices peaks have to be to be counted, defaults to 100
+#' @param minpeakdistance min distance in indices peaks have to be to be counted, defaults to 100
 #' @param threshold min value identified peaks must be above their neighboring peaks, defaults to 0
 # @param npeaks number of peaks to return, defaults to 0
 #' @param merge.threshold threshold value above which all peaks will be
 #' merged into a single peak, defaults to Inf.
-#' @param sortstr findpeaks argument, returned peaks sorted in decreasing order?, defaults to TRUE
+#' @param trim2Threshold logical, whether to adjust the start/end of merged peaks so the value falls above
+#' merge.threshold, defaults to TRUE
+#' @param sortstr returned peaks sorted in decreasing order?, defaults to TRUE
 #' @param plot logical, whether to make a plot of the found episodes
 #' @param returnPlot, logical, whether to return the plot or the data
 #'
@@ -43,6 +45,19 @@
 #' an intermittent or unstable source.
 #'
 # ---------------------------------------------------------
+
+##  back into senoRplot  4/24/2023
+
+## stolen from sensoRplot  4/21/2023
+
+## TODO:  use minedgeheight to isolate regions with start/end that
+#    are above a certain threshold..
+### This seems hard to do.  Better to just have the calling code
+#    filter out all the stream values below the merge.threshold.
+## BUT maybe we can have an option to do it here.  go through
+#    each episode and adjust the times to those present in the
+#  ValueSmoothed column that are above the threshold...
+
 
 ## now uses new find_peaks function taken from pracma with some tweaks
 #    to streamline use in our application.  NK 4/13/2023
@@ -81,17 +96,15 @@
 #   filter(Name == "EP03")
 
 find_stream_episodes <- function (streams,
-                                  merge = TRUE,
                                   nups=1, ndowns=1,
                                   zero="0",
                                   minpeakheight=0,
                                   minpeakdistance=1,
                                   threshold=0,
                                   merge.threshold=Inf,
+                                  trim2Threshold = TRUE,
                                   sortstr=TRUE,
                                   by="30 seconds",
-                                  plot=TRUE,
-                                  returnPlot=FALSE,
                                   fill=rgb(0.4,0,0,0.15)) {
 
   # TODO:  combine all columns that are not Time and Value
@@ -102,11 +115,13 @@ find_stream_episodes <- function (streams,
     arrange(Time) %>%
     filter(Response == response)
 
+  streamsRaw <- streams
+
   #summarize sensor data (minimally since smoothing takes care of a lot of the noise)
   streams <- summarise_by_time(.data = streams,
-                                        .date_var = Time,
-                                        .by       = by,
-                                        Value  = signif(mean(Value),2)
+                               .date_var = Time,
+                               .by       = by,
+                               Value  = signif(mean(Value),2)
   )
 
   #smoothing the sensor data
@@ -132,14 +147,14 @@ find_stream_episodes <- function (streams,
 
   #find top 10 peaks in dataset and create a new dataframe with those peaks and corresponding info (start, end, max)
   streamsPeaks <- find_peaks(streams$ValueSmoothed,
-                          nups = nups,
-                          ndowns = ndowns,
-                          zero = zero,
-                          minpeakheight = baseline,
-                          minpeakdistance = minpeakdistance,
-                          threshold = threshold,
-                          #npeaks = npeaks,
-                          sortstr = sortstr) %>%
+                             nups = nups,
+                             ndowns = ndowns,
+                             zero = zero,
+                             minpeakheight = baseline,
+                             minpeakdistance = minpeakdistance,
+                             threshold = threshold,
+                             #npeaks = npeaks,
+                             sortstr = sortstr) %>%
     as.data.frame
 
 
@@ -148,10 +163,10 @@ find_stream_episodes <- function (streams,
     #print(streamsPeaks)
 
     #clean up column names in peaks df so its more readable
-    colnames(streamsPeaks)[1] ="PeakHeight"
-    colnames(streamsPeaks)[2] ="PeakPositionMax"
-    colnames(streamsPeaks)[3] ="PeakPositionStart"
-    colnames(streamsPeaks)[4] ="PeakPositionEnd"
+    colnames(streamsPeaks)[1] = "PeakHeight"
+    colnames(streamsPeaks)[2] = "PeakPositionMax"
+    colnames(streamsPeaks)[3] = "PeakPositionStart"
+    colnames(streamsPeaks)[4] = "PeakPositionEnd"
 
     # this chunk of syntax finds the timestamp for each of the pieces of
     # info in the peaks df since the function only
@@ -166,10 +181,20 @@ find_stream_episodes <- function (streams,
       mutate(EndTimestamp = streams$Time[streamsPeaks$PeakPositionEnd])
     streamsPeaks <- streamsPeaks %>%
       mutate(EndHeight = streams$ValueSmoothed[streamsPeaks$PeakPositionEnd]) %>%
-    arrange(StartTimestamp)
+      arrange(StartTimestamp)
+
+    ## NEW: Remove the "position" columns.. we don't use them later
+    streamsPeaks <- streamsPeaks %>%
+      select(!c(PeakPositionMax,
+                PeakPositionStart,
+                PeakPositionEnd)
+      )
 
 
     print(streamsPeaks)
+
+    # --------------------------------------------------
+    # ***  MERGE PEAKS ABOVE A THRESHOLD?  ***
 
     if (merge.threshold < Inf & merge.threshold > -Inf) {
       # Merge peaks using merge.threshold criterion
@@ -199,6 +224,7 @@ find_stream_episodes <- function (streams,
               thePeak$EndTimestamp <- nextPeak$EndTimestamp
               if (j >= NROW(streamsPeaks)) {
                 merge <- FALSE
+                thePeak$EndHeight <- nextPeak$EndHeight
                 i <- j + 1
               } else if (nextPeak$EndHeight > merge.threshold) {
                 cat("Next Peak End is Above Thresh [j=j+1 Cont]\n")
@@ -206,6 +232,7 @@ find_stream_episodes <- function (streams,
               } else {
                 cat("Next Peak End is Below Thresh [i=j+i Main]\n")
                 merge <- FALSE
+                thePeak$EndHeight <- nextPeak$EndHeight
                 i <- j + 1
               }
             } else {
@@ -224,8 +251,50 @@ find_stream_episodes <- function (streams,
           i <- i + 1
         }
 
-        cat("\n\nMerged Peak: \n")
+
+        ## OK once we get down here we have episode start/end
+        #  times that define the merged peaks but they may
+        #  still fall below the merge.threshold.  so here we
+        #  have the option of triming the start/end times so
+        #  all stream values fall above the threshold.  NK 4/23/2023
+        #  Should we do something like this for unmerged peaks too???
+
+        if (trim2Threshold) {
+          cat("\nTrimming Merged Episodes...\n")
+          streamsEpisode <- streams %>%
+            filter(Time >= thePeak$StartTimestamp &
+                     Time <= thePeak$EndTimestamp &
+                     ValueSmoothed > merge.threshold)
+          #print(streamsEpisode)
+          #cat("\n\n")
+          newStart <- min(streamsEpisode$Time)
+          newEnd <- max(streamsEpisode$Time)
+          newStartHeight <- streamsEpisode$ValueSmoothed[which.min(streamsEpisode$Time)]
+          newEndHeight <- streamsEpisode$ValueSmoothed[which.max(streamsEpisode$Time)]
+          cat("newStart = ", format(newStart), "\n")
+          cat("newStartHeight = ", newStartHeight, "\n")
+          cat("newEnd = ", format(newEnd), "\n")
+          cat("newEndHeight = ", newEndHeight, "\n")
+          cat("Pre adjusted Merged Peak:\n")
+          print(thePeak)
+          cat("\n\n")
+          if (thePeak$StartHeight < merge.threshold &
+              newStart <= thePeak$MaxTimestamp) {
+            thePeak$StartTimestamp <- newStart
+            thePeak$StartHeight <- newStartHeight
+          }
+          if (thePeak$EndHeight < merge.threshold &
+              newEnd >= thePeak$MaxTimestamp) {
+            thePeak$EndTimestamp <- newEnd
+            thePeak$EndHeight <- newEndHeight
+          }
+        }
+
+        #  The final Merged Peak can now be saved...
+
+        cat("\n\nFinal Merged Peak: \n")
         print(thePeak)
+        cat("\n\n")
 
         mergedPeaks <- mergedPeaks %>% bind_rows(thePeak)
 
@@ -233,71 +302,115 @@ find_stream_episodes <- function (streams,
 
     }
 
+    if (merge.threshold < Inf)
+      return(list(streams=streams,
+                  streamsRaw=streamsRaw,
+                  peaks=streamsPeaks,
+                  mergedPeaks=mergedPeaks,
+                  threshold=threshold,
+                  merge.threshold=merge.threshold,
+                  baseline=baseline,
+                  minpeakheight=minpeakheight,
+                  trim2Threshold=trim2Threshold
+                  ))
+    else
+      return(list(streams=streams, streamsRaw=streamsRaw,
+        peaks=streamsPeaks, threshold=threshold,
+                  merge.threshold=merge.threshold,
+                  baseline=baseline,
+                  minpeakheight=minpeakheight,
+                  trim2Threshold=trim2Threshold))
+
+  } else
+    return(list(streams=NULL,
+                streamsRaw=streamsRaw,
+                threshold=threshold,
+                merge.threshold=merge.threshold,
+                baseline=baseline,
+                minpeakheight=minpeakheight,
+                trim2Threshold=trim2Threshold))
+
+
     # ------------------------------------------------
 
     #plot everything!
-    if (plot) {
-      peakplot <- ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
-        geom_line() +
-        scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-        scale_x_datetime(breaks = scales::pretty_breaks(n = 6)) +
-        geom_point(data = streamsPeaks, aes(MaxTimestamp, PeakHeight),
-                   color = "red", size=2) +
-        geom_hline(yintercept=baseline, linetype="dashed",
-                   color = "blue", size=1) +
-        geom_hline(yintercept=threshold, linetype="dotted",
-                   color = "red", size=1) +
-        geom_point(data = streamsPeaks, aes(StartTimestamp, StartHeight),
-                   color = "darkgreen", size=1.5, shape=24, fill = "darkgreen") +
-        geom_point(data = streamsPeaks, aes(EndTimestamp, EndHeight),
-                   color = "darkgreen", size=1.5, shape=25, fill = "darkgreen")
+  #   if (plot) {
+  #     peakplot <- ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
+  #       scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  #       scale_x_datetime(breaks = scales::pretty_breaks(n = 6)) +
+  #       geom_line(aes(x=Time, y=Value),
+  #                  color="orange", linetype="dotted",
+  #                 size=0.65) +
+  #       geom_line(data=streamsRaw, aes(x=Time, y=Value),
+  #                  color="maroon", linetype="dotted",
+  #                 size=0.65) +
+  #       geom_line(size=0.85) +
+  #       geom_point(data = streamsPeaks, aes(MaxTimestamp, PeakHeight),
+  #                  color = "red", size=2) +
+  #       geom_hline(yintercept=baseline, linetype="dashed",
+  #                  color = "blue", size=1) +
+  #       geom_hline(yintercept=threshold, linetype="dotted",
+  #                  color = "red", size=1) +
+  #       geom_point(data = streamsPeaks, aes(StartTimestamp, StartHeight),
+  #                  color = "darkgreen", size=1.5, shape=24, fill = "darkgreen") +
+  #       geom_point(data = streamsPeaks, aes(EndTimestamp, EndHeight),
+  #                  color = "darkgreen", size=1.5, shape=25, fill = "darkgreen")
+  #
+  #
+  #     #  Shade in the merged peaks
+  #     if (merge.threshold < Inf & merge.threshold > -Inf) {
+  #       peakplot <- peakplot +
+  #         geom_hline(yintercept=merge.threshold, linetype="solid",
+  #                    color = "red", size=1)
+  #       streams$mPeaks <- NA
+  #       for (i in 1:NROW(mergedPeaks)) {
+  #         thePeak <- mergedPeaks[i,]
+  #         streams$mPeaks[streams$Time >= thePeak$StartTimestamp &
+  #                          streams$Time <= thePeak$EndTimestamp] <-
+  #           i
+  #       }
+  #       streams$mPeaks <- as.factor(streams$mPeaks)
+  #       peakplot <- peakplot +
+  #         geom_area(
+  #           data = drop_na(streams, mPeaks),
+  #           aes(x = Time, y = ValueSmoothed, fill=mPeaks),
+  #           alpha=0.15
+  #         )
+  #     }
+  #
+  #
+  #     if (returnPlot)
+  #       return(peakplot)
+  #     else show(peakplot)
+  #   }
+  #
+  #   if (merge.threshold < Inf)
+  #     return(list(peaks=streamsPeaks, mergedPeaks=mergedPeaks))
+  #   else
+  #     return(streamsPeaks)
+  #
+  # } else {
+  #   peakplot <- ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
+  #     geom_line(aes(x=Time, y=Value),
+  #                color="orange", linetype="dotted",
+  #                size=0.5, alpha=0.2) +
+  #     geom_line(data=streamsRaw, aes(x=Time, y=Value),
+  #                color="maroon", linetype="dotted",
+  #                size=0.5, alpha=0.2) +
+  #     geom_line(color="black", size=2) +
+  #     geom_hline(yintercept=baseline, linetype="dashed",
+  #                color = "blue", size=1) +
+  #     geom_hline(yintercept=threshold, linetype="dotted",
+  #                color = "red", size=1) +
+  #     scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  #     scale_x_datetime(breaks = scales::pretty_breaks(n = 6))
+  #   cat("No peaks found.\n")
+  #   if (returnPlot)
+  #     return(peakplot)
+  #   else
+  #     return(NULL)
+  # }
+  #
 
 
-      #  Shade in the merged peaks
-      if (merge.threshold < Inf & merge.threshold > -Inf) {
-        peakplot <- peakplot +
-          geom_hline(yintercept=merge.threshold, linetype="solid",
-                     color = "red", size=1)
-        streams$mPeaks <- NA
-        for (i in 1:NROW(mergedPeaks)) {
-          thePeak <- mergedPeaks[i,]
-          streams$mPeaks[streams$Time >= thePeak$StartTimestamp &
-                           streams$Time <= thePeak$EndTimestamp] <-
-            i
-        }
-        streams$mPeaks <- as.factor(streams$mPeaks)
-        peakplot <- peakplot +
-          geom_area(
-            data = drop_na(streams, mPeaks),
-            aes(x = Time, y = ValueSmoothed, fill=mPeaks),
-            alpha=0.15
-          )
-      }
-
-
-      if (returnPlot)
-        return(peakplot)
-      else show(peakplot)
-    }
-
-    if (merge.threshold < Inf)
-      return(list(peaks=streamsPeaks, mergedPeaks=mergedPeaks))
-    else
-      return(streamsPeaks)
-
-  } else {
-    peakplot <- ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
-      geom_line() +
-      geom_hline(yintercept=baseline, linetype="dashed",
-                 color = "blue", size=1) +
-      geom_hline(yintercept=threshold, linetype="dotted",
-                 color = "red", size=1) +
-      scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
-      scale_x_datetime(breaks = scales::pretty_breaks(n = 6))
-    cat("No peaks found.\n")
-    if (returnPlot)
-      return(peakplot)
-    else
-    return(NULL)
-  }
 }

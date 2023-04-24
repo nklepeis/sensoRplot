@@ -6,7 +6,6 @@
 \usage{
 find_stream_episodes(
   streams,
-  merge = TRUE,
   nups = 1,
   ndowns = 1,
   zero = "0",
@@ -14,6 +13,7 @@ find_stream_episodes(
   minpeakdistance = 1,
   threshold = 0,
   merge.threshold = Inf,
+  trim2Threshold = TRUE,
   sortstr = TRUE,
   by = "30 seconds",
   plot = TRUE,
@@ -25,20 +25,23 @@ find_stream_episodes(
 \item{streams}{a tibble of sensor data streams in standard long format
 with Time, Response, and Value variables}
 
-\item{nups}{findpeaks argument, min number of increasing steps before the peak, defaults to 1}
+\item{nups}{min number of increasing steps before the peak, defaults to 1}
 
-\item{ndowns}{findpeaks argument, min number of decreasing steps before the peak, defaults to 1}
+\item{ndowns}{min number of decreasing steps before the peak, defaults to 1}
 
 \item{minpeakheight}{min height to be identified as a peak, if 0, then auto-assigned as median value}
 
-\item{minpeakdistance}{findpeaks argument, min distance in indices peaks have to be to be counted, defaults to 100}
+\item{minpeakdistance}{min distance in indices peaks have to be to be counted, defaults to 100}
 
 \item{threshold}{min value identified peaks must be above their neighboring peaks, defaults to 0}
 
 \item{merge.threshold}{threshold value above which all peaks will be
 merged into a single peak, defaults to Inf.}
 
-\item{sortstr}{findpeaks argument, returned peaks sorted in decreasing order?, defaults to TRUE}
+\item{trim2Threshold}{logical, whether to adjust the start/end of merged peaks so the value falls above
+merge.threshold, defaults to TRUE}
+
+\item{sortstr}{returned peaks sorted in decreasing order?, defaults to TRUE}
 
 \item{by}{the time interval to aggregrate the stream data for
 some pre-smoothing before the loess smoothing, defaults to "30 secs"}

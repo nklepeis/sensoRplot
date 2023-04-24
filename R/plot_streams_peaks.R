@@ -7,9 +7,8 @@
 #'
 #' @author David Torres-Mendoza and Neil Klepeis
 #'
-#' @param streams a tibble of sensor data streams in standard long format
-#' with Time, Response, and Value variables
-#' @param peaks
+#' @param x list containing the output of the find_streams_episodes
+#'   function with values for streams, peaks, and parameters
 #'
 #' @return a ggplot object
 #'
@@ -20,43 +19,50 @@
 
 
 
-plot_streams_peaks <- function(streams, peaks, mergedpeaks=NULL, baseline=NULL,
-                               threshold=NULL, merge.threshold=NULL) {
+plot_streams_peaks <- function(x) {
 
-  if (NROW(streams) & NROW(peaks)) {
+  if (NROW(x$streams) & NROW(x$peaks)) {
 
-    peakplot <- ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
-      geom_line() +
+    peakplot <- ggplot(x$streams, aes(x=Time, y=ValueSmoothed)) +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
       scale_x_datetime(breaks = scales::pretty_breaks(n = 6)) +
-      geom_point(data = streamsPeaks, aes(MaxTimestamp, PeakHeight),
+      geom_line(aes(x=Time, y=Value),
+                color="orange", linetype="dotted",
+                size=0.65) +
+      geom_line(size=0.85) +
+      geom_point(data =x$peaks, aes(MaxTimestamp, PeakHeight),
                  color = "red", size=2) +
-      geom_hline(yintercept=baseline, linetype="dashed",
+      geom_hline(yintercept=x$baseline, linetype="dashed",
                  color = "blue", size=1) +
-      geom_hline(yintercept=threshold, linetype="dotted",
+      geom_hline(yintercept=x$threshold, linetype="dotted",
                  color = "red", size=1) +
-      geom_point(data = streamsPeaks, aes(StartTimestamp, StartHeight),
+      geom_point(data = x$peaks, aes(StartTimestamp, StartHeight),
                  color = "darkgreen", size=1.5, shape=24, fill = "darkgreen") +
-      geom_point(data = streamsPeaks, aes(EndTimestamp, EndHeight),
+      geom_point(data = x$peaks, aes(EndTimestamp, EndHeight),
                  color = "darkgreen", size=1.5, shape=25, fill = "darkgreen")
 
+      if (NROW(x$streamsRaw))
+        peakplot <- peakplot +
+        geom_line(data=x$streamsRaw, aes(x=Time, y=Value),
+                  color="maroon", linetype="dotted",
+                  size=0.65)
 
     #  Shade in the merged peaks
-    if (NROW(mergedpeaks)) {
+    if (NROW(x$mergedPeaks)) {
       peakplot <- peakplot +
-        geom_hline(yintercept=merge.threshold, linetype="solid",
+        geom_hline(yintercept=x$merge.threshold, linetype="solid",
                    color = "red", size=1)
-      streams$mPeaks <- NA
-      for (i in 1:NROW(mergedPeaks)) {
-        thePeak <- mergedPeaks[i,]
-        streams$mPeaks[streams$Time >= thePeak$StartTimestamp &
-                         streams$Time <= thePeak$EndTimestamp] <-
+      x$streams$mPeaks <- NA
+      for (i in 1:NROW(x$mergedPeaks)) {
+        thePeak <- x$mergedPeaks[i,]
+        x$streams$mPeaks[x$streams$Time >= thePeak$StartTimestamp &
+                         x$streams$Time <= thePeak$EndTimestamp] <-
           i
       }
-      streams$mPeaks <- as.factor(streams$mPeaks)
+      x$streams$mPeaks <- as.factor(x$streams$mPeaks)
       peakplot <- peakplot +
         geom_area(
-          data = drop_na(streams, mPeaks),
+          data = drop_na(x$streams, mPeaks),
           aes(x = Time, y = ValueSmoothed, fill=mPeaks),
           alpha=0.15
         )
@@ -64,13 +70,13 @@ plot_streams_peaks <- function(streams, peaks, mergedpeaks=NULL, baseline=NULL,
 
     peakplot
 
-  } else if (NROW(streams)) {
+  } else if (NROW(x$streams)) {
 
-    ggplot(streams, aes(x=Time, y=ValueSmoothed)) +
+    ggplot(x$streams, aes(x=Time, y=ValueSmoothed)) +
       geom_line() +
-      geom_hline(yintercept=baseline, linetype="dashed",
+      geom_hline(yintercept=x$baseline, linetype="dashed",
                  color = "blue", size=1) +
-      geom_hline(yintercept=threshold, linetype="dotted",
+      geom_hline(yintercept=x$threshold, linetype="dotted",
                  color = "red", size=1) +
       scale_y_continuous(breaks = scales::pretty_breaks(n = 10)) +
       scale_x_datetime(breaks = scales::pretty_breaks(n = 6))
