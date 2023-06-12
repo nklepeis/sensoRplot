@@ -4,20 +4,12 @@
 \alias{plot_streams_peaks}
 \title{Plot identified peaks in a time series}
 \usage{
-plot_streams_peaks(
-  streams,
-  peaks,
-  mergedpeaks = NULL,
-  baseline = NULL,
-  threshold = NULL,
-  merge.threshold = NULL
-)
+plot_streams_peaks(x)
 }
 \arguments{
-\item{streams}{a tibble of sensor data streams in standard long format
-with Time, Response, and Value variables}
-
-\item{peaks}{}
+\item{x}{list containing the output of the find_streams_episodes
+function with values for streams, peaks, merged peaks,
+and parameters}
 }
 \value{
 a ggplot object

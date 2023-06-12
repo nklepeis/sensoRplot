@@ -107,18 +107,25 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
   data <- data %>%
     unite("Response", -c(Time, Value))
 
+  cat("The consolidated responses:\n")
+  print(unique(data$Response))
+
+  if (!length(data$Response))
+    stop("No responses in the data.")
+
   #print(data)
 
   # If breaks is null and date breaks is not, we
   #   reassign breaks to intervals in date_breaks
   #   starting at beginning of time interval.
   if (is.null(breaks) & !is.null(date_breaks)) {
-    breaks <- seq.POSIXt(floor_date(min(data$Time), unit=by),
-                         ceiling_date(max(data$Time), unit=by),
+    breaks <- seq.POSIXt(floor_date(min(data$Time,na.rm=TRUE), unit=by),
+                         ceiling_date(max(data$Time,na.rm=TRUE), unit=by),
                          by=date_breaks)
     date_breaks <- waiver()
   }
 
+  #cat("The date breaks:\n")
   #print(breaks)
 
 
@@ -153,9 +160,9 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
 
   #print(data)
 
-  if (pad)
-    ddummy <- data %>%
-      mutate(Response="dummy")
+  #if (pad)
+  #  ddummy <- data %>%
+  #    mutate(Response="dummy")
 
   p <- ggplot(data=data,
               aes(x=Time, y=Value)) +
@@ -171,7 +178,7 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
       title = title
     )
 
-  if (pad) p <- p + geom_blank(data=ddummy)
+  #if (pad) p <- p + geom_blank(data=ddummy)
 
   if (area & !step) p <- p + geom_area(aes(fill=Response), show.legend=show.legend,
                                position="identity", alpha=alpha)

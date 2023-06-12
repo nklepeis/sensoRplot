@@ -315,7 +315,8 @@ find_stream_episodes <- function (streams,
                   ))
     else
       return(list(streams=streams, streamsRaw=streamsRaw,
-        peaks=streamsPeaks, threshold=threshold,
+                  peaks=streamsPeaks,
+                  threshold=threshold,
                   merge.threshold=merge.threshold,
                   baseline=baseline,
                   minpeakheight=minpeakheight,

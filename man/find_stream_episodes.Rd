@@ -16,8 +16,6 @@ find_stream_episodes(
   trim2Threshold = TRUE,
   sortstr = TRUE,
   by = "30 seconds",
-  plot = TRUE,
-  returnPlot = FALSE,
   fill = rgb(0.4, 0, 0, 0.15)
 )
 }
@@ -46,11 +44,11 @@ merge.threshold, defaults to TRUE}
 \item{by}{the time interval to aggregrate the stream data for
 some pre-smoothing before the loess smoothing, defaults to "30 secs"}
 
+\item{zerofindpeaks}{argument, how to interpret succeeding steps of the same value, defaults to 0}
+
 \item{plot}{logical, whether to make a plot of the found episodes}
 
 \item{returnPlot, }{logical, whether to return the plot or the data}
-
-\item{zerofindpeaks}{argument, how to interpret succeeding steps of the same value, defaults to 0}
 }
 \value{
 a dataframe defining the identified stream episodes or, if merge.threshold

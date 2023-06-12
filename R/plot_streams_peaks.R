@@ -8,7 +8,8 @@
 #' @author David Torres-Mendoza and Neil Klepeis
 #'
 #' @param x list containing the output of the find_streams_episodes
-#'   function with values for streams, peaks, and parameters
+#'   function with values for streams, peaks, merged peaks,
+#'   and parameters
 #'
 #' @return a ggplot object
 #'

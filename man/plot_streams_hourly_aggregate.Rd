@@ -6,18 +6,36 @@
 \usage{
 plot_streams_hourly_aggregate(
   data,
+  groupvars = NULL,
   x.lab = "Hour",
   y.lab = "Value",
   fill.color = "blue",
   title = "Sensor Stream Hourly Means",
   breaks = c(0, 6, 12, 18),
-  labels = c("Midnight", "6a", "Noon", "6pm")
+  labels = c("Midnight", "6a", "Noon", "6pm"),
+  ...
 )
 }
 \arguments{
 \item{data}{Long format data frame containing a 'Time', a 'Response' variable
 indicating the sensor stream and a 'Value' variable containing the stream
 data values.}
+
+\item{groupvars}{option character vector of grouping variables for faceting}
+
+\item{x.lab}{x axis label}
+
+\item{y.lab}{y axis label}
+
+\item{fill.color}{fill color}
+
+\item{title}{title}
+
+\item{labels}{time break labels}
+
+\item{...}{arguments to facet_wrap if groupvar is non=NULL}
+
+\item{break}{time breaks in hours}
 }
 \value{
 a ggplot object

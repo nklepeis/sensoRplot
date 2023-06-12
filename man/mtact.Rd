@@ -13,7 +13,7 @@ Create an mtact object
 Creates a multiple time-activity object (mtact) from a number
 of single time-activity (tact) objects (or coercable lists)
 or a list of tact objects (or coercable lists).
-Individual tact objects can be named either as <name>=list(...), or
+Individual tact objects can be named either as \if{html}{\out{<name>}}=list(...), or
 by using the `names' argument, which takes precedent.
 }
 \author{
