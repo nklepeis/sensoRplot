@@ -51,11 +51,11 @@ grid.draw(rbind(ggplotGrob(plot1), ggplotGrob(plot2), size = "last"))
 
 #####  Using cowplot OR egg, and change sizes
 
-library(ggplot2) # 3.2.1
-library(dplyr)
-library(lubridate)
-library(cowplot) # 1.0.0
-library(egg) # 0.4.5
+# library(ggplot2) # 3.2.1
+# library(dplyr)
+# library(lubridate)
+# library(cowplot) # 1.0.0
+# library(egg) # 0.4.5
 
 #' Create some data to play with. Two time series with the same timestamp.
 df <- data.frame(DateTime = ymd("2010-07-01") + c(0:8760) * hours(2),
@@ -86,3 +86,5 @@ plot2 <- df %>%
 # of the bottom plot
 cowplot::plot_grid(plot1, plot2, align = "v", ncol = 1, rel_heights = c(0.25, 0.75))
 egg::ggarrange(plot1, plot2, heights = c(0.25, 0.75))
+#plot_grid(plot1, plot2, align = "v", ncol = 1, rel_heights = c(0.25, 0.75))
+#ggarrange(plot1, plot2, heights = c(0.25, 0.75))

@@ -41,6 +41,7 @@ explorePeaks <- function(streams, maxHeight=1000,
     server = function(input, output) {
 
       ## TODO: Separate out the data return and the plotting..
+      ##  done need to return the plot now....
 
       output$peaks <- renderPlot(
         find_stream_episodes(streams, nups=input$nups,
@@ -51,8 +52,7 @@ explorePeaks <- function(streams, maxHeight=1000,
                              threshold=input$threshold,
                              merge.threshold=input$merge.threshold,
                              sortstr=TRUE,
-                             by=paste(input$smoothingInterval,"seconds"),
-                             plot=TRUE, returnPlot=TRUE)
+                             by=paste(input$smoothingInterval,"seconds"))
       )
 
     }

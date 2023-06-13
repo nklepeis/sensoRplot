@@ -30,20 +30,6 @@ geom_log_probability_lnorm, and geom_log_probability_bins geom functions to
 add raw data, a lognormal distribution (with gm and gsd specifications), or
 binned (histogram) data (counts and class interval limits).
 }
-\examples{
-
-s <- rlnorm(1000)
-lfit <- fit_log_normal(s)
-r <- hist(s, breaks=100)
-
-plot_log_probability(
-    xtics=c(0.001,0.05,0.25, 0.5,0.75, 0.95, 0.999),
-    ytics=c(0.05,100)) +
-geom_qq(aes(sample=s)) +
-geom_log_probability_lnorm(gm=lfit$geometric.mean,
-                           gsd=lfit$geometric.standard.deviation) +
-geom_log_probability_bins(h=r$counts, l=r$breaks)
-}
 \author{
 Neil Klepeis
 }
