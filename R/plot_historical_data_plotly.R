@@ -23,7 +23,7 @@ plot_historical_data_plotly <- function(data,
                                         include.rangeSelector=FALSE,
                                         include.rangeSlider=FALSE) {
 
-  require(plotly)
+  #require(plotly)
 
   #  Data consists of wide data frame with
   #    Time column and columns for all

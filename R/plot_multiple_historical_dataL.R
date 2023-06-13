@@ -73,8 +73,8 @@ plot_multiple_historical_dataL <- function(data, by, nrows,
                                            traceorder="normal") {
 
 
-  require(plotly)
-  require(dplyr)
+  #require(plotly)
+  #require(dplyr)
 
   # #  Data in LONG format
   # figs <- list()
