@@ -244,7 +244,9 @@ plot_combo_context_streams_ggplot <- function(contexts, streams,
   #grid.newpage()
   #grid.draw(rbind(ggplotGrob(fig1), ggplotGrob(fig), size = "last"))
 
-  theplots <- cowplot::plot_grid(plotlist=plots, align = "v", ncol = 1,
+  #theplots <- cowplot::plot_grid(plotlist=plots, align = "v", ncol = 1,
+
+  theplots <- plot_grid(plotlist=plots, align = "v", ncol = 1,
                                  rel_heights = heights)
 
   if (!is.null(title)) {

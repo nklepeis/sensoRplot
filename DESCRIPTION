@@ -22,6 +22,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: ggplot2,tidyr,readr,dplyr,lubridate,plotly,grid,gridExtra,lattice,latticeExtra,purrr,timetk,lubridate,stringi
-Suggests: ggthemes,osmdata,sf,leaflet,RColorBrewer,pracma,zoo,sugrrants,furrr,naniar,forcats,egg
+Suggests: ggthemes,osmdata,sf,leaflet,RColorBrewer,pracma,zoo,sugrrants,furrr,naniar,forcats
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
