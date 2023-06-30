@@ -4,7 +4,13 @@
 \alias{reformat.context}
 \title{Reformat Context}
 \usage{
-reformat.context(time, states, allStates = NULL, format = "BinaryWide")
+reformat.context(
+  time,
+  states,
+  allStates = NULL,
+  format = "BinaryWide",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{time}{starting time for the new context (required)}
@@ -16,6 +22,8 @@ vectors of active states for the new context occurring at 'time'}
 vectors of ALL states for use with Binary formats}
 
 \item{format}{a string giving the format for the conversion.  See Details.}
+
+\item{verbose, }{logical, whether to print out messages}
 }
 \value{
 a list or tibble containing the reformatted context data
@@ -27,11 +35,10 @@ list of grouped active states, to one of three different data frame formats:
 }
 \details{
 The 'format' can be one of the following
-
-\describe{
-\item{ActiveStates}{a data frame with a Time column and a column with concatenated strings showing active states:  group1:state1a,state1b group2:state2a,state2b, ...}
-\item{BinaryWide}{a wide data frame with a Time column and columns for each grouped state with 0 or 1 cell values (inactive or active)}
-\item{BinaryLong}{ a long data frame with Time, Group, State, and Value columns where value is 0 or 1 (inactive or active)}
+\itemize{
+\item ActiveStates - a data frame with a Time column and a column with concatenated strings showing active states:  group1:state1a,state1b group2:state2a,state2b, ...
+\item BinaryWide - a wide data frame with a Time column and columns for each grouped state with 0 or 1 cell values (inactive or active)
+\item BinaryLong - a long data frame with Time, Group, State, and Value columns where value is 0 or 1 (inactive or active)
 }
 }
 \author{

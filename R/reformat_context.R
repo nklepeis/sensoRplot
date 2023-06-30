@@ -12,17 +12,23 @@
 #' @param allStates optional list with groups elements containing
 #' vectors of ALL states for use with Binary formats
 #' @param format a string giving the format for the conversion.  See Details.
+#' @param verbose, logical, whether to print out messages
 #'
 #' @return a list or tibble containing the reformatted context data
 #'
 #' @details The 'format' can be one of the following
 #'
-#' \describe{
-#' \item{ActiveStates}{a data frame with a Time column and a column with concatenated strings showing active states:  group1:state1a,state1b group2:state2a,state2b, ...}
-#' \item{BinaryWide}{a wide data frame with a Time column and columns for each grouped state with 0 or 1 cell values (inactive or active)}
-#' \item{BinaryLong}{ a long data frame with Time, Group, State, and Value columns where value is 0 or 1 (inactive or active)}
-#' }
+#'  * ActiveStates - a data frame with a Time column and a column with concatenated strings showing active states:  group1:state1a,state1b group2:state2a,state2b, ...
+#'  * BinaryWide - a wide data frame with a Time column and columns for each grouped state with 0 or 1 cell values (inactive or active)
+#'  * BinaryLong - a long data frame with Time, Group, State, and Value columns where value is 0 or 1 (inactive or active)
+#'
 # ------------------------------------------------
+
+## OK BAck in sensoRplot... replacing the old one.  6/30/3023
+
+##  edited in contextualizER with verbose arg.   3/13/2023
+
+# orginally from airmotive 12/25/2022  now probably in sensoRplot
 
 #  The ActiveStates format is really just for representing the context for
 #    human consumption... the passed list is the easiest way to perform
@@ -30,10 +36,12 @@
 
 #   Text time format="%Y-%m-%d %I:%M:%OS3 %p %Z")) %>%
 
-reformat.context <- function(time, states, allStates=NULL, format="BinaryWide") {
+reformat.context <- function(time, states, allStates=NULL,
+                             format="BinaryWide",
+                             verbose=FALSE) {
 
-  #require(tidyr)
-  #require(stringi)
+  require(tidyr)
+  require(stringi)
 
   if (format == "ActiveStates") {
 
@@ -74,15 +82,20 @@ reformat.context <- function(time, states, allStates=NULL, format="BinaryWide") 
         values[match(activeVars, allVars)] <- 1L
       }
 
+    if (verbose) {
+      cat("Values for binary contexts:\n")
+      print(values)
+    }
+
     if (format == "BinaryWide") {
-        as_tibble(as.list(as.integer(values))) %>%
+      as_tibble(as.list(values)) %>%
         mutate(Time = time) %>%
         select(Time, everything())
     } else if (format == "BinaryLong") {
-        tibble(Time = time,
-               Group = stri_split(allVars,regex=":",simplify=TRUE)[,1],
-               State = stri_split(allVars,regex=":",simplify=TRUE)[,2],
-               Value=as.integer(values))
+      tibble(Time = time,
+             Group = stri_split(allVars,regex=":",simplify=TRUE)[,1],
+             State = stri_split(allVars,regex=":",simplify=TRUE)[,2],
+             Value=as.integer(values))
     }
 
   } else stop("'format' not recognized.")
