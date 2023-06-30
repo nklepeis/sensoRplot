@@ -21,6 +21,6 @@ Description: This R package contains functions to plot data on sensor levels and
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: ggplot2,tidyr,readr,dplyr,lubridate,plotly,grid,gridExtra,lattice,latticeExtra,purrr,timetk,lubridate,stringi,ggthemes,osmdata,sf,leaflet,RColorBrewer,pracma,zoo,sugrrants,furrr,naniar,forcats,cowplot,egg
+Depends: ggplot2,tidyr,readr,dplyr,lubridate,plotly,grid,gridExtra,lattice,latticeExtra,purrr,timetk,lubridate,stringi,stringr,ggthemes,osmdata,sf,leaflet,RColorBrewer,pracma,zoo,sugrrants,furrr,naniar,forcats,cowplot,egg
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

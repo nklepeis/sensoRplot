@@ -29,9 +29,9 @@ plot_timeline_episodes_plotly <- function(timeline, breaks,
                                           ...,
                                           displayModeBar=TRUE) {
 
-  require(plotly)
-  require(tidyr)
-  require(dplyr)
+  #require(plotly)
+  #require(tidyr)
+  #require(dplyr)
 
   if (!NROW(timeline %>% select(!any_of(c("xleft","xright","group","state")))))
     stop("'timeline' data must have xleft, xright, group, state columns")

@@ -10,43 +10,30 @@ plot_historical_data_plotly2(
   title = NULL,
   showlegend = TRUE,
   legend.inside = TRUE,
+  height = NULL,
+  xrange = NULL,
+  yrange = NULL,
   shape = "hv",
+  mode = "lines",
   source = "source",
   fg = "white",
-  bg = "blue",
+  bg = "rgba(23,103,124,1)",
+  plot.bg = "gray90",
+  legend.bg = "rgba(255,255,255,0.75)",
+  legend.fg = "black",
   line.width = 1,
+  marker.size = 6,
+  reverse = FALSE,
   register = TRUE,
   include.rangeSelector = FALSE,
   include.rangeSlider = FALSE
 )
 }
 \arguments{
-\item{data}{Long-format sensor data frame for multiple streams frame
-containing a 'Time' column, index columns, and Response and Value columns}
+\item{data}{Long-format sensor data frame for multiple streams frame containing a 'Time' column, index columns,
+and Response and Value columns}
 
-\item{area}{whether to fill in the plot, defaults to TRUE}
-
-\item{title}{title to include (NULL by default)}
-
-\item{showlegend}{whether to include legend,defaults to TRUE}
-
-\item{legend.inside}{whether to include legend inside the plot, defaults to TRUE}
-
-\item{shape}{what shape to use with the line, defaults to "hv"}
-
-\item{source}{what source to assign to the plot, defaults to "source"}
-
-\item{fg}{foreground color, defaults to white}
-
-\item{bg}{background color, defaults to blue}
-
-\item{line.width}{plot line.width defaults to 1}
-
-\item{register}{whether to register the plot for updates, defaults to TRUE}
-
-\item{include.rangeSelector}{whether to include the range selector, defaults to FALSE}
-
-\item{include.rangeSlider}{whether to include the range slider, defaults to FALSE}
+\item{include.rangeSlider}{}
 }
 \value{
 a plotly object
@@ -58,7 +45,7 @@ Plot LONG historical sensor data using the plotly package
 concatenates all columns not Time or Value to
 a single index variable that is used to plot data series.
 
-See 'plot_multiple_historical_dataL.R' which calls this function
+See 'plot_historical_subplot_plotly.R' which calls this function
 to produce stacked subplots for each non-Response index variable, i.e.,
 all index variables besides Response are used to facet the data into
 separated plots

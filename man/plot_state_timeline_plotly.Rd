@@ -11,12 +11,11 @@ plot_state_timeline_plotly(
   xrange = NULL,
   collapse = FALSE,
   yspace = 0.05,
-  border = 0.3,
   legend = FALSE,
   date_breaks = waiver(),
   date_labels = "\%I:\%M:\%S \%p \\n \%a \%m/\%d",
   date_angle = 0,
-  popup_date = "\%a \%m/\%d/\%y \%I:\%M:\%S \%p",
+  popup_date = "\%a \%m/\%d/\%y \%I:\%M:\%OS3 \%p",
   bg = "white",
   fg = "black",
   displayModeBar = TRUE,
@@ -24,7 +23,10 @@ plot_state_timeline_plotly(
   font.size = 12,
   shape.opacity = 0.4,
   shape.linecolor = "lightgray",
+  line.width = 1,
   source = "source",
+  register = TRUE,
+  showticklabelsY = TRUE,
   config = TRUE
 )
 }
@@ -40,7 +42,7 @@ y coordinates or use ybottom/ytop arguments.}
 \item{xrange}{optional, vector of date/times used to specify the
 xrange of the plot. If NULL, the xrange defaults to the range inherent in
 the min and max time values in the data: c(min(xleft), max(xright)). This
-option is used to visualize the contexts withing a broader time period.}
+option is used to visualize the contexts within a broader time period.}
 
 \item{collapse}{(logical) whether to draw grouped states in a single lane or
 draw individual state activity in separate lanes.  Collapsing will result
@@ -48,8 +50,6 @@ in overlap of state rectangles unless states in the group are
 mutually exclusive}
 
 \item{yspace}{vertical space with value \link{0,1} to add between lanes}
-
-\item{border}{thickness of border around rectangles}
 
 \item{legend}{whether to draw a legend for the 0/1 states}
 
@@ -70,6 +70,10 @@ mutually exclusive}
 over the plot or not}
 
 \item{height}{a number giving the height of the plotly plot in pixels}
+
+\item{shape.linecolor}{color of line around rectangles}
+
+\item{line.width}{width of line around rectangles}
 
 \item{source}{string identification for plot events}
 
