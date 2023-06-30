@@ -13,14 +13,14 @@
 #' @param xrange optional, vector of date/times used to specify the
 #' xrange of the plot. If NULL, the xrange defaults to the range inherent in
 #' the min and max time values in the data: c(min(xleft), max(xright)). This
-#' option is used to visualize the contexts withing a broader time period.
+#' option is used to visualize the contexts within a broader time period.
 #' @param collapse (logical) whether to draw grouped states in a single lane or
 #' draw individual state activity in separate lanes.  Collapsing will result
 #' in overlap of state rectangles unless states in the group are
 #' mutually exclusive
 #' @param yspace vertical space with value [0,1] to add between lanes
 # @param xspace horizontal space with value in seconds to add between states
-#' @param border thickness of border around rectangles
+# @param border thickness of border around rectangles
 #' @param legend whether to draw a legend for the 0/1 states
 #' @param date_breaks a string giving the datetime breaks for the plot
 #' (e.g., "10 mins", "3 hours")
@@ -34,6 +34,8 @@
 #' @param displayModeBar If using plotly, whether to display a toolbar
 #' over the plot or not
 #' @param height a number giving the height of the plotly plot in pixels
+#' @param shape.linecolor color of line around rectangles
+#' @param line.width width of line around rectangles
 #' @param source string identification for plot events
 #' @param config logical, whether to configure the plot plot toolbar (may want
 #' to skip this when configuring subplots)
@@ -45,6 +47,19 @@
 #'
 #'
 # -----------------------------------------------
+
+## OK Back to its home in SensoRplot  6/30/2023.....
+
+
+## OK Nice update:  Turns out we can use add_polygons with a fill to draw
+#    nice rectangles and have a hover inside the whole rectangle.  12/23/2022
+
+# Some clean ups for background and fixing errors.  12/22/2022
+#    TODO:  Look at the combo one in Airmotive that seemed to work OK...
+
+# OK this seems to have come from contextualizer originally, then copied to Airmotive, then to
+#  sensorPLot now back again!!!!!!      12/22/2022
+
 
 ##  Renamed from "plot_state_timeline2" to "plot_state_timeline_plotly"
 #    18Feb2022
@@ -76,16 +91,18 @@
 plot_state_timeline_plotly <-
   function (data, auto.y=TRUE, labels=TRUE,
             xrange=NULL, collapse=FALSE,
-            yspace=0.05, border=0.3,
+            yspace=0.05, #border=0.3,
             legend=FALSE, date_breaks=waiver(),
             date_labels="%I:%M:%S %p \n %a %m/%d",
             date_angle=0,
-            popup_date="%a %m/%d/%y %I:%M:%S %p",
+            popup_date="%a %m/%d/%y %I:%M:%OS3 %p",
             bg="white", fg="black",
             displayModeBar=TRUE,
             height=450,
-            font.size=12,  shape.opacity = 0.4, shape.linecolor="lightgray",
-            source="source", config=TRUE) {
+            font.size=12,  shape.opacity = 0.4,
+            shape.linecolor="lightgray", line.width=1,
+            source="source", register=TRUE,
+            showticklabelsY=TRUE, config=TRUE) {
 
     #require(vistime)   #  rewrote from scratch...
 
@@ -151,39 +168,61 @@ plot_state_timeline_plotly <-
     #p
 
     #  Base plotly plot
-    p <- plot_ly(type = "scatter", mode = "lines", source=source)
+    p <- plot_ly(type = "scatter", mode = "lines", source=source,
+                 height=height)
 
     #  Store values to draw filled rectangles for each state
     shapes <- list()
 
     #  Add range traces
-    if(NROW(data) > 0){
+    if (NROW(data) > 0) {
 
       for (i in seq_len(nrow(data))) {
 
         currentRow <- data[i, ]
 
+        # p <- add_markers(p,
+        #   x= c(currentRow$xleft, currentRow$xright, currentRow$xright,
+        #        currentRow$xleft, currentRow$xleft),
+        #   y = c(currentRow$ybottom, currentRow$ybottom, currentRow$ytop,
+        #         currentRow$ytop, currentRow$ybottom),
+        # )
+
         #  "Bar" is visualized by the width of the line
-        p <- add_trace(p,
-                       x = c(currentRow$xleft+10, currentRow$xright-10),
-                       #y = currentRow$ybottom + (currentRow$ytop - currentRow$ybottom) /2,
-                       y = currentRow$ybottom + (currentRow$ytop - currentRow$ybottom)*2/3,
-                       #y = currentRow$ytop,
-                       #line = list(width = currentRow$ytop - currentRow$ybottom),
-                       opacity=shape.opacity,
-                       line = list(width = 3, color=currentRow$statecolor), #currentRow$statecolor),   # width in pixel, need to use rectangle in layout ..
-                       showlegend = FALSE,
-                       hoverinfo = "text",
-                       textposition="left top",
-                       #text = toAdd$tooltip
-                        text = paste( "<b style='font-size:18px'>",
-                                 paste(currentRow$group,":",currentRow$state,sep=""),
-                                 "</b>\n",
-                                 "Start: ", format(currentRow$xleft, popup_date), "\n",
-                                 "End: ", format(currentRow$xright, popup_date), "\n",
-                                 "Duration (mins): ", currentRow$duration.mins, "\n",
-                                 sep=""
-                               )
+        p <- add_polygons(p,
+                          #x = c(),
+                          #y = currentRow$ybottom + (currentRow$ytop - currentRow$ybottom) /2,
+
+                          ## !!!! These seem to be off by a few seconds on either side
+                          #  a bit too late in the beginning and end..
+                          #  No, I think we just need to add the milliseonds on there..
+
+                          x= c(currentRow$xleft, currentRow$xright, currentRow$xright,
+                               currentRow$xleft, currentRow$xleft),
+                          y = c(currentRow$ybottom, currentRow$ybottom, currentRow$ytop,
+                                currentRow$ytop, currentRow$ybottom),
+
+                          ##y = currentRow$ybottom + (currentRow$ytop - currentRow$ybottom)*2/3,
+                          #y = currentRow$ytop,
+                          ##line = list(width = currentRow$ytop - currentRow$ybottom),
+                          opacity=shape.opacity,
+                          #line = list(width = 2, color=currentRow$statecolor), #currentRow$statecolor),   # width in pixel, need to use rectangle in layout ..
+                          line = list(width = line.width, color=shape.linecolor),
+                          showlegend = FALSE,
+                          hoverinfo = "text",
+                          textposition="left top",
+                          #text = toAdd$tooltip
+                          name = paste( "<b style='font-size:18px'>",
+                                        paste(currentRow$group,":",currentRow$state,sep=""),
+                                        "</b>\n",
+                                        "Start: ", format(currentRow$xleft, popup_date), "\n",
+                                        "End: ", format(currentRow$xright, popup_date), "\n",
+                                        "Duration (mins): ", currentRow$duration.mins, "\n",
+                                        sep=""
+                          ),
+                          #type = "contour",
+                          fillcolor=currentRow$statecolor
+                          #inherit = FALSE
         )
 
         # Add state labels on markers?
@@ -194,7 +233,8 @@ plot_state_timeline_plotly <-
                         #y = currentRow$ybottom + (currentRow$ytop - currentRow$ybottom)*4/5,
                         #y = currentRow$ybottom,
                         y = currentRow$ytop,
-                        textfont = list(family = "Arial", size = font.size),
+                        textfont = list(family = "Arial", size = font.size,
+                                        color=fg),
                         textposition = "right bottom",
                         showlegend = FALSE,
                         text = currentRow$state,
@@ -202,12 +242,13 @@ plot_state_timeline_plotly <-
 
         }
 
-        shapes[[i]] <-
-              list(type = "rect",
-                   fillcolor = currentRow$statecolor, opacity = shape.opacity,
-                   line = list(color = shape.linecolor),
-                   x0 = currentRow$xleft, x1 = currentRow$xright, xref = "x",
-                   y0 = currentRow$ybottom, y1 = currentRow$ytop, yref = "y")
+        # don't seem to need these, since polygon hover is working.  NK 12/23/2022
+        # shapes[[i]] <-
+        #       list(type = "rect",
+        #            fillcolor = currentRow$statecolor, opacity = shape.opacity,
+        #            line = list(color = shape.linecolor),
+        #            x0 = currentRow$xleft, x1 = currentRow$xright, xref = "x",
+        #            y0 = currentRow$ybottom, y1 = currentRow$ytop, yref = "y")
 
       }
 
@@ -219,34 +260,56 @@ plot_state_timeline_plotly <-
       print(data$ybottom+(data$ytop - data$ybottom)/2)
 
       p <- p %>% layout(
-                  shapes = shapes,
-                  yaxis = list(
-                      color=fg,
-                      textfont=list(family="Arial", size=font.size),
-                      linewidth = 1, mirror = TRUE,
-                      range = c(min(data$ybottom), max(data$ytop)),
-                      showgrid = FALSE, title = "",
-                      tickmode = "array",
-                      #tickvals = seq(0.5, max(data$ytop)),
-                      tickvals = unique(data$ybottom + (data$ytop - data$ybottom)/2),
-                      tickfont = list(
-                        size=font.size
-                      ),
-                      #ticktext = as.character(unique(data$group)),
-                      ticktext = if (collapse) groups
-                                else groupStates,
-                      plot_bgcolor=bg,
-                      #fig_bgcolor=bg
-                      #plot_bgcolor='gray90',
-                      paper_bgcolor= bg
-                    )
+        #shapes = shapes,
+        plot_bgcolor=bg,
+        #fig_bgcolor=bg
+        #plot_bgcolor='gray90',
+        paper_bgcolor= bg,
+        yaxis = list(
+          #tickangle=90,
+          fixedrange=TRUE,
+          color=fg,
+          linecolor=fg, linewidth = 1,
+          mirror = FALSE,
+          showgrid = TRUE,  #gridcolor=fg,
+          textfont=list(family="Arial", size=font.size,
+                        color=fg),
+          range = c(min(data$ybottom), max(data$ytop)),
+          title = "",
+          tickmode = "array",
+          ticks="inside",
+          #tickvals = seq(0.5, max(data$ytop)),
+          tickvals = unique(data$ybottom + (data$ytop - data$ybottom)/2),
+          tickfont = list(
+            size=font.size
+          ),
+          #ticktext = as.character(unique(data$group)),
+          ticktext = if (collapse) groups
+          else groupStates,
+          showticklabels = if (showticklabelsY) TRUE
+          else FALSE
+
+        ),
+        xaxis = list(
+          xrange=xrange,
+          fixedrange=FALSE,
+          color=fg
+        )
       )
+
+    }
+
+    if (register) {
+      cat("\n\nRegistering plotly source: ", source,"\n\n")
+      p <- p %>%
+        event_register('plotly_legendclick') %>%
+        event_register('plotly_relayout')
 
     }
 
     p
 
-}
+  }
 
 
 

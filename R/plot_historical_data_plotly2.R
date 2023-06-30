@@ -2,33 +2,41 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param data Long-format sensor data frame for multiple streams frame
-#' containing a 'Time' column, index columns, and Response and Value columns
-#' @param area whether to fill in the plot, defaults to TRUE
-#' @param title title to include (NULL by default)
-#' @param showlegend whether to include legend,defaults to TRUE
-#' @param legend.inside whether to include legend inside the plot, defaults to TRUE
-#' @param shape what shape to use with the line, defaults to "hv"
-#' @param source what source to assign to the plot, defaults to "source"
-#' @param fg foreground color, defaults to white
-#' @param bg background color, defaults to blue
-#' @param line.width plot line.width defaults to 1
-#' @param register whether to register the plot for updates, defaults to TRUE
-#' @param include.rangeSelector whether to include the range selector, defaults to FALSE
-#' @param include.rangeSlider whether to include the range slider, defaults to FALSE
+#' @param data Long-format sensor data frame for multiple streams frame containing a 'Time' column, index columns,
+#' and Response and Value columns
+#' @param area
+#' @param showlegend
+#' @param legend.inside
+#' @param height
+#' @param shape
+#' @param mode
+#' @param source
+#' @param fg
+#' @param bg
+#' @param plot.bg
+#' @param legend.bg
+#' @param legend.fg
+#' @param line.width
+#' @param marker.size
+#' @param reverse
+#' @param register
+#' @param include.rangeSelector
+#' @param include.rangeSlider
+#'
 #'
 #' @return a plotly object
 #'
 #' @details concatenates all columns not Time or Value to
 #' a single index variable that is used to plot data series.
 #'
-# See 'plot_historical_subplot_plotly.R' which calls this function
-#' See 'plot_multiple_historical_dataL.R' which calls this function
+#' See 'plot_historical_subplot_plotly.R' which calls this function
 #' to produce stacked subplots for each non-Response index variable, i.e.,
 #' all index variables besides Response are used to facet the data into
 #' separated plots
 #'
 # ----------------------------------------------------
+
+# from latest airMotiveST.  (needs to updated/revised). ?NK 12/26/2022
 
 #  Version to use LONG FORMAT DATA.    July 29, 2021. NK
 
@@ -43,20 +51,32 @@
 
 plot_historical_data_plotly2 <- function(data,
                                          area=TRUE,
-                                        title=NULL,
-                                        showlegend=TRUE,
-                                        legend.inside=TRUE,
-                                        shape="hv",
-                                        source="source",
-                                        fg="white", bg="blue",
-                                        line.width=1,
-                                        register=TRUE,
-                                        include.rangeSelector=FALSE,
-                                        include.rangeSlider=FALSE) {
+                                         title=NULL,
+                                         showlegend=TRUE,
+                                         legend.inside=TRUE,
+                                         height=NULL,
+                                         xrange=NULL, yrange=NULL,
+                                         shape="hv", mode="lines",
+                                         source="source",
+                                         fg="white", bg='rgba(23,103,124,1)',
+                                         plot.bg = "gray90",
+                                         legend.bg='rgba(255,255,255,0.75)',
+                                         legend.fg="black",
+                                         line.width=1, marker.size=6,
+                                         #fill.opacity=0.5,
+                                         #marker.opacity=1,
+                                         reverse=FALSE,
+                                         register=TRUE,
+                                         include.rangeSelector=FALSE,
+                                         include.rangeSlider=FALSE) {
 
   #require(plotly)
   #require(dplyr)
   #require(tidyr)
+  #require(stringr)
+
+  ## plotly line shapes:  linear, spline, vhv, hvh, vh hv
+
 
   #  Data consists of LONG data frame with
   #    Time column, index columns, and Response/Value columns for all
@@ -64,7 +84,10 @@ plot_historical_data_plotly2 <- function(data,
 
   #print(head(data))
 
-  fig <- plot_ly(source=source, showlegend=showlegend)
+  cat("Mode:", mode, "\n")
+  cat("Symbol Size:", marker.size, "\n")
+
+  fig <- plot_ly(source=source, showlegend=showlegend, height=height)
 
   rangeSelector <- list(
     bordercolor="white",
@@ -109,6 +132,7 @@ plot_historical_data_plotly2 <- function(data,
     unite(col="Name", !any_of(c("Time","Value")), sep=":")
 
   index <- unique(data$Name)
+  if (reverse)  index <- rev(index)
 
   #### ADD SERIES
 
@@ -116,21 +140,28 @@ plot_historical_data_plotly2 <- function(data,
   #  See for line "shapes" for interpolation:
   #      https://plotly.com/javascript/line-charts/#line-shape-options-for-interpolation
 
-  for (i in index)
-    fig <- fig %>% add_lines(x = ~Time, y = ~Value,
+  for (i in index) {
+    fig <- fig %>% add_trace(x = ~Time, y = ~Value,
                              data = data %>% filter(Name == i),
                              #name=i,
-
                              color = ~Name,
                              #colors = trace.colors,
                              legendgroup = ~Name,
-
                              name=~Name,
-                             mode="lines", type="scatter",
+                             mode=mode, type="scatter",
                              connectgaps=TRUE,
-                             fill= if (area) "tozeroy" else NULL,
-                             line = list(shape = shape,   #hv, linear, spline, etc.
-                                         width=line.width))
+                             #opacity=1,
+                             #alpha=fill.opacity,
+                             #alpha_stroke=1,
+                             line = if (str_detect(mode, "line"))
+                               list(shape = shape,   #hv, linear, spline, etc.
+                                    width=line.width)
+                             else NULL,
+                             marker = if (str_detect(mode, "marker"))
+                               list(size=marker.size)
+                             else NULL,
+                             fill= if (area) "tozeroy" else NULL)
+  }
 
 
   #### PLOT LAYOUT
@@ -140,45 +171,48 @@ plot_historical_data_plotly2 <- function(data,
               pad = 0)
 
   fig <- fig %>% layout(
-    plot_bgcolor='gray90',
+    plot_bgcolor=plot.bg,
     paper_bgcolor= bg,
     title = if (is.null(title))
-              NULL
-            else
-              list(text = title, xref="paper",
-                   font = list(
-                     family = "sans-serif",
-                     size = 20,
-                     weight="bold",
-                     color = "white"),
-                 x = 0.5, y = 120,
-                 pad = list(b = 150, l = 0, r = 20 )),
+      NULL
+    else
+      list(text = title, xref="paper",
+           font = list(
+             family = "sans-serif",
+             size = 20,
+             weight="bold",
+             color = "white"),
+           x = 0.5, y = 120,
+           pad = list(b = 150, l = 0, r = 20 )),
     #showlegend=showlegend,
     legend = if (legend.inside) {
       list(x = 0.99, y = 0.99, orientation="h",
-                  xanchor="right",
-                  font = list(
-                    family = "sans-serif",
-                    size = 11,
-                    color = "black"),
-                  bgcolor = 'rgba(255,255,255,0.5)',
-                  #bordercolor = 'rgba(0,0,0,0)',
-                  borderwidth = 0)
-      } else {
-        list(
-          x = 100, y = 0.5, orientation="v",
-          xanchor="right",
-          font = list(
-            family = "sans-serif",
-            size = 11,
-            color = "white"),
-          bgcolor = 'rgba(0,0,0,0.6)',
-          borderwidth = 0
-        )
+           xanchor="right",
+           font = list(
+             family = "sans-serif",
+             size = 11,
+             color = legend.fg),
+           bgcolor = legend.bg,
+           #bordercolor = 'rgba(0,0,0,0)',
+           borderwidth = 0)
+    } else {
+      list(
+        x = 100, y = 0.5, orientation="v",
+        xanchor="right",
+        font = list(
+          family = "sans-serif",
+          size = 11,
+          color = legend.fg
+        ),
+        #bgcolor = 'rgba(0,0,0,0.6)',
+        bgcolor=legend.bg,
+        borderwidth = 0
+      )
 
-      },
+    },
 
     xaxis = list(
+      range=xrange,
       color=fg,
       rangeselector = if (include.rangeSelector) rangeSelector else NULL,
       rangeslider = if (include.rangeSlider) rangeSlider else NA,
@@ -190,6 +224,7 @@ plot_historical_data_plotly2 <- function(data,
     ),
 
     yaxis=list(
+      range = yrange,
       color=fg,
       fixedrange=TRUE,
       rangemode = "tozero",
@@ -203,19 +238,21 @@ plot_historical_data_plotly2 <- function(data,
     #yaxis = list(title = "Time"))
   ) %>%
     plotly::config(displayModeBar = TRUE,
-                              toImageButtonOptions = list(
-                                format = "png",
-                                filename = "datastreams_plot",
-                                width = 1400,
-                                height = 700
-                            )
+                   toImageButtonOptions = list(
+                     format = "svg",
+                     filename = "datastreams_plot",
+                     width = 1400,
+                     height = 700
+                   )
     )
 
 
-  if (register)
+  if (register) {
+    cat("\n\nRegistering plotly source: ", source,"\n\n")
     fig <- fig %>%
-    event_register('plotly_legendclick') %>%
-    event_register('plotly_relayout')
+      event_register('plotly_legendclick') %>%
+      event_register('plotly_relayout')
+  }
 
   fig
 

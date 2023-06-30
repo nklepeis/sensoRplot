@@ -20,9 +20,12 @@
 #'
 # -------------------------------------------------
 
+# updated in contextualizeR. pivot_longer/all_of NK 1/21/2022
 
 #  Note:  Stolen from airMotive on 6/4/2021
 #    removed reference to userEmail, userName, workSpace....
+#  stolen from sensoRplot  12/25./2022.   We need to jsut start using sensoRplot
+#   for all this to avoid confusion....!!!
 
 convert_binary_contexts <-
   function(bc, fromLong=TRUE, toBinary=TRUE, index.vars=NULL,
@@ -40,11 +43,11 @@ convert_binary_contexts <-
         bc %>%
           #pivot_wider(id_cols=c("Time","userEmail","userName","workSpace"),
           pivot_wider(#id_cols=!c("Group","State"),
-                      id_cols="Time",
-                      names_from=c("Group","State"),
-                      values_from="Value",
-                      values_fn=values_fn,   # if duplicates use MAX value (changed from Min)
-                      names_sep=sep
+            id_cols="Time",
+            names_from=c("Group","State"),
+            values_from="Value",
+            values_fn=values_fn,   # if duplicates use MAX value (changed from Min)
+            names_sep=sep
           ) %>%
           arrange(Time)
 
@@ -72,7 +75,7 @@ convert_binary_contexts <-
 
         bc %>%
           #pivot_longer(cols=!matches(c("Time","userEmail","userName","workSpace")),
-          pivot_longer(cols=!(c("Time", index.vars)),
+          pivot_longer(cols=!(all_of(c("Time", index.vars))),
                        names_to=c("Group","State"),
                        values_to="Value",
                        names_sep=sep
