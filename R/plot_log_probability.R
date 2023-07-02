@@ -1,6 +1,6 @@
 #' @name plot_log_probability
 #'
-#' @title Log probability plot
+#' @title Log probability plot (ggplot)
 #'
 #' @description Create an empty log-probability plot using ggplot
 #'

@@ -6,12 +6,16 @@
 #' @author Neil Klepeis
 #'
 #' @param contexts tibble containing contexts in long format
-#' @param groupstates logical, whether to return states with embedded groups names or not
+#' @param groupstates logical, whether to return states with embedded
+#' groups names or not
 
 #'
 #' @return a named list containing states belonging to each group
 #'
 #' @details
+#'
+#' @example
+#'
 #'
 # ----------------------------------------------------------------
 

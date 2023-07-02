@@ -28,7 +28,8 @@
 #   for all this to avoid confusion....!!!
 
 convert_binary_contexts <-
-  function(bc, fromLong=TRUE, toBinary=TRUE, index.vars=NULL,
+  function(bc, fromLong=TRUE, toBinary=TRUE,
+           index.vars=NULL,
            sep=":", values_fn = max) {
 
     #require(tidyr)
@@ -51,7 +52,7 @@ convert_binary_contexts <-
           ) %>%
           arrange(Time)
 
-      } else {   # long to active-state format
+      } else if (!grouped) {   # long to active-state format
         bc %>%
           #filter(Value == 1) %>%
           mutate(GroupState = paste(Group, State, sep=":")) %>%
