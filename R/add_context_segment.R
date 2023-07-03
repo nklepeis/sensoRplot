@@ -1,9 +1,11 @@
+#' @alias add_context_segment
+#'
 #' @title Add Context Segment
 #'
-#' @description Based on a two-context sequence this function computes the
+#' @description Based on a two-context sequence, this function computes the
 #' endpoints and middle points of a corresponding context sequence
-#' to be added to an existing sequence of contexts with the option of replacing or merging
-#' with existing contexts
+#' to be added to an existing sequence of contexts with the option of
+#' replacing or merging with existing contexts
 #'
 #' @author Neil Klepeis
 #'

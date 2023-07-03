@@ -255,7 +255,7 @@ find_stream_episodes <- function (streams,
         ## OK once we get down here we have episode start/end
         #  times that define the merged peaks but they may
         #  still fall below the merge.threshold.  so here we
-        #  have the option of triming the start/end times so
+        #  have the option of trimming the start/end times so
         #  all stream values fall above the threshold.  NK 4/23/2023
         #  Should we do something like this for unmerged peaks too???
 

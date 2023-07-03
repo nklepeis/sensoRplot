@@ -1,3 +1,5 @@
+#' @alias extract_groupstates
+#'
 #' @title Extract list of grouped states from a long context object
 #'
 #' @description This function extracts a list with named elements

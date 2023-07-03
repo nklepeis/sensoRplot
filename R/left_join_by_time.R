@@ -10,8 +10,8 @@
 #'
 #' @param x a data frame with a Time variable
 #' @param y a data frame with a Time variable with columns to "join" or
-#' merge with columns of 'y' matching by time interval
-#' @param by extra variables to merge by (in addition to "Time"). See \code{\link{left_join}}
+#' merge with columns of 'y', matching by time interval
+#' @param by additional variables to match by (in addition to "Time"). See \code{\link{left_join}}
 #'
 #' @return a data frame with all columns of 'x' and columns from 'y' that
 #' match time intervals in 'x'
@@ -19,10 +19,11 @@
 #' @author Neil Klepeis
 #'
 #' @details
-#' First find the times of rows in 'x' that are encompassed by rows
-#' rows in 'y' (reassigning 'y' times to those of the 'x' time match), then
-#' get distinct rows and do a normal tidyverse 'left_join'
-#' to merge the 'y' rows into the matching 'x' rows
+#' This function first finds the times of rows in 'x' that are
+#' encompassed by rows in 'y' (reassigning 'y' times to those
+#' of the 'x' time match), then gets distinct rows and does a
+#' normal tidyverse (dplyr)'left_join' to merge the 'y' rows into the
+#' matching 'x' rows.
 #'
 #' @examples
 #'

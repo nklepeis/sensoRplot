@@ -1,6 +1,8 @@
+#' @alias reformat.context
+#'
 #' @title Reformat Context
 #'
-#' @description This function converts a single context, consisting of a time and
+#' @description This function converts a SINGLE context, consisting of a time and
 #' list of grouped active states, to one of three different data frame formats:
 #' "ActiveStates", "BinaryWide", or "BinaryLong"
 #'
@@ -24,6 +26,8 @@
 #'
 # ------------------------------------------------
 
+# TODO:  Add the "grouped state" context format as an option
+
 ## OK BAck in sensoRplot... replacing the old one.  6/30/3023
 
 ##  edited in contextualizER with verbose arg.   3/13/2023
@@ -39,9 +43,9 @@
 reformat.context <- function(time, states, allStates=NULL,
                              format="BinaryWide",
                              verbose=FALSE) {
-
-  require(tidyr)
-  require(stringi)
+#
+#   require(tidyr)
+#   require(stringi)
 
   if (format == "ActiveStates") {
 
