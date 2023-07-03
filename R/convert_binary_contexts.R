@@ -28,8 +28,7 @@
 #   for all this to avoid confusion....!!!
 
 convert_binary_contexts <-
-  function(bc, fromLong=TRUE, toBinary=TRUE,
-           index.vars=NULL,
+  function(bc, fromLong=TRUE, toBinary=TRUE, index.vars=NULL,
            sep=":", values_fn = max) {
 
     #require(tidyr)
@@ -51,6 +50,22 @@ convert_binary_contexts <-
             names_sep=sep
           ) %>%
           arrange(Time)
+
+      } else {   # long to active-state format
+        bc %>%
+          #filter(Value == 1) %>%
+          mutate(GroupState = paste(Group, State, sep=":")) %>%
+          #group_by(Time, Value, userEmail, userName, workSpace) %>%
+          group_by(Time, Value) %>%
+          group_modify(~ tibble(States=paste(.x$GroupState,
+                                             collapse=" | "))) %>%
+          #group_by(Time, userEmail, userName, workSpace) %>%
+          group_by(Time) %>%
+          slice_max(Value) %>% # take Value=1 if there is one or 0 if not
+          ungroup() %>%
+          mutate(States = case_when(Value == 0 ~ "", Value >= 1 ~ States)) %>%
+          arrange(Time) %>%
+          select(!Value)
 
       }
 
