@@ -52,22 +52,6 @@ convert_binary_contexts <-
           ) %>%
           arrange(Time)
 
-      } else if (!grouped) {   # long to active-state format
-        bc %>%
-          #filter(Value == 1) %>%
-          mutate(GroupState = paste(Group, State, sep=":")) %>%
-          #group_by(Time, Value, userEmail, userName, workSpace) %>%
-          group_by(Time, Value) %>%
-          group_modify(~ tibble(States=paste(.x$GroupState,
-                                             collapse=" | "))) %>%
-          #group_by(Time, userEmail, userName, workSpace) %>%
-          group_by(Time) %>%
-          slice_max(Value) %>% # take Value=1 if there is one or 0 if not
-          ungroup() %>%
-          mutate(States = case_when(Value == 0 ~ "", Value >= 1 ~ States)) %>%
-          arrange(Time) %>%
-          select(!Value)
-
       }
 
     } else {  # from Wide

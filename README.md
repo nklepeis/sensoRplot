@@ -1,5 +1,9 @@
 #  README
 
+Available on github:
+https://github.com/nklepeis/sensoRplot.git
+
+
 Dec 17, 2021
 
 Function in this package were originally taken
