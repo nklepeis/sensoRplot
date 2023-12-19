@@ -7,6 +7,7 @@
 #' @description Look in current directory for files with specified prefixes
 #' and extension
 #'
+#' @param path path to look for files
 #' @param prefixes prefix(es) for matching files, defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"
 #' @param extension extension for matching files, defaults to "csv"
 #' @param full.names logical, whether to return full names with paths, default to TRUE
@@ -22,7 +23,8 @@
 #'
 # -----------------------------------------------
 
-list_data_files <- function (prefixes=c("CNR","IPS","SidePak","DustTrak"),
+list_data_files <- function (path=".",
+                             prefixes=c("CNR","IPS","SidePak","DustTrak"),
                              middle="",
                              extension="csv", full.names=TRUE,
                              recursive=TRUE) {
@@ -32,7 +34,7 @@ list_data_files <- function (prefixes=c("CNR","IPS","SidePak","DustTrak"),
 
   cat("Search pattern: ", pattern, "\n")
 
-  list.files(pattern=pattern, full.names = full.names,
+  list.files(path=path, pattern=pattern, full.names = full.names,
              recursive=recursive)
 
 }
