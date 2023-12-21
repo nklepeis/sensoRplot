@@ -5,6 +5,7 @@
 \title{Get a list of data files for processing}
 \usage{
 list_data_files(
+  path = ".",
   prefixes = c("CNR", "IPS", "SidePak", "DustTrak"),
   middle = "",
   extension = "csv",
@@ -13,6 +14,8 @@ list_data_files(
 )
 }
 \arguments{
+\item{path}{path to look for files}
+
 \item{prefixes}{prefix(es) for matching files, defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"}
 
 \item{extension}{extension for matching files, defaults to "csv"}

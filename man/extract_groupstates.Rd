@@ -9,7 +9,8 @@ extract_groupstates(contexts, groupstates = TRUE, sep = ":")
 \arguments{
 \item{contexts}{tibble containing contexts in long format}
 
-\item{groupstates}{logical, whether to return states with embedded groups names or not}
+\item{groupstates}{logical, whether to return states with embedded
+groups names or not}
 }
 \value{
 a named list containing states belonging to each group

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_log_probability.R
 \name{plot_log_probability}
 \alias{plot_log_probability}
-\title{Log probability plot}
+\title{Log probability plot (ggplot)}
 \usage{
 plot_log_probability(
   xtics,

@@ -29,7 +29,7 @@ vectors of ALL states for use with Binary formats}
 a list or tibble containing the reformatted context data
 }
 \description{
-This function converts a single context, consisting of a time and
+This function converts a SINGLE context, consisting of a time and
 list of grouped active states, to one of three different data frame formats:
 "ActiveStates", "BinaryWide", or "BinaryLong"
 }

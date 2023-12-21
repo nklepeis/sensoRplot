@@ -24,10 +24,10 @@ Returns a drop-in context sequence for the passed segment with
 appropriate endpoint and middle contexts.
 }
 \description{
-Based on a two-context sequence this function computes the
+Based on a two-context sequence, this function computes the
 endpoints and middle points of a corresponding context sequence
-to be added to an existing sequence of contexts with the option of replacing or merging
-with existing contexts
+to be added to an existing sequence of contexts with the option of
+replacing or merging with existing contexts
 }
 \details{
 Contexts are specified in "binary long" format. 'segments' and 'contexts'
