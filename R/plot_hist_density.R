@@ -32,7 +32,7 @@
 #'
 # --------------------------------------------------------
 
-plot_hist_smoothed <- function (counts, breaks, show.hist=TRUE, show.density=TRUE,
+plot_hist_density <- function (counts, breaks, show.hist=TRUE, show.density=TRUE,
                                show.freqpoly=TRUE, fill.freq=TRUE, trans="log10",
                                simulate=TRUE) {
 

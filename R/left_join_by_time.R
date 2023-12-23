@@ -22,8 +22,14 @@
 #' This function first finds the times of rows in 'x' that are
 #' encompassed by rows in 'y' (reassigning 'y' times to those
 #' of the 'x' time match), then gets distinct rows and does a
-#' normal tidyverse (dplyr)'left_join' to merge the 'y' rows into the
+#' normal tidyverse (dplyr) 'left_join' to merge the 'y' rows into the
 #' matching 'x' rows.
+#'
+#' NOTE: This function can NOT be used to merge two contexts. It simply
+#' matches time ranges (segments) in the "right" data frame
+#' with times in the "left" data frame.
+#' If nothing in the right data frame matches, then the information in the right
+#' data frame is lost (discarded),
 #'
 #' @examples
 #'

@@ -13,9 +13,7 @@
 #' The new times must be within the original time boundaries.  All
 #' event sets are adjusted.
 #'
-
-
-
+#------------------------------------------------------
 
 ta_addtimes <-
   function (newtimes, breaks, events, add.na.events=FALSE)

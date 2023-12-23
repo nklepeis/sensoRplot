@@ -2,12 +2,16 @@ library(ggplot2)
 library(grid)
 
 
+# GEOM_TIMELINE ????
+
 ## ... trying to plot ractangles in a viewport /
 #  with options of filling the viewport or draswing in specific regions.
 #  i.e., using user npc units relative [0,1] in each direction...
 
 ## Check this out for ideas
 #   https://www.stat.auckland.ac.nz/~paul/Reports/gggrid/gggrid.html
+
+##  https://rdrr.io/github/RussellPolitzky/quake/man/geom_timeline.html
 
 geom_rect2 <- function(...) {
 
