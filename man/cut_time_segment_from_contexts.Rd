@@ -4,14 +4,14 @@
 \alias{cut_time_segment_from_contexts}
 \title{Cut a time segment from contexts}
 \usage{
-cut_time_segment_from_contexts(contexts, start, end)
+cut_time_segment_from_contexts(..., start, end)
 }
 \arguments{
+\item{...}{one more contexts sequences}
+
 \item{start}{beginning time to start cutting}
 
 \item{end}{ending time to stop cutting}
-
-\item{...}{one more contexts sequences}
 }
 \value{
 Returns a list of context sequences with a common

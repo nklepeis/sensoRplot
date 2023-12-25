@@ -26,7 +26,7 @@
 #------------------------------------------------------
 
 cut_time_segment_from_contexts <-
-  function (contexts, start, end) {
+  function (..., start, end) {
 
     contexts <- list(...)
 
