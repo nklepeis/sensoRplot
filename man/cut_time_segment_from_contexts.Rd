@@ -4,22 +4,29 @@
 \alias{cut_time_segment_from_contexts}
 \title{Cut a time segment from contexts}
 \usage{
-cut_time_segment_from_contexts(contexts, start, stop)
+cut_time_segment_from_contexts(contexts, start, end)
 }
 \arguments{
-\item{contexts}{a sequence of any number of contexts}
-
 \item{start}{beginning time to start cutting}
 
-\item{end}{end time to stop cutting}
+\item{end}{ending time to stop cutting}
+
+\item{...}{one more contexts sequences}
 }
 \value{
-Returns a new context sequence with a context segment
-removed
+Returns a list of context sequences with a common
+context segment removed
 }
 \description{
-Removes all contexts in a context sequence between
+Removes all contexts in a context sequence in between
 the specified times
+}
+\details{
+This function removes contexts in the sequences between the
+'start' and 'end' times exclusive of the contexts at the start/end
+boundaries, i.e., it leaves any contexts that may occur at the
+'start' and 'end' times and removes any contexts
+in between those times.
 }
 \author{
 Neil Klepeis

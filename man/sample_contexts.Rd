@@ -31,9 +31,9 @@ variable, i.e., Binary Long, Binary Wide, Active State,
 or Grouped state.
 
 If any of the specific times are less than the minimum time
-in the sequence, it is silently ignored.  If times are greater than
+in the sequence, they are silently ignored.  If times are greater than
 the maximum sequence time, then the last specific context
-is assigned.
+is repeatedly assigned for each time.
 }
 \author{
 Neil Klepeis

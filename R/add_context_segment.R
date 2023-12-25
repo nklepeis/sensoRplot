@@ -33,6 +33,11 @@
 #
 # --------------------------------------------------------
 
+## Note:  this was the old code in AirMotive.  Now deprecated in
+# favor of newer 'combine_contexts' that can treat multple
+#  contexts, merges new states and overwrite existing states in a
+#  more natural way. NK 12/24/2023
+
 ## Now included in SensoRplot.  NK 6/30/2023
 
 ## Updated in the contextualizeR app to have verbose arg.  3/13/2023. NK.

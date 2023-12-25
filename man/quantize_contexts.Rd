@@ -4,19 +4,30 @@
 \alias{quantize_contexts}
 \title{Quantize the times of a context sequence}
 \usage{
-quantize_contexts(contexts, grid)
+quantize_contexts(..., unit = "10 seconds", method = "round")
 }
 \arguments{
-\item{contexts}{a sequence of any number of contexts}
+\item{...}{one or more sequences of contexts to quantize}
 
-\item{grid}{time interval to define the quantization grid}
+\item{unit}{time interval to define the quantization}
+
+\item{method}{one of "floor", "ceiling", or "round"}
 }
 \value{
-Returns a new context sequence with quantized times
+Returns a list of all passed context sequences with
+quantized times
 }
 \description{
 Round times of a context sequence to tne nearest
 grid value
+}
+\details{
+"round" quantizes the context times to nearest time unit value
+"floor" quantizes the context times DOWN to the nearest unit boundary
+"ceiling" quantizes the context times UP to the nearest unit boundary
+}
+\seealso{
+lubridate::round_date
 }
 \author{
 Neil Klepeis

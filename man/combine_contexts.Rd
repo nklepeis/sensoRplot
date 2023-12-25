@@ -4,43 +4,35 @@
 \alias{combine_contexts}
 \title{Combine two or more context sequences}
 \usage{
-combine_contexts(..., replace = FALSE)
+combine_contexts(...)
 }
 \arguments{
-\item{...}{context sequence data frames in BINARY WIDE format}
-
-\item{replace}{whether to merge with prior sequenes or replace sequences}
+\item{...}{context sequence data frames in any format}
 }
 \value{
-a data frame containing a sequence consisting of merged or
-replaced conetxt sequences
+a data frame containing a sequence consisting of merged
+context sequences
 }
 \description{
 Combine two or more context sequences into a
-single context sequences with following contexts either merging
-with prior sequences or replacing sequences
+single context sequence
 }
 \details{
-Iterating from i = 2 to n sequences we modify the i=1 sequence to
-include all times and sequences from the following sequences
+Context sequences can be in Binary Long, Binary Wide, Active State, or
+Grouped State format.
 
-This consists of standardizing context groups/states, standardizing
-the times, and then adding context values for aligned rows of
-different context sequences
+The combined sequences time range covers the times of all passed sequences.
 
-After we have the sames groups/states in all sequences (inserting 0's for missing ones)
-Iterate from i = 2 to n:
-(1) Add times of ith sequence to i = 1 sequence
-(2) Add times of i = 1 sequence to ith sequence
-(3) Sum the context values for aligned rows
+If times are prior to the range of a given sequences, NA's are inserted for
+for states in that context.
 
-Could we just use a left_join or full_join to
-combine all of these together, if there
-are duplicated, then we sum them togehter. maybe..no
+If there are no states in common, then the new context sequence contains
+all the information in the passed sequences.
 
-For replacements, perhaps we remove all the contexts first
-before doing the join... between min/max time of following
-context sequences
+If there are groups of states in common among the context sequences to be combined,
+then the contexts passed on the right overwrite the state values for
+contexts on the left, i.e., the contexts passed later take precedence over
+the contexts passed earlier.
 }
 \examples{
 
