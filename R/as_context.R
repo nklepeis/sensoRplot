@@ -7,8 +7,8 @@
 #' @param data a dataframe or tibble containing Time, State, Value, and, optionally
 #' other index variables to convert to a 'context' data type
 #'
-#' @details Returns a 'stream' data object, a tibble with specific cols types, or
-#' an error if the passed object cannot be coerced to 'stream' data type
+#' @details Returns a 'context' data object, a tibble with specific cols types, or
+#' an error if the passed object cannot be coerced to a 'context' data type
 # -------------------------------------------------------
 
 as_context <- function(x) {

@@ -14,8 +14,8 @@ other index variables to convert to a 'context' data type}
 Coerce data frame or tibble to a long-format 'context' data object
 }
 \details{
-Returns a 'stream' data object, a tibble with specific cols types, or
-an error if the passed object cannot be coerced to 'stream' data type
+Returns a 'context' data object, a tibble with specific cols types, or
+an error if the passed object cannot be coerced to a 'context' data type
 }
 \author{
 Neil Klepeis
