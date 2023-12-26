@@ -22,9 +22,17 @@ Round times of a context sequence to tne nearest
 grid value
 }
 \details{
-"round" quantizes the context times to nearest time unit value
-"floor" quantizes the context times DOWN to the nearest unit boundary
-"ceiling" quantizes the context times UP to the nearest unit boundary
+\itemize{
+\item "round" quantizes the context times to nearest time unit value
+\item "floor" quantizes the context times DOWN to the nearest unit boundary
+\item "ceiling" quantizes the context times UP to the nearest unit boundary
+}
+
+Note:  'Times' in the contexts objects need to be Time.POSIX objects
+or coerceable to meaningful times using 'lubridate::as_datetime'.
+
+If quantization of times results in repeated times for sequential
+contexts, the first context is included with others being discarded.
 }
 \seealso{
 lubridate::round_date
