@@ -74,7 +74,12 @@
 
 combine_contexts <- function(...) {
 
+  # If list is passed, then we use that
+  #  otherwise compile arguments into a list of
+  #   expected contexts
   contexts <- list(...)
+  if (is.list(contexts[[1]]))
+    contexts <- contexts[[1]]
 
   # get all the times
   times <- contexts %>%

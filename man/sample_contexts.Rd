@@ -4,12 +4,12 @@
 \alias{sample_contexts}
 \title{Sample Context Sequence}
 \usage{
-sample_contexts(contexts, times)
+sample_contexts(..., times)
 }
 \arguments{
-\item{contexts}{a context sequence with a Time variable}
-
 \item{times}{times used to sample contexts}
+
+\item{contexts}{a context sequence with a Time variable}
 }
 \value{
 Returns a new context sequence having the specified
