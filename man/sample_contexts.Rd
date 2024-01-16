@@ -20,9 +20,9 @@ Return context instances at arbitrary
 specified times from a context sequence
 }
 \details{
-A context sequence consists of states occurring
-at specific increasing times, and persisting until a new
-context is specified. A context persists until
+A context sequence consists of state transitions occurring
+at specific increasing times; each context's state configuration
+persists until a new context is specified. A context persists until
 a new context occurs with possible changes in state.
 
 This function takes a set of arbitrary times and returns
