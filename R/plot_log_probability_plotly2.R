@@ -103,7 +103,7 @@ plot_log_probability_plotly2 <-
       )
 
 
-    fig <- ggplotly(fig)
+    fig <- ggplotly(fig, height=height)
 
 
     #### PLOT LAYOUT
