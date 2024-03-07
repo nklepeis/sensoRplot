@@ -81,7 +81,7 @@ combine_contexts <- function(...) {
   if (inherits(contexts[[1]], "list"))
     contexts <- contexts[[1]]
 
-  print(contexts)
+  #print(contexts)
 
   # get all the times
   times <- contexts %>%
