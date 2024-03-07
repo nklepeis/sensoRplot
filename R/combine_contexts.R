@@ -83,10 +83,25 @@ combine_contexts <- function(...) {
 
   #print(contexts)
 
+  ## TODO: Create a context object type and just
+  #    test the contexts have the "context" attribute
+  #    as_context will do lots of testing on the object to
+  #    make sure it is class compliant
+
+  # check for Times and NA values
+  contexts %>%
+    map( function(x)
+      if (!"Time" %in% names(x))
+        stop("No Time variable!")
+      else if (all(is.na(x$Time)))
+        stop("Times are all NA!")
+    )
+
   # get all the times
   times <- contexts %>%
     map(~pull(.x, Time)) %>%
     reduce(c) %>% sort %>% unique
+
 
   # variable names
   colnames <- contexts %>%
