@@ -81,10 +81,11 @@ combine_contexts <- function(...) {
   if (is.list(contexts[[1]]))
     contexts <- contexts[[1]]
 
+  print(contexts)
+
   # get all the times
   times <- contexts %>%
-    #map(~pull(.x, Time)) %>%
-    map(~ .x$Time) %>%
+    map(~pull(.x, Time)) %>%
     reduce(c) %>% sort %>% unique
 
   # variable names
@@ -96,7 +97,7 @@ combine_contexts <- function(...) {
   #   The later contexts with common columns overwrite
   #   earlier contexts in the passed list
   contexts %>%
-    map(~sample_contexts(.x, times)) %>%
+    map(~sample_context(.x, times)) %>%
     reduce(full_join, by="Time", suffix=c(".x","")) %>%
     arrange(Time) %>%
     select(Time, all_of(colnames))

@@ -1,4 +1,4 @@
-#' @alias sample_contexts
+#' @alias sample_context
 #'
 #' @title Sample Context Sequence
 #'
@@ -7,10 +7,10 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param contexts a context sequence with a Time variable
+#' @param context a context sequences with a Time variable
 #' @param times times used to sample contexts
 #'
-#' @return Returns a new context sequence having the specified
+#' @return Returns a context sequence ampled at the specified
 #' times
 #'
 #' @details
@@ -47,35 +47,35 @@
 #--------------------------------------------------------------
 
 
-sample_contexts <- function(..., times) {
+sample_context <- function(context, times) {
 
   # If list is passed, then we use that
   #  otherwise compile arguments into a list of
   #   expected contexts
-  contexts <- list(...)
-  if (is.list(contexts[[1]]))
-    contexts <- contexts[[1]]
+  #contexts <- list(...)
+  #if (is.list(contexts[[1]]))
+  #  contexts <- contexts[[1]]
 
   # Have a wasy to check for a list of contexts..
 
   times <- sort(times)
 
-  contexts %>%
-    map(function(x) {
+  #context %>%
+  #  map(function(x) {
       new <- tibble()
       for (i in 1:length(times)) {
-        j <- NROW(contexts) -
-          length(contexts$Time[contexts$Time > times[i]])
+        j <- NROW(context) -
+          length(context$Time[context$Time > times[i]])
         if (
-          times[i] >= min(contexts$Time)) {
+          times[i] >= min(context$Time)) {
           new <- bind_rows(new,
-                           contexts[j, ] %>%
+                           context[j, ] %>%
                              mutate(Time = times[i]))
         }
       }
 
       new
 
-    })
+   # })
 
 }
