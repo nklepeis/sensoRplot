@@ -39,6 +39,8 @@ quantize_contexts <- function (..., unit="10 seconds",
                                method="round") {
 
   contexts <- list(...)
+  if (inherits(contexts[[1]], "list"))
+    contexts <- contexts[[1]]
 
   contexts %>%
     map(function (x) {

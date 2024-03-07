@@ -78,7 +78,7 @@ combine_contexts <- function(...) {
   #  otherwise compile arguments into a list of
   #   expected contexts
   contexts <- list(...)
-  if (is.list(contexts[[1]]))
+  if (inherits(contexts[[1]], "list"))
     contexts <- contexts[[1]]
 
   print(contexts)
