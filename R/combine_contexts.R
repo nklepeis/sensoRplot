@@ -83,7 +83,8 @@ combine_contexts <- function(...) {
 
   # get all the times
   times <- contexts %>%
-    map(~pull(.x, Time)) %>%
+    #map(~pull(.x, Time)) %>%
+    map(~ .x$Time) %>%
     reduce(c) %>% sort %>% unique
 
   # variable names
