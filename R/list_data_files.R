@@ -9,7 +9,8 @@
 #'
 #' @param path path to look for files
 #' @param prefixes prefix(es) for matching files, defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"
-#' @param extension extension for matching files, defaults to "csv"
+#' @param middles matching text in the middle of the filenames
+#' @param extensions extensions for matching files, defaults to c("csv","xlsx")
 #' @param full.names logical, whether to return full names with paths, default to TRUE
 #' @param recursive logical, whether to look into subdirectories recursively to match files, defaults to TRUE
 #'
@@ -24,17 +25,26 @@
 # -----------------------------------------------
 
 list_data_files <- function (path=".",
-                             prefixes=c("CNR","IPS","SidePak","DustTrak"),
-                             middle="",
-                             extension="csv", full.names=TRUE,
-                             recursive=TRUE) {
+                             prefixes=c("CNR","IPS","SidePak","DustTrak",
+                                        "TSI","Piera","ATMO","PurpleAir"),
+                             middles="",
+                             extensions=c("csv","xlsx"),
+                             full.names=TRUE, recursive=TRUE) {
 
-  pattern <- paste0("^",paste0(prefixes, collapse="|"),
-                    ".*?",middle,".*?\\.", extension,"$")
+  pattern <- paste0("^(",paste0(prefixes, collapse="|"),")",
+                    ".*?(",
+                    paste0(middles,
+                           collapse="|"),
+                    ").*",
+                    "\\.(",
+                    paste0(extensions,
+                                   collapse="|"),
+                    ")+$"
+                    )
 
   cat("Search pattern: ", pattern, "\n")
 
-  list.files(path=path, pattern=pattern, full.names = full.names,
+  list.files(path=path, pattern=pattern, full.names=full.names,
              recursive=recursive)
 
 }

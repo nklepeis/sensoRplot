@@ -6,9 +6,9 @@
 \usage{
 list_data_files(
   path = ".",
-  prefixes = c("CNR", "IPS", "SidePak", "DustTrak"),
-  middle = "",
-  extension = "csv",
+  prefixes = c("CNR", "IPS", "SidePak", "DustTrak", "TSI", "Piera", "ATMO", "PurpleAir"),
+  middles = "",
+  extensions = c("csv", "xlsx"),
   full.names = TRUE,
   recursive = TRUE
 )
@@ -18,7 +18,9 @@ list_data_files(
 
 \item{prefixes}{prefix(es) for matching files, defaults ot "CNR", "IPS", "PurpleAir", "SidePak", "DustTrak"}
 
-\item{extension}{extension for matching files, defaults to "csv"}
+\item{middles}{matching text in the middle of the filenames}
+
+\item{extensions}{extensions for matching files, defaults to c("csv","xlsx")}
 
 \item{full.names}{logical, whether to return full names with paths, default to TRUE}
 
