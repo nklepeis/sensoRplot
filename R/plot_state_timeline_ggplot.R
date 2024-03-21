@@ -50,6 +50,7 @@
 #' @param source string identification for plot events
 #' @param config logical, whether to configure the plot toolbar (may want
 #' to skip this when configuring subplots)
+#' @param verbose logical, whether to print out debugging output, defaults to FALSE
 #'
 #' @details  This function creates a static state timeline plot using the ggplot2 library.
 #' It has an option to convert from a ggplot object to an interactive plotly object using the
@@ -91,7 +92,8 @@ plot_state_timeline_ggplot <-
             bg="white", fg="black",
             displayModeBar=TRUE,
             height=450,
-            source="source", config=TRUE) {
+            source="source", config=TRUE,
+            verbose=FALSE) {
 
     #require(ggplot2)
     #require(dplyr)
@@ -157,8 +159,10 @@ plot_state_timeline_ggplot <-
 
       #names(fill.colors) <- c("Inactive","Active")
 
-      cat("Plotting timeline \n")
-      print(head(data))
+      if (verbose) {
+        cat("Plotting timeline \n")
+        print(head(data))
+      }
 
       ## TODO: Lanes data
       lanesData <- tibble(

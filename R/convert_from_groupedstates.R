@@ -11,6 +11,7 @@
 #' then the function parses columns to assign \code{allStates}
 #' Any states in the data not matched in \code{allStates} will be omitted from the output
 #' @param auto.states logical, automatically parse columns for grouped state list, defaults to TRUE
+#' @param verbose logical, whether to generate debugging output, defaults to FALSE
 #'
 #' @return a tibble containing contexts in binary long format
 #'
@@ -49,7 +50,8 @@
 #      columns.  Done.
 
 convert_from_groupedstates <- function(contexts, allStates,
-                                       auto.states = TRUE) {
+                                       auto.states = TRUE,
+                                       verbose=FALSE) {
 
   if (missing(allStates))
     if (auto.states)
@@ -64,8 +66,10 @@ convert_from_groupedstates <- function(contexts, allStates,
                              paste(names(allStates)[i],
                                    allStates[[i]], sep=":")))
 
-  cat("Unique Grouped States:\n")
-  print(allVars)
+  if (verbose) {
+    cat("Unique Grouped States:\n")
+    print(allVars)
+  }
 
   Group <- stri_split(allVars,regex=":",simplify=TRUE)[,1]
   State <- stri_split(allVars,regex=":",simplify=TRUE)[,2]

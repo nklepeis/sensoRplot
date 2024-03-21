@@ -28,7 +28,8 @@ plot_state_timeline_ggplot(
   displayModeBar = TRUE,
   height = 450,
   source = "source",
-  config = TRUE
+  config = TRUE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -87,6 +88,8 @@ over the plot or not}
 
 \item{config}{logical, whether to configure the plot toolbar (may want
 to skip this when configuring subplots)}
+
+\item{verbose}{logical, whether to print out debugging output, defaults to FALSE}
 }
 \description{
 This function creates a static timeline plot of context states

@@ -5,7 +5,7 @@
 #'
 #' @author Neil Klepeis
 #'
-#' @param data a date frame containing an environmental pathway
+#' @param data a date frame containing an environmental pathway (binary wide format)
 #' @param state.names the state names for an environment we expect to be
 #' present in 'data'
 #' @param time.var the expected name for the time column in

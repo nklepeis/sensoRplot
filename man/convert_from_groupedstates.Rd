@@ -4,7 +4,12 @@
 \alias{convert_from_groupedstates}
 \title{Convert Contexts from Groups}
 \usage{
-convert_from_groupedstates(contexts, allStates, auto.states = TRUE)
+convert_from_groupedstates(
+  contexts,
+  allStates,
+  auto.states = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{contexts}{tibble containing contexts in active-state format}
@@ -15,6 +20,8 @@ then the function parses columns to assign \code{allStates}
 Any states in the data not matched in \code{allStates} will be omitted from the output}
 
 \item{auto.states}{logical, automatically parse columns for grouped state list, defaults to TRUE}
+
+\item{verbose}{logical, whether to generate debugging output, defaults to FALSE}
 }
 \value{
 a tibble containing contexts in binary long format

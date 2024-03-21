@@ -16,7 +16,7 @@ binary2timeline(
 )
 }
 \arguments{
-\item{data}{a date frame containing an environmental pathway}
+\item{data}{a date frame containing an environmental pathway (binary wide format)}
 
 \item{time.var}{the expected name for the time column in
 'data' (defaults to "time")}
