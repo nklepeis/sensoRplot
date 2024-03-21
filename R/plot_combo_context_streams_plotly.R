@@ -68,7 +68,7 @@ plot_combo_contexts_streams_plotly <- function(contexts, streams,
   #  Timeline plot
   #fig2 <- plot_state_timeline2(timeline, collapse=collapse,
   #                             bg=bg, fg=fg, font.size=font.size)
-  fig2 <- plot_state_plotly(timeline, collapse=collapse,
+  fig2 <- plot_state_timeline_plotly(timeline, collapse=collapse,
                                bg=bg, fg=fg, font.size=font.size)
   fig2$x$config <- NULL # config is NULL for timeline subplot
 
