@@ -35,6 +35,7 @@ plot_streams_ggplot(
   expand.x = c(0, 0),
   expand.y = c(0, 0),
   mytheme = theme_streams_light,
+  verbose = FALSE,
   ...
 )
 }
@@ -93,6 +94,8 @@ are allowed to be "free" or remain "fixed" over all panels}
 \item{y.lab}{label to use for the y-axis (Value)}
 
 \item{title}{the title to use for the plot}
+
+\item{verbose}{logical, whether to print debugging output}
 }
 \value{
 a ggplot object

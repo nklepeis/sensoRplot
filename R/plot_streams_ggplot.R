@@ -35,6 +35,7 @@
 #' @param x.lab label to use for the x-axis (Time)
 #' @param y.lab label to use for the y-axis (Value)
 #' @param title the title to use for the plot
+#' @param verbose logical, whether to print debugging output
 # @param panel.spacing spacing between panels in units of "lines", default 0
 # @param tick.length length of ticks in units of "lines", default 1
 # @param fg foreground color for all plot elements
@@ -94,8 +95,9 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
                                 x.lab = "Time", y.lab = "Value",
                                 title=paste("Sensor Streams Grouped by", by),
                                 expand.x = c(0,0), expand.y=c(0,0),
-                                mytheme=theme_streams_light, ...
-) {
+                                mytheme=theme_streams_light,
+                                verbose=FALSE, ...)
+{
 
 
   #  If we have extra faceting variables, concatenate to a new
@@ -107,8 +109,10 @@ plot_streams_ggplot <- function(data, by="1 day", by.format="%a, %m/%d",
   data <- data %>%
     unite("Response", -c(Time, Value))
 
-  cat("The consolidated responses:\n")
-  print(unique(data$Response))
+  if (verbose) {
+    cat("The consolidated responses:\n")
+    print(unique(data$Response))
+  }
 
   if (!length(data$Response))
     stop("No responses in the data.")
