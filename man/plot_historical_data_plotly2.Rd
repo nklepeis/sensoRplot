@@ -28,14 +28,15 @@ plot_historical_data_plotly2(
   reverse = FALSE,
   register = TRUE,
   include.rangeSelector = FALSE,
-  include.rangeSlider = FALSE
+  include.rangeSlider = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
 \item{data}{Long-format sensor data frame for multiple streams frame containing a 'Time' column, index columns,
 and Response and Value columns}
 
-\item{include.rangeSlider}{}
+\item{verbose}{logical, print debugging output, defaults to FALSE}
 }
 \value{
 a plotly object

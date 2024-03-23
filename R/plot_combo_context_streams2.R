@@ -15,6 +15,7 @@
 #' @param bg background color
 #' @param collapse logical, whether to collapse grouped states into a single lane
 #' @param displayModeBar logical, whether to show the mode bar for the plot
+#' @param verbose logical, display debugging output, defaults to FALSE
 #'
 #' @details
 #'
@@ -53,6 +54,7 @@ plot_combo_context_streams2 <- function(timeline, streams,
                                         collapse=FALSE,
                                         include.rangeSelector=FALSE,
                                         include.rangeSlider=FALSE,
+                                        verbose=FALSE,
                                         ...) {
 
   require(plotly)
@@ -78,7 +80,7 @@ plot_combo_context_streams2 <- function(timeline, streams,
   #  convert to timeline format from binary Wide Format
   #timeline <- binary2timeline(contexts, time.var="Time")
 
-  print(timeline)
+  if (verbose) print(timeline)
 
   #  Timeline plot  (newest one)
   fig2 <- plot_state_timeline_plotly(timeline,

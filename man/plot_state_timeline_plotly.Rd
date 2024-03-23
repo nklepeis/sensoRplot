@@ -27,7 +27,8 @@ plot_state_timeline_plotly(
   source = "source",
   register = TRUE,
   showticklabelsY = TRUE,
-  config = TRUE
+  config = TRUE,
+  verbose = FALSE
 )
 }
 \arguments{

@@ -20,6 +20,7 @@ plot_combo_context_streams2(
   collapse = FALSE,
   include.rangeSelector = FALSE,
   include.rangeSlider = FALSE,
+  verbose = FALSE,
   ...
 )
 }
@@ -35,6 +36,8 @@ plot_combo_context_streams2(
 \item{bg}{background color}
 
 \item{collapse}{logical, whether to collapse grouped states into a single lane}
+
+\item{verbose}{logical, display debugging output, defaults to FALSE}
 
 \item{displayModeBar}{logical, whether to show the mode bar for the plot}
 }

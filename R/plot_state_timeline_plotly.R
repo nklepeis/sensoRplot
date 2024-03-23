@@ -102,7 +102,8 @@ plot_state_timeline_plotly <-
             font.size=12,  shape.opacity = 0.4,
             shape.linecolor="lightgray", line.width=1,
             source="source", register=TRUE,
-            showticklabelsY=TRUE, config=TRUE) {
+            showticklabelsY=TRUE, config=TRUE,
+            verbose=FALSE) {
 
     #require(vistime)   #  rewrote from scratch...
 
@@ -256,8 +257,10 @@ plot_state_timeline_plotly <-
 
       #print(data$ytop)
       #print(data$ybottom)
-      cat("y values:\n")
-      print(data$ybottom+(data$ytop - data$ybottom)/2)
+      if (verbose) {
+        cat("y values:\n")
+        print(data$ybottom+(data$ytop - data$ybottom)/2)
+      }
 
       p <- p %>% layout(
         #shapes = shapes,
@@ -300,7 +303,8 @@ plot_state_timeline_plotly <-
     }
 
     if (register) {
-      cat("\n\nRegistering plotly source: ", source,"\n\n")
+      if (verbose)
+        cat("\n\nRegistering plotly source: ", source,"\n\n")
       p <- p %>%
         event_register('plotly_legendclick') %>%
         event_register('plotly_relayout')

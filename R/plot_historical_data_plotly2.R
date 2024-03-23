@@ -24,6 +24,7 @@
 #' @param register
 #' @param include.rangeSelector
 #' @param include.rangeSlider
+#' @param verbose logical, print debugging output, defaults to FALSE
 #'
 #'
 #' @return a plotly object
@@ -72,7 +73,8 @@ plot_historical_data_plotly2 <- function(data,
                                          reverse=FALSE,
                                          register=TRUE,
                                          include.rangeSelector=FALSE,
-                                         include.rangeSlider=FALSE) {
+                                         include.rangeSlider=FALSE,
+                                         verbose=FALSE) {
 
   #require(plotly)
   #require(dplyr)
@@ -88,8 +90,10 @@ plot_historical_data_plotly2 <- function(data,
 
   #print(head(data))
 
-  cat("Mode:", mode, "\n")
-  cat("Symbol Size:", marker.size, "\n")
+  if (verbose) {
+    cat("Mode:", mode, "\n")
+    cat("Symbol Size:", marker.size, "\n")
+  }
 
   fig <- plot_ly(source=source, showlegend=showlegend, height=height)
 
@@ -252,7 +256,8 @@ plot_historical_data_plotly2 <- function(data,
 
 
   if (register) {
-    cat("\n\nRegistering plotly source: ", source,"\n\n")
+    if (verbose)
+      cat("\n\nRegistering plotly source: ", source,"\n\n")
     fig <- fig %>%
       event_register('plotly_legendclick') %>%
       event_register('plotly_relayout')
