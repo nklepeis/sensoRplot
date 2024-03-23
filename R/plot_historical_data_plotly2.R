@@ -16,6 +16,8 @@
 #' @param plot.bg
 #' @param legend.bg
 #' @param legend.fg
+#' @param legend.font.size
+#' @param axis.font.size
 #' @param line.width
 #' @param marker.size
 #' @param reverse
@@ -62,6 +64,8 @@ plot_historical_data_plotly2 <- function(data,
                                          plot.bg = "gray90",
                                          legend.bg='rgba(255,255,255,0.75)',
                                          legend.fg="black",
+                                         legend.font.size=11,
+                                         axis.font.size=10,
                                          line.width=1, marker.size=6,
                                          #fill.opacity=0.5,
                                          #marker.opacity=1,
@@ -190,7 +194,7 @@ plot_historical_data_plotly2 <- function(data,
            xanchor="right",
            font = list(
              family = "sans-serif",
-             size = 11,
+             size = legend.font.size,
              color = legend.fg),
            bgcolor = legend.bg,
            #bordercolor = 'rgba(0,0,0,0)',
@@ -201,7 +205,7 @@ plot_historical_data_plotly2 <- function(data,
         xanchor="right",
         font = list(
           family = "sans-serif",
-          size = 11,
+          size = legend.font.size,
           color = legend.fg
         ),
         #bgcolor = 'rgba(0,0,0,0.6)',
@@ -217,7 +221,7 @@ plot_historical_data_plotly2 <- function(data,
       rangeselector = if (include.rangeSelector) rangeSelector else NULL,
       rangeslider = if (include.rangeSlider) rangeSlider else NA,
       tickfont = list(
-        size=10
+        size=axis.font.size
       )
       #rangeslider = NULL #rangeSlider
 
@@ -229,14 +233,14 @@ plot_historical_data_plotly2 <- function(data,
       fixedrange=TRUE,
       rangemode = "tozero",
       tickfont = list(
-        size=10
+        size=axis.font.size
       )
     ),
 
     margin=mrg
 
     #yaxis = list(title = "Time"))
-  ) %>%
+  ) %>%   # Export as SVG file
     plotly::config(displayModeBar = TRUE,
                    toImageButtonOptions = list(
                      format = "svg",

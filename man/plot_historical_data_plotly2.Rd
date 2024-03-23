@@ -21,6 +21,8 @@ plot_historical_data_plotly2(
   plot.bg = "gray90",
   legend.bg = "rgba(255,255,255,0.75)",
   legend.fg = "black",
+  legend.font.size = 11,
+  axis.font.size = 10,
   line.width = 1,
   marker.size = 6,
   reverse = FALSE,
