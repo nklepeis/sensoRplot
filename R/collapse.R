@@ -7,7 +7,7 @@
 #' @param x a vector
 #'
 #' @details Returns an index that can be used to collapse a
-#'  vector to non-repeated elements for use in computing
+#'  vector to non-repeated elements, e.g., for use in computing
 #'  sequences of non-redundant activity codes.
 #'
 #' @examples
@@ -29,8 +29,13 @@
 #  sequences of constant values...
 collapse <- function (x)
 {
-  x <- as.integer(as.character(factor(x, levels = unique(x),
-                                      labels = 1:length(unique(x)), exclude = NULL)))
+  x <- as.integer(
+    as.character(
+      factor(x, levels = unique(x),
+             labels = 1:length(unique(x)),
+             exclude = NULL)
+      )
+    )
   x <- rev(x)
   alli <- 1:length(x)
   omit <- which(diff(x) == 0)

@@ -38,8 +38,10 @@ states) to define a period in which a set of states are active and then
 become inactive.  However, this function will still process
 segments that have active states at the second context
 
-Note:  This is the old code in AirMotive. It is now deprecated in
-favor of newer 'combine_contexts' that can treat multiple
+** DEPRECATED **
+
+Note:  This is the old code from AirMotive. It is now deprecated in
+favor of the newer 'combine_contexts' that can treat multiple
 contexts, merge new states, and overwrite existing states in a
 more natural way. NK 12/24/2023
 }

@@ -28,6 +28,9 @@
 #   with maybe just a change in format of contexts argument. Keeping both
 #    for now.  NK
 
+# NK 3/22/2024.  this one seems to work better than "plotly" one, revised
+#    and keeping for now...
+
 # Taken from airmotive (not used there) 12/26/2022 NK
 #  Back to taking timeline format as input....12/26/2022
 #   [so we don't have to do extra computation of coverting since we
@@ -41,9 +44,11 @@
 
 plot_combo_context_streams2 <- function(timeline, streams,
                                         xrange=NULL, height=NULL,
+                                        showlegend=TRUE,
+                                        showTimelineLabels=FALSE,
                                         fg="white", bg="#2a8094",
                                         legend.bg=bg, legend.fg=fg,
-                                        font.size=12,
+                                        timeline.font.size=12,
                                         heights=c(0.7,0.3),
                                         collapse=FALSE,
                                         include.rangeSelector=FALSE,
@@ -79,8 +84,8 @@ plot_combo_context_streams2 <- function(timeline, streams,
   fig2 <- plot_state_timeline_plotly(timeline,
                                      auto.y=TRUE, bg=bg,
                                      fg=fg, collapse=collapse,
-                                     font.size=font.size,
-                                     showticklabelsY=FALSE,
+                                     font.size=timeline.font.size,
+                                     showticklabelsY=showTimelineLabels,
                                      source="source")
 
   #fig2 <- plot_state_timeline2(timeline, collapse=collapse,
@@ -92,11 +97,12 @@ plot_combo_context_streams2 <- function(timeline, streams,
   fig1 <- plot_historical_data_plotly2(streams,
                                        #height=height,
                                        title=NULL,
-                                       showlegend=TRUE,
+                                       showlegend=showlegend,
                                        #legend.inside=FALSE,
                                        source="source",
                                        fg=fg, bg=bg,
-                                       legend.bg=legend.bg, legend.fg=legend.fg,
+                                       legend.bg=legend.bg,
+                                       legend.fg=legend.fg,
                                        register=TRUE,
                                        include.rangeSelector=include.rangeSelector,
                                        include.rangeSlider=include.rangeSlider,

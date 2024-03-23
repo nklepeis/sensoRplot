@@ -3,7 +3,7 @@
 #' @title Sample Context Sequence
 #'
 #' @description Return context instances at arbitrary
-#' specified times from a context sequence
+#' specified times in a context sequence
 #'
 #' @author Neil Klepeis
 #'
@@ -20,24 +20,28 @@
 #' persists until a new context is specified. A context persists until
 #' a new context occurs with possible changes in state.
 #'
-#' This function takes a set of arbitrary times and returns
-#' the corresponding contexts that occur at precise times.
+#' This function takes a set of arbitrary precise times and returns
+#' the corresponding contexts that occur at these these.  Times
+#' typically do not occur at the transitions but in the "in between"
+#' times when a given context is active.
 #'
-#' Sampled contexts in the sequence will duplicate the states in
-#' the immediately preceding context.
+#' Sampled contexts in the sequence will contain the states specified
+#' in the immediately preceding context transition.
 #'
-#' This function can operate on any context sequence format with a Time
-#' variable, i.e., Binary Long, Binary Wide, Active State,
-#' or Grouped state.
+#' This function operates on context sequences of any format,
+#' i.e., Binary Long, Binary Wide, Active State, or Grouped state.
+#' A Time variable must be present.
 #'
 #' If any of the specified times are less than the minimum time
-#' in the sequence, they are silently ignored. If times are greater than
-#' the maximum time in the sequence, then the last context
-#' in the sequence is repeatedly assigned for each time.
+#' in the sequence, they are silently ignored. If times are greater
+#' than the maximum time in the sequence, then the last context
+#' in the sequence is repeatedly assigned for each time, i.e., we
+#' assume that the last context transition specified occurs for
+#' all foreseeable time.
 #'
-#' Note:  Times do not have to be Time.POSIX objects but can
-#' represent any numeric time quantity (e.g., number of seconds,
-#' minutes, etc.).
+#' Note:  Times do not have to be POSIXt objects (datetime objects)
+#' but can represent any numeric time quantity (e.g.,
+#' number of seconds, minutes, milliseconds, etc.).
 #'
 #' @example
 #'

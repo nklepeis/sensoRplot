@@ -14,7 +14,7 @@ Get index that collapses a vector to non-repeated elements
 }
 \details{
 Returns an index that can be used to collapse a
-vector to non-repeated elements for use in computing
+vector to non-repeated elements, e.g., for use in computing
 sequences of non-redundant activity codes.
 }
 \examples{

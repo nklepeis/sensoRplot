@@ -1,14 +1,23 @@
 #' @aliases as_context
 #'
-#' @title Coerce data frame or tibble to a long-format 'context' data object
+#' @title Coerce data frame or tibble to a long-format binary
+#' context data object
 #'
 #' @author Neil Klepeis
 #'
-#' @param data a dataframe or tibble containing Time, State, Value, and, optionally
-#' other index variables to convert to a 'context' data type
+#' @param x a dataframe or tibble containing Time, State, Value, and, optionally
+#' other index variables to convert to a 'binary' 'long' 'context'
+#' class of tibble.
 #'
 #' @details Returns a 'context' data object, a tibble with specific cols types, or
-#' an error if the passed object cannot be coerced to a 'context' data type
+#' an error if the passed object cannot be coerced to a
+#' tibble of class 'context' 'binary' 'long' data type
+#'
+#' TBD:  Try to convert 'x' in binary long, binary wide, or
+#' active state or grouped state context to the standard (tidy!)
+#' binary long context format.
+#'
+#' Do we have timeline context to binary converter?
 # -------------------------------------------------------
 
 as_context <- function(x) {
@@ -22,7 +31,7 @@ as_context <- function(x) {
     unite("Group", -c(Time, State, Value)) %>%
     select(Time, Group, State, Value)
 
-  new_tibble(x, class="context")
+  new_tibble(x, class=c("context","binary","long"))
 
   x
 

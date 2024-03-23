@@ -13,7 +13,6 @@
 #' in computing elapsed time and time factors
 #' @param group.var a character vector of variables names to use in grouping
 #'
-#'
 #' @return a data frame with a new elapsed time variable and a time factor variable
 #'
 #' @author Neil Klepeis

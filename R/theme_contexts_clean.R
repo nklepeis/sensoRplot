@@ -19,8 +19,7 @@ theme_contexts_clean <- function(
   tick.length = 0.2,
   axis.text.size = 11,
   axis.title.size = 32,
-  axis.font = "sans"
-) {
+  axis.font = "sans") {
 
   theme_hc() +
 

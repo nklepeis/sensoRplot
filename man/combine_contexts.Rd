@@ -18,8 +18,8 @@ Combine two or more context sequences into a
 single context sequence
 }
 \details{
-Context sequences can be in Binary Long, Binary Wide, Active State, or
-Grouped State format.
+Context sequences can be coercable Binary Long, Binary Wide, Active State, or
+Grouped State format, or an object of class "context"
 
 The combined sequences time range covers the times of all passed sequences.
 

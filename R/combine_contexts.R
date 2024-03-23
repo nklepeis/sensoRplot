@@ -8,7 +8,7 @@
 #' single context sequence
 #'
 #' @param ... context sequence data frames in any format
-# @param replace whether to merge with prior sequenes or replace sequences
+# @param replace whether to merge with prior sequence or replace sequences
 #'
 #' @return a data frame containing a sequence consisting of merged
 #' context sequences
@@ -17,8 +17,8 @@
 #'
 #' @details
 #'
-#' Context sequences can be in Binary Long, Binary Wide, Active State, or
-#' Grouped State format.
+#' Context sequences can be coercable Binary Long, Binary Wide, Active State, or
+#' Grouped State format, or an object of class "context"
 #'
 #' The combined sequences time range covers the times of all passed sequences.
 #'
@@ -103,7 +103,7 @@ combine_contexts <- function(...) {
     reduce(c) %>% sort %>% unique
 
 
-  # variable names
+  # get all the variable names
   colnames <- contexts %>%
     map(~names(.x)) %>%
     reduce(c) %>% sort %>% unique

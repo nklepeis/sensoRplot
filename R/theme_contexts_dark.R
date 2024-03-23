@@ -35,25 +35,32 @@ theme_contexts_dark <- function(
 
     theme(
 
-      axis.ticks = element_line(color=axis.color.ticks, linetype="solid"),
-      axis.line = element_line(color=axis.color.line, linetype="solid"),
+      axis.ticks = element_line(color=axis.color.ticks,
+                                linetype="solid"),
+      axis.line = element_line(color=axis.color.line,
+                               linetype="solid"),
       axis.text = element_text(color=axis.color),
       axis.ticks.length = unit(tick.length, "lines"),
       panel.spacing = unit(panel.spacing, "lines"),
       strip.text.x = element_text(hjust = 0.5),
-      strip.background = element_rect(size=strip.line.size, color=border.strip.color,
+      strip.background = element_rect(size=strip.line.size,
+                                      color=border.strip.color,
                                       fill=bg.strip),
       panel.background = element_rect(color = border.panel.color,
-                                      fill = bg.panel, size=panel.line.size),
-      panel.grid.major = element_line(color = grid.color, linetype = "solid", size = 1),
-      panel.grid.minor = element_line(color = grid.color, linetype = "solid", size = 1),
+                                      fill = bg.panel,
+                                      size=panel.line.size),
+      panel.grid.major = element_line(color = grid.color,
+                                      linetype = "solid", size = 1),
+      panel.grid.minor = element_line(color = grid.color,
+                                      linetype = "solid", size = 1),
       plot.background = element_rect(fill = bg.plot, color="black"),
       #legend.background = element_rect(fill = bg.plot),
       legend.background=element_blank(),
       title = element_text(color=axis.color),
       legend.text = element_text(color=axis.color),
       legend.title = element_text(color=axis.color),
-      legend.key = element_rect(fill = "transparent", colour = "transparent")
+      legend.key = element_rect(fill = "transparent",
+                                colour = "transparent")
 
 
     )

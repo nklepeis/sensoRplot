@@ -2,20 +2,30 @@
 % Please edit documentation in R/as_context.R
 \name{as_context}
 \alias{as_context}
-\title{Coerce data frame or tibble to a long-format 'context' data object}
+\title{Coerce data frame or tibble to a long-format binary
+context data object}
 \usage{
 as_context(x)
 }
 \arguments{
-\item{data}{a dataframe or tibble containing Time, State, Value, and, optionally
-other index variables to convert to a 'context' data type}
+\item{x}{a dataframe or tibble containing Time, State, Value, and, optionally
+other index variables to convert to a 'binary' 'long' 'context'
+class of tibble.}
 }
 \description{
-Coerce data frame or tibble to a long-format 'context' data object
+Coerce data frame or tibble to a long-format binary
+context data object
 }
 \details{
 Returns a 'context' data object, a tibble with specific cols types, or
-an error if the passed object cannot be coerced to a 'context' data type
+an error if the passed object cannot be coerced to a
+tibble of class 'context' 'binary' 'long' data type
+
+TBD:  Try to convert 'x' in binary long, binary wide, or
+active state or grouped state context to the standard (tidy!)
+binary long context format.
+
+Do we have timeline context to binary converter?
 }
 \author{
 Neil Klepeis

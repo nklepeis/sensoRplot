@@ -18,7 +18,7 @@ Returns a list of all passed context sequences with
 quantized times
 }
 \description{
-Round times of a context sequence to tne nearest
+Round times of a context sequence to the nearest
 grid value
 }
 \details{

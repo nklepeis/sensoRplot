@@ -43,7 +43,8 @@
 #   sure that inputs conform...
 
 
-merge_streams_and_contexts <- function (streams, contexts, include.binary=FALSE) {
+merge_streams_and_contexts <-
+  function (streams, contexts, include.binary=FALSE) {
 
   streams <- as_stream(streams)
   contexts <- as_context(contexts)

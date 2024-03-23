@@ -4,18 +4,35 @@
 \alias{as_stream}
 \title{Coerce data frame or tibble to a 'stream' data object}
 \usage{
-as_stream(x)
+as_stream(x, index.vars = FALSE)
 }
 \arguments{
-\item{data}{a dataframe or tibble containing Time, Value, and, optionally
-other index variables to convert to a 'stream' data type}
+\item{x}{a dataframe or tibble containing Time, Value, and,
+optionally other index variables to convert to a
+'stream' 'long' data type}
+
+\item{index.vars}{TBD if TRUE and there is a "Response" variable
+in addition to the Time and Value variables then keep any
+extra variables, if any, as index variables.
+If TRUE and no variables besides Time and Value
+are named Response, bomdine all extra variables into a Response
+variable.
+If FALSE,t hen combine all extra variables to comprise
+the "Response" variable, including any existing "Response"
+variable.
+
+variable keep the index variables, if there is no Response}
 }
 \description{
 Coerce data frame or tibble to a 'stream' data object
 }
 \details{
-Returns a 'stream' data object, a tibble with specific cols types, or
-an error if the passed object cannot be coerced to 'stream' data type
+Returns a 'stream' data object, a tibble with specific
+cols types, or an error if the passed object cannot be coerced
+to 'stream' (tidy!) data type.  There must be a Time and Value
+variables in 'x' and at least one other variable that can
+serve as a Response, or multiple other variables that can
+server as a Response or index variable.
 }
 \author{
 Neil Klepeis

@@ -2,7 +2,7 @@
 #'
 #' @title Quantize the times of a context sequence
 #'
-#' @description Round times of a context sequence to tne nearest
+#' @description Round times of a context sequence to the nearest
 #' grid value
 #'
 #' @author Neil Klepeis

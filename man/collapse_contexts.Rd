@@ -7,7 +7,7 @@
 collapse_contexts(...)
 }
 \arguments{
-\item{...}{one or more sequences of contexts to quantize}
+\item{...}{one or more sequences of contexts to collapse}
 }
 \value{
 Returns a list of all passed context sequences with
@@ -17,8 +17,22 @@ contexts with duplicated states removed
 Collapse context sequence so there are no
 duplicated contexts in time
 }
+\details{
+Context sequence specifications contain transition
+points where new contexts come into existence. Sometimes these
+transitions duplicate the states in an immediately preceding
+transition in which case they do not add any information to the
+specification.
+
+This function removes these duplicated (redundant)
+context transitions points, i.e., "collapses" the context
+sequence to only the necessary poitns. No information is lost.
+
+This functions uses the dplyr 'distinct' function to remove
+duplicated context transition points.
+}
 \seealso{
-distinct
+\link{\code{distinct}}
 }
 \author{
 Neil Klepeis
