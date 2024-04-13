@@ -53,21 +53,21 @@
 #'
 # -----------------------
 
-deviation_from_reference <- function(data, ref=names(data)[1],
+deviation_from_reference <- function(x, ref=names(x)[1],
                                      use.percent=FALSE) {
 
-  if (!"Time" %in% names(data)) data$Time <- 1:NROW(data)
+  if (!"Time" %in% names(x)) data$Time <- 1:NROW(x)
 
-  if (!ref %in% names(data))
+  if (!ref %in% names(x))
     stop("'ref' must contain a column name indicatings the reference data stream")
 
-  cols <- names(data %>% select(-Time) %>% select(-c(all_of(ref))))
+  cols <- names(x %>% select(-Time) %>% select(-c(all_of(ref))))
 
-  ddata <- data %>%
+  ddata <- x %>%
   drop_na() %>%
     rowwise() %>%
-    mutate(MinAbs = min(c_across(all_of(cols)))) %>%
-    mutate(MaxAbs = max(c_across(all_of(cols)))) %>%
+    mutate(MinAbs = min(c_across(all_of(cols)), na.rm=TRUE)) %>%
+    mutate(MaxAbs = max(c_across(all_of(cols)), na.rm=TRUE)) %>%
     #mutate(Mean = mean(c_across(all_of(cols)))) %>%   # leave out to avoid confusion
     ungroup() %>%
     rename_with(.cols=ref, .fn = function(x) "REFERENCE") %>%
@@ -83,10 +83,10 @@ deviation_from_reference <- function(data, ref=names(data)[1],
       #{if (!percent) mutate(across(all_of(cols), (~ . - Mean) / Mean))} %>%
   ddata %>%
     rowwise() %>%
-    mutate(MinDev = min(c_across(all_of(cols)))) %>%
-    mutate(MaxDev = max(c_across(all_of(cols)))) %>%
-    mutate(P0.25 = quantile(c_across(all_of(cols)),0.25)) %>%
-    mutate(P0.75 = quantile(c_across(all_of(cols)),0.75)) %>%
+    mutate(MinDev = min(c_across(all_of(cols)), na.rm=TRUE)) %>%
+    mutate(MaxDev = max(c_across(all_of(cols)), na.rm=TRUE)) %>%
+    mutate(P0.25 = quantile(c_across(all_of(cols)),0.25),na.rm=TRUE) %>%
+    mutate(P0.75 = quantile(c_across(all_of(cols)),0.75),na.rm=TRUE) %>%
     ungroup()
 
 }

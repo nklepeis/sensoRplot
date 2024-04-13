@@ -4,17 +4,17 @@
 \alias{deviation_from_reference}
 \title{Compute deviation of test sensors from a reference sensor}
 \usage{
-deviation_from_reference(data, ref = names(data)[1], use.percent = FALSE)
+deviation_from_reference(x, ref = names(x)[1], use.percent = FALSE)
 }
 \arguments{
-\item{data}{a data frame in WIDE format with rows containing sensor data
-at specific times with each column containing data for an individual sensor}
-
 \item{ref}{name or number of the column containing the reference data,
 defaults to the first column in the data frame}
 
 \item{use.percent}{whether to compute deviations as "relative" (value) or
 "percent" values (does percents by default)}
+
+\item{data}{a data frame in WIDE format with rows containing sensor data
+at specific times with each column containing data for an individual sensor}
 }
 \value{
 a data frame containing raw deviations from the reference and computed
