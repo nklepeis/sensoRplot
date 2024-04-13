@@ -85,8 +85,8 @@ deviation_from_reference <- function(x, ref=names(x)[1],
     rowwise() %>%
     mutate(MinDev = min(c_across(all_of(cols)), na.rm=TRUE)) %>%
     mutate(MaxDev = max(c_across(all_of(cols)), na.rm=TRUE)) %>%
-    mutate(P0.25 = quantile(c_across(all_of(cols)),0.25),na.rm=TRUE) %>%
-    mutate(P0.75 = quantile(c_across(all_of(cols)),0.75),na.rm=TRUE) %>%
+    mutate(P0.25 = quantile(c_across(all_of(cols)),0.25,na.rm=TRUE)) %>%
+    mutate(P0.75 = quantile(c_across(all_of(cols)),0.75,na.rm=TRUE)) %>%
     ungroup()
 
 }
