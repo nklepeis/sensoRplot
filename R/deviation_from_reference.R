@@ -9,7 +9,7 @@
 #'
 #' @param data  a data frame in WIDE format with rows containing sensor data
 #' at specific times with each column containing data for an individual sensor
-#' @param ref name or number of the column containing the reference data,
+#' @param ref name of the column containing the reference data,
 #' defaults to the first column in the data frame
 #' @param use.percent whether to compute deviations as "relative" (value) or
 #'  "percent" values (does percents by default)
@@ -53,13 +53,17 @@
 #'
 # -----------------------
 
-deviation_from_reference <- function(x, ref=names(x)[1],
+deviation_from_reference <- function(x, ref,
                                      use.percent=FALSE) {
 
-  if (!"Time" %in% names(x)) data$Time <- 1:NROW(x)
+  if (!"Time" %in% names(x)) x$Time <- 1:NROW(x)
+
+  x <- x %>% select(Time, everything())
+
+  if (missing(ref)) ref <- names(x)[2]
 
   if (!ref %in% names(x))
-    stop("'ref' must contain a column name indicatings the reference data stream")
+  stop("'ref' must contain a column name indicatings the reference data stream")
 
   cols <- names(x %>% select(-Time) %>% select(-c(all_of(ref))))
 
