@@ -31,6 +31,9 @@
 # the colors to use to fill in the 0 and 1 state values, respectively.
 #' @param bg the background color for the plot
 #' @param fg the foreground color for the plot (text and axis lines)
+#' @param showgrid
+#' @param gridcolor
+#' @param griddash
 #' @param displayModeBar If using plotly, whether to display a toolbar
 #' over the plot or not
 #' @param height a number giving the height of the plotly plot in pixels
@@ -97,6 +100,9 @@ plot_state_timeline_plotly <-
             date_angle=0,
             popup_date="%a %m/%d/%y %I:%M:%OS3 %p",
             bg="white", fg="black",
+            showgrid=TRUE,
+            gridcolor= "gray",
+            griddash = "dot",
             displayModeBar=TRUE,
             height=450,
             font.size=12,  shape.opacity = 0.4,
@@ -274,7 +280,9 @@ plot_state_timeline_plotly <-
           color=fg,
           linecolor=fg, linewidth = 1,
           mirror = FALSE,
-          showgrid = TRUE,  #gridcolor=fg,
+          showgrid = showgrid,
+          gridcolor = gridcolor,
+          griddash = griddash,
           textfont=list(family="Arial", size=font.size,
                         color=fg),
           range = c(min(data$ybottom), max(data$ytop)),

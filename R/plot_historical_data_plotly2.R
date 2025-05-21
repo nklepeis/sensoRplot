@@ -14,6 +14,9 @@
 #' @param fg
 #' @param bg
 #' @param plot.bg
+#' @param showgrid
+#' @param gridcolor
+#' @param griddash
 #' @param legend.bg
 #' @param legend.fg
 #' @param legend.font.size
@@ -63,6 +66,9 @@ plot_historical_data_plotly2 <- function(data,
                                          source="source",
                                          fg="white", bg='rgba(23,103,124,1)',
                                          plot.bg = "gray90",
+                                         showgrid=TRUE,
+                                         gridcolor= "gray",
+                                         griddash = "dot",
                                          legend.bg='rgba(255,255,255,0.75)',
                                          legend.fg="black",
                                          legend.font.size=11,
@@ -226,7 +232,10 @@ plot_historical_data_plotly2 <- function(data,
       rangeslider = if (include.rangeSlider) rangeSlider else NA,
       tickfont = list(
         size=axis.font.size
-      )
+      ),
+      showgrid=showgrid,
+      gridcolor=gridcolor,
+      griddash=griddash
       #rangeslider = NULL #rangeSlider
 
     ),
@@ -238,7 +247,10 @@ plot_historical_data_plotly2 <- function(data,
       rangemode = "tozero",
       tickfont = list(
         size=axis.font.size
-      )
+      ),
+      showgrid=showgrid,
+      gridcolor=gridcolor,
+      griddash=griddash
     ),
 
     margin=mrg

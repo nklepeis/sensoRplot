@@ -14,6 +14,9 @@
 #' @param ncols number of columns for plotting panels of episodes
 #' @param fg foreground color
 #' @param bg background color
+#' @param showgrid
+#' @param gridcolor
+#' @param griddash
 #' @param displayModeBar logical, whether to show the mode bar for the plot
 #'
 #' @details The subplots are stacked on top of one another
@@ -29,6 +32,9 @@ plot_combo_episodes_plotly <- function(timeline, streams, breaks,
                                        height=NULL,
                                        heights=c(0.7, 0.3),
                                        bg="white", fg="black",
+                                       showgrid=TRUE,
+                                       gridcolor= "gray",
+                                       griddash = "dot",
                                        collapse=FALSE,
                                        ...,
                                        displayModeBar=TRUE) {
@@ -60,6 +66,9 @@ plot_combo_episodes_plotly <- function(timeline, streams, breaks,
       plot_combo_context_streams2(mytimeline, mystreams,
                                   fg=fg, bg=bg,
                                   legend.bg=bg, legend.fg=fg,
+                                  showgrid = TRUE,
+                                  gridcolor= "gray",
+                                  griddash = "dot",
                                   timeline.font.size=12,
                                   heights=heights,
                                   collapse=collapse,
