@@ -1,4 +1,4 @@
-#' @name geom_log_probabilility_bins
+#' @name geom_log_probability_bins
 #'
 #' @title Add binned data to log probability plot
 #'

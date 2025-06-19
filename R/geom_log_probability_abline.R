@@ -2,7 +2,7 @@
 #'
 #' @title Add log-normal distribution to log probability plot
 #'
-#' @description Add log-normal distribution to an exisiting log-probability plot
+#' @description Add log-normal distribution to an existing log-probability plot
 #'
 #' @author Neil Klepeis
 #'
@@ -72,13 +72,15 @@
 #                        alpha = NA)
 #)
 
-geom_log_probability_abline <- function(mapping = NULL, data = NULL, ..., gm, gsd,
-                       na.rm = FALSE, show.legend = NA) {
+geom_log_probability_abline <-
+  function(mapping = NULL, data = NULL, ..., gm, gsd,
+           na.rm = FALSE, show.legend = NA) {
 
   slope <- log10(gsd)/qnorm(0.841344)
   intercept <- qnorm(0.841344)*log10(gm)*slope/log10(gsd)
 
-  geom_abline(mapping=mapping, data=data, ..., slope=slope, intercept=intercept,
+  geom_abline(mapping=mapping, data=data, ...,
+              slope=slope, intercept=intercept,
               na.rm=na.rm, show.legend=show.legend)
 
 }
