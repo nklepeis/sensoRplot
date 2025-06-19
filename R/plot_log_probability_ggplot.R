@@ -1,4 +1,4 @@
-#' @name plot_log_probability
+#' @name plot_log_probability_ggplot
 #'
 #' @title Log probability plot (ggplot)
 #'
@@ -38,7 +38,7 @@
 #                            gsd=lfit$geometric.standard.deviation) +
 
 
-plot_log_probability <- function (xtics, ytics,
+plot_log_probability_ggplot <- function (xtics, ytics,
                                   xlab="Normal Cumulative Probability [%]",
                                   ylab="Sample Quantiles") {
 

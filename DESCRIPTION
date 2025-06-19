@@ -1,23 +1,23 @@
 Package: sensoRplot
 Type: Package
-Title: Functions for plotting discrete and continuous data on sensor levels and positions
+Title: Functions for manipulating and visualizing real-time sensor data
 Version: 0.1.0
 Author: Neil Klepeis
 Maintainer: Neil Klepeis <software@klepeis.net>
-Description: This R package contains functions to plot data on sensor levels and locations,
+Description: This R package contains functions to process and plot sensor data,
     i.e., any discrete or continuous data derived from "sensing" or "observing" physical, social,
     biometric, or environmental phenomena in time and space, including data from chemical sensors,
     sensors of physical conditions, human activity sensors, biosensors, or data observed and recorded
-    directly by a human being using their eyes, ears, mouth, nose, skin, etc. acting as "sensors".
-    It has functions to plot static and interactive discrete contextual timelines and
+    directly by a human being using their eyes, ears, mouth, nose, skin, etc.
+    It has functions to (1) plot static and interactive discrete contextual timelines and
     continuous data streams, as well as combination plots containing data for both
-    streams and contexts.  It has function to plot static or interactive maps showing
-    the locations/trajectories and levels of sensors. It has functions to fit continuous 
+    streams and contexts, (2) plot static or interactive maps showing
+    the locations/trajectories and levels of sensors, (3) fit continuous 
     sensor data to a lognormal distribution and create log-probability and density
-    plots of sensor levels.  It includes helper functions to convert data between standard formats
-    and process or manipulate data files.  It uses the ggplot2, lattice, plotly, and leaflet libraries to generate both static
-    and interactive plots and maps.
-    ---> CHANGE NAME to sensoRlab
+    plots of sensor levels, (4) convert sensor data between standard data formats, and (5) 
+    parse, process and manipulate sensor data files. It uses the ggplot2, lattice, plotly, and leaflet libraries
+    to generate both static and interactive plots and maps.
+    ---> CHANGE NAME to sensoRlab.   Create a more specialized 'sensoRlabExtra'
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
